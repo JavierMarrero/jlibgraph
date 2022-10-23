@@ -26,6 +26,27 @@ package cu.edu.cujae.graphy.core;
 public abstract class AbstractEdge implements Edge
 {
 
+    protected boolean directed;
+    protected Node<?> finish;
+    protected Node<?> start;
+    protected Comparable<?> weight;
+
+    /**
+     * Construct a new abstract edge from a set of initial parameters.
+     *
+     * @param start
+     * @param finish
+     * @param weight
+     * @param directed
+     */
+    protected AbstractEdge(Node<?> start, Node<?> finish, Comparable<?> weight, boolean directed)
+    {
+        this.directed = directed;
+        this.finish = finish;
+        this.start = start;
+        this.weight = weight;
+    }
+
     /**
      * Two edges are considered equals <i>if and only if</i> their start nodes match and their final nodes match too.
      * In the case that the edge is not directed, the correspondence may be given regardless of the order of comparison;
@@ -56,4 +77,48 @@ public abstract class AbstractEdge implements Edge
         throw new IllegalArgumentException("attempted to compare an edge to something that is not an edge.");
     }
 
+    /**
+     * @@inheritDoc
+     */
+    @Override
+    public Node<?> getFinalNode()
+    {
+        return finish;
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    @Override
+    public Node<?> getStartNode()
+    {
+        return start;
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    @Override
+    public Comparable<?> getWeight()
+    {
+        return weight;
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    @Override
+    public boolean isDirected()
+    {
+        return directed;
+    }
+
+    /**
+     * @@inheritDoc
+     */
+    @Override
+    public boolean isWeighted()
+    {
+        return weight != null;
+    }
 }

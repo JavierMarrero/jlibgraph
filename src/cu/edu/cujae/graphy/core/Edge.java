@@ -26,7 +26,7 @@ package cu.edu.cujae.graphy.core;
  *
  * @author Javier Marrero
  */
-public interface Edge extends Comparable<Edge>
+public interface Edge
 {
 
     /**

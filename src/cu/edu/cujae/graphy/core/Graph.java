@@ -18,14 +18,17 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.util.Collection;
+
 /**
  * The <code>Graph</code> interface represents a graph as an abstract
- * data structure. The graph does not make a distinction with the data
+ * data structure.The graph does not make a distinction with the data
  * type it holds, it just presents an abstract model of a graph.
  *
  * @author Javier Marrero
+ * @param <T>
  */
-public interface Graph<T>
+public interface Graph<T> extends Collection<T>
 {
     
 }
