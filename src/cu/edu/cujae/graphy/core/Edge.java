@@ -37,6 +37,13 @@ public interface Edge
     public Node<?> getFinalNode();
 
     /**
+     * Returns the label associated to this edge.
+     *
+     * @return this edge's label.
+     */
+    public Object getLabel();
+
+    /**
      * Returns a reference to the edge's initial node.
      *
      * @return a reference to the edge's initial node.
@@ -48,7 +55,7 @@ public interface Edge
      *
      * @return the value of the weight.
      */
-    public Comparable<?> getWeight();
+    public Weight<?> getWeight();
 
     /**
      * Returns true if the graph edge is directed. This will be true only if the containing graph is also directed.
@@ -59,9 +66,30 @@ public interface Edge
     public boolean isDirected();
 
     /**
+     * Returns true if this edge contains a label. A label uniquely identifies an edge.
+     *
+     * @return if the node is labeled or not.
+     */
+    public boolean isLabeled();
+
+    /**
      * Returns true if the edge is weighted.
      *
      * @return if the edge is weighted or unweighted.
      */
     public boolean isWeighted();
+
+    /**
+     * Sets the label corresponding to this edge.
+     *
+     * @param label
+     */
+    public void setLabel(Object label);
+
+    /**
+     * Sets the weight of this edge.
+     *
+     * @param weight
+     */
+    public void setWeight(Weight<?> weight);
 }

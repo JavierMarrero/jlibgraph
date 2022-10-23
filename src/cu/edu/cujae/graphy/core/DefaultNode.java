@@ -19,46 +19,46 @@
 package cu.edu.cujae.graphy.core;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * This is the default implementation of the {@link Node} interface. It provides some default operations for nodes.
  *
  * @author Javier Marrero
  */
 public class DefaultNode<T> implements Node<T>
 {
 
-    private Set<Edge> connections;
+    private final Set<Edge> connections;
     private T data;
+    private final int label;
 
     /**
      * Default public constructor.
      *
+     * @param label
      * @param data
      */
-    public DefaultNode(T data)
+    public DefaultNode(int label, T data)
     {
         this.connections = new LinkedHashSet<>(5);
         this.data = data;
+        this.label = label;
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc }
      */
     @Override
-    public boolean attach(Node<T> node)
+    public boolean addEdge(Edge edge)
     {
-        boolean result = false;
-
-        /// TODO: Perform the creation of the edges
-        Edge connection = null;
-
-        return connections.add(connection);
+        return connections.add(edge);
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public T get()
@@ -67,7 +67,7 @@ public class DefaultNode<T> implements Node<T>
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public Set<Edge> getConnectedEdges()
@@ -75,8 +75,14 @@ public class DefaultNode<T> implements Node<T>
         return Collections.unmodifiableSet(connections);
     }
 
+    @Override
+    public int getLabel()
+    {
+        return label;
+    }
+
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void set(T data)
@@ -84,4 +90,22 @@ public class DefaultNode<T> implements Node<T>
         this.data = data;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder("<" + label + "> (");
+        for (Iterator<Edge> it = connections.iterator(); it.hasNext();)
+        {
+            Edge edge = it.next();
+            builder.append(edge.getFinalNode().getLabel());
+            if (it.hasNext())
+            {
+                builder.append(", ");
+            }
+        }
+        return builder.append(")").toString();
+    }
 }

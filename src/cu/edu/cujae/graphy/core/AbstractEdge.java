@@ -28,19 +28,22 @@ public abstract class AbstractEdge implements Edge
 
     protected boolean directed;
     protected Node<?> finish;
+    protected Object label;
     protected Node<?> start;
-    protected Comparable<?> weight;
+    protected Weight<?> weight;
 
     /**
      * Construct a new abstract edge from a set of initial parameters.
      *
+     * @param label
      * @param start
      * @param finish
      * @param weight
      * @param directed
      */
-    protected AbstractEdge(Node<?> start, Node<?> finish, Comparable<?> weight, boolean directed)
+    protected AbstractEdge(Object label, Node<?> start, Node<?> finish, Weight<?> weight, boolean directed)
     {
+        this.label = label;
         this.directed = directed;
         this.finish = finish;
         this.start = start;
@@ -78,7 +81,7 @@ public abstract class AbstractEdge implements Edge
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public Node<?> getFinalNode()
@@ -87,7 +90,16 @@ public abstract class AbstractEdge implements Edge
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getLabel()
+    {
+        return label;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Node<?> getStartNode()
@@ -96,16 +108,16 @@ public abstract class AbstractEdge implements Edge
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
-    public Comparable<?> getWeight()
+    public Weight<?> getWeight()
     {
         return weight;
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public boolean isDirected()
@@ -114,11 +126,40 @@ public abstract class AbstractEdge implements Edge
     }
 
     /**
-     * @@inheritDoc
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isLabeled()
+    {
+        return label != null;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean isWeighted()
     {
         return weight != null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLabel(Object label)
+    {
+        this.label = label;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setWeight(
+            Weight<?> weight)
+    {
+        this.weight = weight;
+    }
+
 }

@@ -18,8 +18,6 @@
  */
 package cu.edu.cujae.graphy.core;
 
-import java.util.Collection;
-
 /**
  * The <code>Graph</code> interface represents a graph as an abstract
  * data structure.The graph does not make a distinction with the data
@@ -28,7 +26,69 @@ import java.util.Collection;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Graph<T> extends Collection<T>
+public interface Graph<T>
 {
-    
+
+    /**
+     * Adds a new node to this graph with the specified index.
+     *
+     * @param label
+     * @param data
+     *
+     * @return a truth value representing wether insertion was successful.
+     */
+    public boolean add(int label, T data);
+
+    /**
+     * Adds a new node to this graph with a default allocated index.
+     *
+     * @param data
+     *
+     * @return a truth value representing wether insertion was successful.
+     */
+    public boolean add(T data);
+
+    /**
+     * Connects two nodes in this graph. This method should return true if the connection was successful and false
+     * otherwise. The two input parameters are the labels of the nodes within the graph.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean connect(int u, int v);
+
+    /**
+     * Connects two nodes within the graph. This version of the method uses the nodes directly.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean connect(Node<T> u, Node<T> v);
+
+    /**
+     * Returns if the graph is a directed graph or not.
+     *
+     * @return true if the graph is a directed graph, false if otherwise.
+     */
+    public boolean isDirected();
+
+    /**
+     * Registers an {@link EdgeFactory} instance to this class. This allows to vary the behavior of the graph as long as
+     * {@link Edge} creation refers.
+     *
+     * @param factory
+     */
+    public void registerEdgeFactory(EdgeFactory factory);
+
+    /**
+     * Returns the count of nodes in the graph.
+     *
+     * @return
+     */
+    public int size();
+
 }

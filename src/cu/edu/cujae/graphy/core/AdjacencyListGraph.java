@@ -1,0 +1,87 @@
+/*
+ * Copyright (C) 2022 Javier Marrero.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
+package cu.edu.cujae.graphy.core;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+/**
+ * An implementation of a graph using an <i>adjacency list</i> to keep track of the nodes.
+ *
+ * @author Javier Marrero
+ * @param <T>
+ */
+public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements Graph<T>
+{
+
+    private Map<Integer, Node<T>> nodes;
+
+    protected AdjacencyListGraph()
+    {
+        nodes = new HashMap<>();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean add(int label, T data)
+    {
+        return nodes.putIfAbsent(label, new DefaultNode<>(label, data)) == null;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    protected Node<T> findNodeByLabel(int label)
+    {
+        return nodes.get(label);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder("[\n");
+        for (Iterator<Node<T>> it = nodes.values().iterator(); it.hasNext();)
+        {
+            Node<T> node = it.next();
+            builder.append(node.toString());
+            if (it.hasNext())
+            {
+                builder.append(",\n");
+            }
+        }
+        return builder.append("\n]").toString();
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int size()
+    {
+        return nodes.size();
+    }
+
+}

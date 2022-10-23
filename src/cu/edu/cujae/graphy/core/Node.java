@@ -30,13 +30,13 @@ public interface Node<T>
 {
 
     /**
-     * Attach this node to another. Self referencing is allowed. This creates a cycle.
+     * Creates a new connection given an edge.
      *
-     * @param node
+     * @param edge
      *
-     * @return a truth value representing if insertion was successful or not.
+     * @return true if the insertion was successful, false if not.
      */
-    public boolean attach(Node<T> node);
+    public boolean addEdge(Edge edge);
 
     /**
      * Returns the data this node holds.
@@ -44,6 +44,18 @@ public interface Node<T>
      * @return a reference to the data that holds this node.
      */
     public T get();
+
+    /**
+     * Nodes inserted within a graph get access to a label that uniquely identifies them within a graph. This could be
+     * their index in the adjacency matrix or their index within the adjacency list.
+     * <p>
+     * It is not correct to assume that this number is any of the things described above, but it can be used to
+     * uniquely identify the node within the graph, such as no other node will have the same label. Label allocation
+     * is responsibility of the {@link Graph} class.
+     *
+     * @return the integer label of this node
+     */
+    public int getLabel();
 
     /**
      * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
