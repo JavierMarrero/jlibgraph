@@ -19,23 +19,51 @@
 package cu.edu.cujae.graphy.core;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
- * A graph iterator is a special kind of iterator that allows random traversal of a graph.It extends the functionality
- * found in {@link Iterator}, but does not replace it. One can still use a <code>GraphIterator</code> as a regular
- * {@link Iterator}.
+ * Esta clase define un iterador abstracto.
  *
  * @author Javier Marrero
  * @param <T>
  */
-public interface GraphIterator<T> extends Iterator<T>
+public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
 {
 
+    private Node<T> current;
+
     /**
-     * This method should return the edges that depart from the pointed node.
+     * Construye un nuevo objeto iterador abstracto.
      *
-     * @return a collection of edges
+     * @param current
      */
-    public Collection<Edge> getAdjacentEdges();
+    protected AbstractGraphIterator(Node<T> current)
+    {
+        this.current = current;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<Edge> getAdjacentEdges()
+    {
+        return getCurrent().getConnectedEdges();
+    }
+
+    /**
+     * @return the current
+     */
+    protected Node<T> getCurrent()
+    {
+        return current;
+    }
+
+    /**
+     * @param current the current to set
+     */
+    protected void setCurrent(Node<T> current)
+    {
+        this.current = current;
+    }
+
 }
