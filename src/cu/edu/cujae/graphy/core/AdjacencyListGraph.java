@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -54,6 +55,15 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     protected Node<T> findNodeByLabel(int label)
     {
         return nodes.get(label);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    protected Collection<Node<T>> getNodes()
+    {
+        return nodes.values();
     }
 
     /**

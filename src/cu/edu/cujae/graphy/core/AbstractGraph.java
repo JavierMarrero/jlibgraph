@@ -18,6 +18,9 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -33,6 +36,77 @@ import java.util.TreeSet;
  */
 public abstract class AbstractGraph<T> implements Graph<T>
 {
+
+    private class RandomAccessIterator<T> extends AbstractGraphIterator<T> implements GraphIterator<T>
+    {
+
+        private Graph<T> graph;
+
+        public RandomAccessIterator(Graph<T> graph, Node<T> node)
+        {
+            super(node);
+
+            this.graph = graph;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public T next(Node<T> target)
+        {
+            T result = getCurrent().get();
+            setCurrent(target);
+            return result;
+        }
+
+        @Override
+        @SuppressWarnings ("unchecked")
+        public T next()
+        {
+            Iterator<Edge> children = getAdjacentEdges().iterator();
+            Node<?> target = children.next().getFinalNode();
+            while (target.equals(getCurrent()))
+            {
+                target = children.next().getFinalNode();
+            }
+            return next((Node<T>) target);
+        }
+
+    }
+
+    private class DepthFirstSearchIterator<T> extends AbstractGraphIterator<T> implements GraphIterator<T>
+    {
+
+        private Map<Integer, Boolean> visited;
+
+        public DepthFirstSearchIterator(Node<T> start)
+        {
+            super(start);
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public T next(Node<T> target)
+        {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public T next()
+        {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+    }
 
     private final Set<Integer> allocatedLabels;
     private EdgeFactory edgeFactory;
@@ -101,6 +175,22 @@ public abstract class AbstractGraph<T> implements Graph<T>
     }
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Iterator<T> depthFirstSearchIterator(Node<T> start)
+    {
+
+    }
+
+    /**
+     * Returns a collection holding all the nodes within this graph.
+     *
+     * @return a {@link Collection} of {@link Node}
+     */
+    protected abstract Collection<Node<T>> getNodes();
+
+    /**
      * This abstract method should return a node with the identifier passed as argument. If the node is not present
      * on the graph it is allowed to return null, or throw an {@link IllegalStateException}.
      *
@@ -118,6 +208,15 @@ public abstract class AbstractGraph<T> implements Graph<T>
     {
         ///TODO: Fix this
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<T> iterator()
+    {
+        return new RandomAccessIterator<>(this, getNodes().iterator().next());
     }
 
     /**
@@ -139,7 +238,10 @@ public abstract class AbstractGraph<T> implements Graph<T>
     public String toString()
     {
         StringBuilder builder = new StringBuilder("[");
-
+        for (Node<T> node : getNodes())
+        {
+            builder.append(node.toString());
+        }
         builder.append("]");
         return builder.toString();
     }
