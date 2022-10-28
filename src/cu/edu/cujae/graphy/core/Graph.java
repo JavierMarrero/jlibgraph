@@ -18,6 +18,8 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.util.Iterator;
+
 /**
  * The <code>Graph</code> interface represents a graph as an abstract
  * data structure.The graph does not make a distinction with the data
@@ -26,7 +28,7 @@ package cu.edu.cujae.graphy.core;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Graph<T>
+public interface Graph<T> extends Iterable<T>
 {
 
     /**
@@ -70,11 +72,29 @@ public interface Graph<T>
     public boolean connect(Node<T> u, Node<T> v);
 
     /**
+     * Generates an iterator that performs a depth first search.
+     *
+     * @param start
+     *
+     * @return
+     */
+    public Iterator<T> depthFirstSearchIterator(Node<T> start);
+
+    /**
      * Returns if the graph is a directed graph or not.
      *
      * @return true if the graph is a directed graph, false if otherwise.
      */
     public boolean isDirected();
+
+    /**
+     * Returns a new {@link Iterator} to this graph. Order of iteration is not guaranteed, it may be insertion order or
+     * BSF or DSF.
+     *
+     * @return a new {@link Iterator}
+     */
+    @Override
+    public Iterator<T> iterator();
 
     /**
      * Registers an {@link EdgeFactory} instance to this class. This allows to vary the behavior of the graph as long as

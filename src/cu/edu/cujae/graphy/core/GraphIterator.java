@@ -38,4 +38,13 @@ public interface GraphIterator<T> extends Iterator<T>
      * @return a collection of edges
      */
     public Collection<Edge> getAdjacentEdges();
+
+    /**
+     * Jumps to the specified {@link Node}.
+     *
+     * @param target
+     *
+     * @return
+     */
+    public T next(Node<T> target);
 }
