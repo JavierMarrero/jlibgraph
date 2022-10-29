@@ -59,6 +59,27 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     }
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getLabel()
+    {
+        return current.getLabel();
+    }
+
+    /**
+     * {@inheritDoc }
+     * <p>
+     * This particular implementation is a stub and produces an exception whenever someone tries to random access a
+     * node.
+     */
+    @Override
+    public T next(Node<T> target)
+    {
+        throw new UnsupportedOperationException("This operation is not supported by this particular iterator");
+    }
+
+    /**
      * @param current the current to set
      */
     protected void setCurrent(Node<T> current)

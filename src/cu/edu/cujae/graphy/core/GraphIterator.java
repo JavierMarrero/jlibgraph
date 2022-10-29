@@ -40,6 +40,14 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Edge> getAdjacentEdges();
 
     /**
+     * Each node in a graph is somehow labeled. In this library, labels are integer indices that are unique to each
+     * node in the graph. This method should return the node's label of the node it is currently standing over.
+     *
+     * @return the label of the node that is the current iterating node
+     */
+    public int getLabel();
+
+    /**
      * Jumps to the specified {@link Node}.
      *
      * @param target

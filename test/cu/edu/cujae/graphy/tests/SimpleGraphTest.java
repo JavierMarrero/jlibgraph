@@ -20,7 +20,7 @@ package cu.edu.cujae.graphy.tests;
 
 import cu.edu.cujae.graphy.core.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.Graph;
-import java.util.Random;
+import java.util.Iterator;
 
 /**
  *
@@ -37,20 +37,28 @@ public class SimpleGraphTest
         Graph<Integer> graph = new DefaultGraphBuilder<Integer>().buildGraph().directed(true).get();
 
         /* Add some nodes */
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             graph.add(i);
         }
 
         /* Connect these nodes */
-        for (int i = 0; i < 15; ++i)
-        {
-            Random r = new Random();
-            graph.connect(r.nextInt(10), r.nextInt(10));
-        }
+        graph.connect(0, 1);
+        graph.connect(0, 2);
+        graph.connect(1, 2);
+        graph.connect(2, 0);
+        graph.connect(2, 3);
+        graph.connect(3, 3);
 
         /* Print the graph */
         System.out.println(graph.toString());
+
+        /* Iterate depth first */
+        Iterator<Integer> dfs = graph.depthFirstSearchIterator(2);
+        while (dfs.hasNext())
+        {
+            System.out.print(dfs.next() + " ");
+        }
     }
-    
+
 }
