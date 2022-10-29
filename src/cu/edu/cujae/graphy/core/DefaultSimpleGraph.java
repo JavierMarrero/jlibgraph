@@ -31,5 +31,14 @@ package cu.edu.cujae.graphy.core;
  */
 public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>
 {
-    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean isDirected()
+    {
+        return false;
+    }
+
 }

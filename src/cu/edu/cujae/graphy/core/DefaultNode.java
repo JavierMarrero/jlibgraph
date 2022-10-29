@@ -96,7 +96,7 @@ public class DefaultNode<T> implements Node<T>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder("<" + label + "> (");
+        StringBuilder builder = new StringBuilder("<" + label + ":" + data.toString() + "> (");
         for (Iterator<Edge> it = connections.iterator(); it.hasNext();)
         {
             Edge edge = it.next();

@@ -32,7 +32,7 @@ import java.util.Map;
 public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements Graph<T>
 {
 
-    private Map<Integer, Node<T>> nodes;
+    private final Map<Integer, Node<T>> nodes;
 
     protected AdjacencyListGraph()
     {
