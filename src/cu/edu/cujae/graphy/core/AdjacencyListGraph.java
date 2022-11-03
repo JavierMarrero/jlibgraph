@@ -34,8 +34,10 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
 
     private final Map<Integer, Node<T>> nodes;
 
-    protected AdjacencyListGraph()
+    protected AdjacencyListGraph(boolean directed)
     {
+        super(directed);
+
         nodes = new HashMap<>();
     }
 

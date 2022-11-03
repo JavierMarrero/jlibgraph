@@ -19,26 +19,19 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link Graph} interface.It is a simple graph (not simple in the mathematical
- * sense of a <i>"simple graph"</i>, but in the sense of the most basic implementation you will find in this library).
- * It does not aim to be the ultimate representation of a graph, but rather a default implementation that uncaring
- * users may rely upon.
- * <p>
- * For more complex or more specific needs, the entire library is customizable via design patterns and the use of this
- * library's API.
+ * This is a default implementation of a {@link WeightedGraph}.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>
+public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements WeightedGraph<T>
 {
 
-    public DefaultSimpleGraph()
+    public DefaultWeightedGraph()
     {
         super(false);
     }
 
-    public DefaultSimpleGraph(boolean directed)
+    public DefaultWeightedGraph(boolean directed)
     {
         super(directed);
     }
@@ -47,9 +40,28 @@ public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Grap
      * {@inheritDoc }
      */
     @Override
+    public boolean connect(int u, int v,
+                           Weight<?> w)
+    {
+        return connect(findNodeByLabel(u), findNodeByLabel(v), w);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
+    {
+        return u.addEdge(getEdgeFactory().build(w, u, v, w));
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public boolean isWeighted()
     {
-        return false;
+        return true;
     }
 
 }

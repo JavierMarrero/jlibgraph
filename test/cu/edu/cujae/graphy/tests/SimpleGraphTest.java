@@ -59,6 +59,13 @@ public class SimpleGraphTest
         {
             System.out.print(dfs.next() + " ");
         }
+
+        /* Iterate breadth first */
+        Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2);
+        while (bfs.hasNext())
+        {
+            System.out.print(bfs.next() + " ");
+        }
     }
 
 }

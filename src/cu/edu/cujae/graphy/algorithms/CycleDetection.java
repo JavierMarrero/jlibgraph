@@ -21,7 +21,7 @@ package cu.edu.cujae.graphy.algorithms;
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.GraphIterator;
-import cu.edu.cujae.graphy.core.Node;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,19 +29,20 @@ import java.util.TreeSet;
  * This algorithm checks if there are nodes in both directed and undirected graphs.
  *
  * @author Javier Marrero
+ * @param <V>
  */
 public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
 {
 
-    private GraphIterator<V> current;
-    private Graph<V> graph;
+    private final GraphIterator<V> iterator;
+    private final Graph<V> graph;
 
     public CycleDetection(Graph<V> graph)
     {
         super(Boolean.FALSE);
 
         /* Create the graph iterator */
-        this.current = (GraphIterator<V>) graph.iterator();
+        this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator();
         this.graph = graph;
     }
 
@@ -49,49 +50,38 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
     public Algorithm<Boolean> apply()
     {
         Set<Integer> visited = new TreeSet<>();
-        if (!graph.isDirected())
+        while (iterator.hasNext() && (Objects.equals(getResult(), Boolean.FALSE)))
         {
-            setResult(walkUndirected(current.getLabel(), visited, -1));
+            // Step to the next element
+            iterator.next();
+
+            // Mark the node as visited
+            if (!visited.add(iterator.getLabel()))
+            {
+//                System.out.println("FOUND CYCLE!");
+                setResult(Boolean.TRUE);
+            }
+
+            // Debug... may remove later
+//            System.out.println("Visiting node: " + iterator.getLabel() + " | visited: " + visited.toString());
+
+            // Now for each adjacent node check if the node was visited
+            for (Edge e : iterator.getAdjacentEdges())
+            {
+                // Debug
+                //System.out.println("checking edge: " + e.getFinalNode().getLabel());
+
+                if (visited.contains(e.getFinalNode().getLabel()))
+                {
+                    // DEBUG
+//                    System.out.println("FOUND CYCLE!");
+
+                    setResult(Boolean.TRUE);
+                }
+            }
         }
 
         /* This is mandated by the interface */
         return this;
     }
-
-    private boolean walkUndirected(int v, Set<Integer> visited, int parent)
-    {
-        // Mark the current node as visited
-        visited.add(v);
-        int i;
-
-        // Recur for all the vertices adjacent to this node
-        for (Edge e : current.getAdjacentEdges())
-        {
-            @SuppressWarnings ("unchecked")
-            Node<V> end = (Node<V>) e.getFinalNode();
-            i = end.getLabel();
-
-            // If the adjacent node is not visited
-            // recur for that adjacent
-            if (!visited.contains(i))
-            {
-                current.next(end);
-
-                if (walkUndirected(i, visited, v))
-                {
-                    return true;
-                }
-            }
-
-            // If an adjacent is visited
-            // and not parent of current
-            // vertex, then there is a cycle.
-            else if (i != parent)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

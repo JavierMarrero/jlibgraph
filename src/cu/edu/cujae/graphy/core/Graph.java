@@ -51,6 +51,33 @@ public interface Graph<T> extends Iterable<T>
     public boolean add(T data);
 
     /**
+     * Returns a BFS iterator to the selected node.
+     *
+     * @param node
+     *
+     * @return a {@link Iterator} instance that is a BFS iterator.
+     */
+    public Iterator<T> breadthFirstSearchIterator(Node<T> node);
+
+    /**
+     * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but with the integer label
+     * of the node.
+     *
+     * @see Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
+     * @param v
+     *
+     * @return a {@link Iterator} instance.
+     */
+    public Iterator<T> breadthFirstSearchIterator(int v);
+
+    /**
+     * Returns a BFS iterator to a random node in the graph.
+     *
+     * @return a {@link Iterator}
+     */
+    public Iterator<T> breadthFirstSearchIterator();
+
+    /**
      * Connects two nodes in this graph. This method should return true if the connection was successful and false
      * otherwise. The two input parameters are the labels of the nodes within the graph.
      *
@@ -112,6 +139,13 @@ public interface Graph<T> extends Iterable<T>
      * @return true if the graph is a directed graph, false if otherwise.
      */
     public boolean isDirected();
+
+    /**
+     * Returns if the graph is weighted or not.
+     *
+     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
+     */
+    public boolean isWeighted();
 
     /**
      * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or

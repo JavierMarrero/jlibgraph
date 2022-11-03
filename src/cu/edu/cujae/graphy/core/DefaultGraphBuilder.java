@@ -22,6 +22,7 @@ package cu.edu.cujae.graphy.core;
  * This is a default concrete implementation of the builder pattern for graphs.
  *
  * @author Javier Marrero
+ * @param <T>
  */
 public class DefaultGraphBuilder<T> implements GraphBuilder<T>
 {
@@ -52,7 +53,13 @@ public class DefaultGraphBuilder<T> implements GraphBuilder<T>
     @Override
     public GraphBuilder<T> directed(boolean directed)
     {
-        instance.registerEdgeFactory(directed ? new DefaultDirectedEdgeFactory() : new DefaultNotDirectedEdgeFactory());
+        getInstance().registerEdgeFactory(directed ? new DefaultDirectedEdgeFactory()
+                                                  : new DefaultNotDirectedEdgeFactory());
+        if (directed && (instance instanceof AbstractGraph))
+        {
+            AbstractGraph<T> handle = (AbstractGraph<T>) instance;
+            handle.makeDirected();
+        }
         return this;
     }
 
@@ -62,7 +69,23 @@ public class DefaultGraphBuilder<T> implements GraphBuilder<T>
     @Override
     public Graph<T> get()
     {
+        return getInstance();
+    }
+
+    /**
+     * @return the instance
+     */
+    protected Graph<T> getInstance()
+    {
         return instance;
+    }
+
+    /**
+     * @param instance the instance to set
+     */
+    protected void setInstance(Graph<T> instance)
+    {
+        this.instance = instance;
     }
 
 }
