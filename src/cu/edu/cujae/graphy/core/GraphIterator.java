@@ -33,6 +33,22 @@ public interface GraphIterator<T> extends Iterator<T>
 {
 
     /**
+     * Returns to the last node left before stepping to this node.
+     *
+     * @return the data currently held by the iterator
+     */
+    public T back();
+
+    /**
+     * Jumps to the specified node.
+     *
+     * @param target
+     *
+     * @return the data currently being held by the iterator
+     */
+    public T back(Node<T> target);
+
+    /**
      * This method should return the edges that depart from the pointed node.
      *
      * @return a collection of edges
