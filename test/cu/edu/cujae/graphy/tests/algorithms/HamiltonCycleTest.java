@@ -16,22 +16,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.tests.algorithms;
+
+import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.GraphBuilders;
 
 /**
- * Default {@link GraphBuilder} for {@link WeightedGraph} instances.
+ * Hamiltonian cycle test.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultWeightedGraphBuilder<T> extends DefaultGraphBuilder<T> implements GraphBuilder<T>
+public class HamiltonCycleTest
 {
 
-    @Override
-    public GraphBuilder<T> buildGraph()
+    public static void main(String[] args)
     {
-        setInstance(new DefaultWeightedGraph<>());
-        return this;
-    }
+        Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
 
+        // Create the hamiltonian path
+        for (int i = 0; i < 5; ++i)
+        {
+            graph.add(i);
+        }
+
+        graph.connect(0, 1);
+        graph.connect(0, 3);
+        graph.connect(1, 2);
+        graph.connect(1, 4);
+        graph.connect(2, 4);
+        graph.connect(4, 3);
+
+        // Test the hamiltonian cycle
+        System.out.println("Hamilton cycle?: " + (new HamiltonianCycleDetection<>(graph).apply().get()));
+    }
 }

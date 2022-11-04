@@ -38,13 +38,9 @@ public abstract class AbstractGraph<T> implements Graph<T>
     private class RandomAccessIterator extends AbstractGraphIterator<T> implements GraphIterator<T>
     {
 
-        private final Graph<T> graph;
-
         public RandomAccessIterator(Graph<T> graph, Node<T> node)
         {
-            super(node);
-
-            this.graph = graph;
+            super(graph, node);
         }
 
         @Override
@@ -82,9 +78,9 @@ public abstract class AbstractGraph<T> implements Graph<T>
         private final Iterator<Node<T>> iter;
         private final List<Node<T>> dfsList;
 
-        public DepthFirstSearchIterator(Node<T> start)
+        public DepthFirstSearchIterator(Graph<T> graph, Node<T> start)
         {
-            super(start);
+            super(graph, start);
 
             // Create the list
             dfsList = new LinkedList<>();
@@ -153,9 +149,9 @@ public abstract class AbstractGraph<T> implements Graph<T>
         private final Iterator<Node<T>> iter;
         private final List<Node<T>> bfsList;
 
-        public BreadthFirstSearchIterator(Node<T> start)
+        public BreadthFirstSearchIterator(Graph<T> graph, Node<T> start)
         {
-            super(start);
+            super(graph, start);
 
             /* Create the list and populate it */
             bfsList = new LinkedList<>();
@@ -188,6 +184,15 @@ public abstract class AbstractGraph<T> implements Graph<T>
                         visited.add(n.getLabel());
                         queue.add(n);
                     }
+                }
+            }
+
+            // Add the disconnected nodes
+            for (Node<T> node : getNodes())
+            {
+                if (!visited.contains(node.getLabel()))
+                {
+                    bfsList.add(node);
                 }
             }
 
@@ -266,7 +271,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> breadthFirstSearchIterator(Node<T> node)
     {
-        return new BreadthFirstSearchIterator(node);
+        return new BreadthFirstSearchIterator(this, node);
     }
 
     /**
@@ -312,7 +317,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> depthFirstSearchIterator(Node<T> start)
     {
-        return new DepthFirstSearchIterator(start);
+        return new DepthFirstSearchIterator(this, start);
     }
 
     /**
@@ -321,7 +326,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> depthFirstSearchIterator(int v)
     {
-        return new DepthFirstSearchIterator(findNodeByLabel(v));
+        return new DepthFirstSearchIterator(this, findNodeByLabel(v));
     }
 
     /**
@@ -330,7 +335,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> depthFirstSearchIterator()
     {
-        return new DepthFirstSearchIterator(getNodes().iterator().next());
+        return new DepthFirstSearchIterator(this, getNodes().iterator().next());
     }
 
     /**

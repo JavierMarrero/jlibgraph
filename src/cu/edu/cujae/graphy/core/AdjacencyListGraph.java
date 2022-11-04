@@ -69,6 +69,15 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     }
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean isVertexAdjacent(int u, int v)
+    {
+        return findNodeByLabel(u).isAdjacent(findNodeByLabel(v));
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

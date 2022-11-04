@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public interface Node<T>
 {
-
+    
     /**
      * Creates a new connection given an edge.
      *
@@ -65,6 +65,15 @@ public interface Node<T>
      */
     public Set<Edge> getConnectedEdges();
 
+    /**
+     * Returns true if this node is adjacent to another node in a graph.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacent(Node<T> v);
+    
     /**
      * Sets this node's data attribute.
      *

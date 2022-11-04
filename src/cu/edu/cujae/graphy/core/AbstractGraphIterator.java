@@ -29,6 +29,7 @@ import java.util.Collection;
 public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
 {
 
+    private Graph<T> graph;
     private Node<T> current;
 
     /**
@@ -36,8 +37,9 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
      *
      * @param current
      */
-    protected AbstractGraphIterator(Node<T> current)
+    protected AbstractGraphIterator(Graph<T> graph, Node<T> current)
     {
+        this.graph = graph;
         this.current = current;
     }
 
@@ -65,6 +67,24 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     public int getLabel()
     {
         return current.getLabel();
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean isAdjacent(Node<T> node)
+    {
+        return current.isAdjacent(node);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean isAdjacent(GraphIterator<T> it)
+    {
+        return graph.isVertexAdjacent(current.getLabel(), it.getLabel());
     }
 
     /**

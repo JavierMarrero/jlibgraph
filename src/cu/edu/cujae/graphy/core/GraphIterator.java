@@ -48,6 +48,24 @@ public interface GraphIterator<T> extends Iterator<T>
     public int getLabel();
 
     /**
+     * Returns true if this iterator is adjacent to some specified {@link Node}
+     *
+     * @param node
+     *
+     * @return
+     */
+    public boolean isAdjacent(Node<T> node);
+
+    /**
+     * Returns true if this iterator is adjacent to some node pointed by the specified {@link GraphIterator}
+     *
+     * @param it
+     *
+     * @return
+     */
+    public boolean isAdjacent(GraphIterator<T> it);
+
+    /**
      * Jumps to the specified {@link Node}.
      *
      * @param target

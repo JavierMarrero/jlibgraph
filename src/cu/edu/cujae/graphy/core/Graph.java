@@ -148,6 +148,16 @@ public interface Graph<T> extends Iterable<T>
     public boolean isWeighted();
 
     /**
+     * Returns true wether u and v are adjacent vertex in the graph.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean isVertexAdjacent(int u, int v);
+
+    /**
      * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or
      * BSF or DSF.
      *

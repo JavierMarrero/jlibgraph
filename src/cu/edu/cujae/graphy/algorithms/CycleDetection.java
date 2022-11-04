@@ -35,7 +35,6 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
 {
 
     private final GraphIterator<V> iterator;
-    private final Graph<V> graph;
 
     public CycleDetection(Graph<V> graph)
     {
@@ -43,7 +42,6 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
 
         /* Create the graph iterator */
         this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator();
-        this.graph = graph;
     }
 
     @Override
@@ -64,7 +62,6 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
 
             // Debug... may remove later
 //            System.out.println("Visiting node: " + iterator.getLabel() + " | visited: " + visited.toString());
-
             // Now for each adjacent node check if the node was visited
             for (Edge e : iterator.getAdjacentEdges())
             {

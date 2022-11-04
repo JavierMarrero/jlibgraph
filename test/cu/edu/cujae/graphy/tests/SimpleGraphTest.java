@@ -18,8 +18,8 @@
  */
 package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.GraphBuilders;
 import java.util.Iterator;
 
 /**
@@ -34,7 +34,7 @@ public class SimpleGraphTest
      */
     public static void main(String[] args)
     {
-        Graph<Integer> graph = new DefaultGraphBuilder<Integer>().buildGraph().directed(true).get();
+        Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
 
         /* Add some nodes */
         for (int i = 0; i < 4; ++i)
@@ -59,6 +59,7 @@ public class SimpleGraphTest
         {
             System.out.print(dfs.next() + " ");
         }
+        System.out.println();
 
         /* Iterate breadth first */
         Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2);
@@ -66,6 +67,7 @@ public class SimpleGraphTest
         {
             System.out.print(bfs.next() + " ");
         }
+        System.out.println();
     }
 
 }
