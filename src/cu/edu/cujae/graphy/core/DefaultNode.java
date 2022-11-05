@@ -60,11 +60,11 @@ public class DefaultNode<T> implements Node<T>
     @SuppressWarnings ("unchecked")
     public boolean addEdge(Edge edge)
     {
-        boolean result = (connectionsFromVertex.putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);
+        boolean result = (getConnectionsFromVertex().putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);
         if (edge.getFinalNode() instanceof DefaultNode)
         {
             DefaultNode<T> u = (DefaultNode<T>) edge.getFinalNode();
-            result &= (u.connectionsToVertex.putIfAbsent(this, edge) == null);
+            result &= (u.getConnectionsToVertex().putIfAbsent(this, edge) == null);
         }
         return result;
     }
@@ -84,7 +84,16 @@ public class DefaultNode<T> implements Node<T>
     @Override
     public Set<Edge> getConnectedEdges()
     {
-        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(connectionsFromVertex.values()));
+        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsFromVertex().values()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Edge> getEdgesConnectingSelf()
+    {
+        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsToVertex().values()));
     }
 
     @Override
@@ -96,7 +105,7 @@ public class DefaultNode<T> implements Node<T>
     @Override
     public boolean isAdjacent(Node<T> v)
     {
-        return connectionsFromVertex.containsKey(v) || connectionsToVertex.containsKey(v);
+        return getConnectionsFromVertex().containsKey(v) || getConnectionsToVertex().containsKey(v);
     }
 
     /**
@@ -115,15 +124,37 @@ public class DefaultNode<T> implements Node<T>
     public String toString()
     {
         StringBuilder builder = new StringBuilder("<" + label + ":" + data.toString() + "> (");
-        for (Iterator<Edge> it = connectionsFromVertex.values().iterator(); it.hasNext();)
+        for (Iterator<Edge> it = getConnectionsFromVertex().values().iterator(); it.hasNext();)
         {
             Edge edge = it.next();
             builder.append(edge.getFinalNode().getLabel());
+
+            if (edge.isWeighted())
+            {
+                builder.append(" <").append(edge.getWeight().toString()).append(">");
+            }
+
             if (it.hasNext())
             {
                 builder.append(", ");
             }
         }
         return builder.append(")").toString();
+    }
+
+    /**
+     * @return the connectionsFromVertex
+     */
+    protected Map<Node<T>, Edge> getConnectionsFromVertex()
+    {
+        return connectionsFromVertex;
+    }
+
+    /**
+     * @return the connectionsToVertex
+     */
+    protected Map<Node<T>, Edge> getConnectionsToVertex()
+    {
+        return connectionsToVertex;
     }
 }

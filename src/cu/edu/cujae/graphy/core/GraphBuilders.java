@@ -39,4 +39,9 @@ public class GraphBuilders
     {
         return new DefaultGraphBuilder<T>().buildGraph().directed(false).get();
     }
+
+    public static <T> WeightedGraph<T> makeSimpleWeightedGraph(boolean directed)
+    {
+        return (WeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().directed(false).get();
+    }
 }

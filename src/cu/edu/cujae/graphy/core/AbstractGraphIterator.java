@@ -47,6 +47,15 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
      * {@inheritDoc}
      */
     @Override
+    public T back()
+    {
+        throw new UnsupportedOperationException("This operation is not supported by this particular iterator.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Collection<Edge> getAdjacentEdges()
     {
         return getCurrent().getConnectedEdges();

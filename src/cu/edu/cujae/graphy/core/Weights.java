@@ -19,50 +19,28 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of a {@link WeightedGraph}.
+ * Utility implementation of a factory method for {@link Weight} interfaces.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements WeightedGraph<T>
+public class Weights
 {
 
-    public DefaultWeightedGraph()
+    public static <E> Weight<E> makeWeight(E data)
     {
-        super(false);
-    }
+        return new AbstractWeight<E>(data)
+        {
+            @Override
+            @SuppressWarnings ("unchecked")
+            public int compareTo(E o)
+            {
+                if (!(data instanceof Comparable))
+                {
+                    throw new ClassCastException("The data is not a comparable object.");
+                }
 
-    public DefaultWeightedGraph(boolean directed)
-    {
-        super(directed);
+                return ((Comparable<E>) data).compareTo(o);
+            }
+        };
     }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean connect(int u, int v,
-                           Weight<?> w)
-    {
-        return connect(findNodeByLabel(u), findNodeByLabel(v), w);
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
-    {
-        return u.addEdge(getEdgeFactory().build(w, u, v, w));
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public boolean isWeighted()
-    {
-        return true;
-    }
-
 }

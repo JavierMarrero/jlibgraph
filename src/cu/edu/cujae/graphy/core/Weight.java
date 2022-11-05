@@ -33,4 +33,11 @@ public interface Weight<T> extends Comparable<T>
      * @return the actual value of the weight.
      */
     public T getValue();
+
+    /**
+     * Sets the actual value of the weight object.
+     *
+     * @param value
+     */
+    public void setValue(T value);
 }

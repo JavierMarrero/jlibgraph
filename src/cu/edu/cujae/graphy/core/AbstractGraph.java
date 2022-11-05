@@ -32,23 +32,31 @@ import java.util.*;
  */
 public abstract class AbstractGraph<T> implements Graph<T>
 {
-
+    
     private boolean directed;
-
+    
     private class RandomAccessIterator extends AbstractGraphIterator<T> implements GraphIterator<T>
     {
-
+        
         public RandomAccessIterator(Graph<T> graph, Node<T> node)
         {
             super(graph, node);
         }
-
+        
+        @Override
+        public T back(Node<T> target)
+        {
+            T result = getCurrent().get();
+            setCurrent(target);
+            return result;
+        }
+        
         @Override
         public boolean hasNext()
         {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            return !getAdjacentEdges().isEmpty();
         }
-
+        
         @Override
         public T next(Node<T> target)
         {
@@ -56,7 +64,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
             setCurrent(target);
             return result;
         }
-
+        
         @Override
         @SuppressWarnings ("unchecked")
         public T next()
@@ -69,15 +77,15 @@ public abstract class AbstractGraph<T> implements Graph<T>
             }
             return next((Node<T>) target);
         }
-
+        
     }
-
+    
     private class DepthFirstSearchIterator extends AbstractGraphIterator<T> implements GraphIterator<T>
     {
-
-        private final Iterator<Node<T>> iter;
+        
+        private final ListIterator<Node<T>> iter;
         private final List<Node<T>> dfsList;
-
+        
         public DepthFirstSearchIterator(Graph<T> graph, Node<T> start)
         {
             super(graph, start);
@@ -101,15 +109,29 @@ public abstract class AbstractGraph<T> implements Graph<T>
             // This was a test!
             // System.out.println(dfsList);
             // Create the iterator
-            iter = dfsList.iterator();
+            iter = dfsList.listIterator();
         }
-
+        
+        @Override
+        public T back()
+        {
+            T data = getCurrent().get();
+            setCurrent(iter.previous());
+            return data;
+        }
+        
+        @Override
+        public T back(Node<T> target)
+        {
+            throw new InvalidOperationException("This is not a random access iterator.");
+        }
+        
         @Override
         public boolean hasNext()
         {
             return iter.hasNext();
         }
-
+        
         @Override
         public T next()
         {
@@ -119,7 +141,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
             /* Return the data within the node */
             return getCurrent().get();
         }
-
+        
         private void walk(Node<T> v, Set<Integer> visited)
         {
             // Mark the current node as visited
@@ -140,15 +162,15 @@ public abstract class AbstractGraph<T> implements Graph<T>
                 }
             }
         }
-
+        
     }
-
+    
     private class BreadthFirstSearchIterator extends AbstractGraphIterator<T> implements GraphIterator<T>
     {
-
-        private final Iterator<Node<T>> iter;
+        
+        private final ListIterator<Node<T>> iter;
         private final List<Node<T>> bfsList;
-
+        
         public BreadthFirstSearchIterator(Graph<T> graph, Node<T> start)
         {
             super(graph, start);
@@ -165,7 +187,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
 
             // Initialize the visited set and mark the starting vertex as visited
             visited.add(start.getLabel());
-
+            
             while (!queue.isEmpty())
             {
                 Node<T> s = queue.poll();
@@ -197,24 +219,38 @@ public abstract class AbstractGraph<T> implements Graph<T>
             }
 
             /* Create the iterator */
-            iter = bfsList.iterator();
+            iter = bfsList.listIterator();
         }
-
+        
+        @Override
+        public T back(Node<T> target)
+        {
+            throw new InvalidOperationException("This is not a random access iterator.");
+        }
+        
+        @Override
+        public T back()
+        {
+            T data = getCurrent().get();
+            setCurrent(iter.previous());
+            return data;
+        }
+        
         @Override
         public boolean hasNext()
         {
             return iter.hasNext();
         }
-
+        
         @Override
         public T next()
         {
             setCurrent(iter.next());
             return getCurrent().get();
         }
-
+        
     }
-
+    
     private final Set<Integer> allocatedLabels;
     private EdgeFactory edgeFactory;
     private int lastAllocated;
@@ -440,5 +476,5 @@ public abstract class AbstractGraph<T> implements Graph<T>
     {
         this.directed = directed;
     }
-
+    
 }
