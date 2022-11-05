@@ -19,43 +19,28 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link GraphBuilder} interface.
+ * Utility implementation of a factory method for {@link Weight} interfaces.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultGraphBuilder<T> implements GraphBuilder<T>
+public class Weights
 {
-    
-    private DefaultSimpleGraph<T> instance;
-    
-    public DefaultGraphBuilder()
+
+    public static <E> Weight<E> makeWeight(E data)
     {
-        this.instance = null;
+        return new AbstractWeight<E>(data)
+        {
+            @Override
+            @SuppressWarnings ("unchecked")
+            public int compareTo(E o)
+            {
+                if (!(data instanceof Comparable))
+                {
+                    throw new ClassCastException("The data is not a comparable object.");
+                }
+
+                return ((Comparable<E>) data).compareTo(o);
+            }
+        };
     }
-    
-    @Override
-    public GraphBuilder<T> buildGraph()
-    {
-        // Create the instance
-        instance = new DefaultSimpleGraph<>();
-        return this;
-    }
-    
-    @Override
-    public GraphBuilder<T> directed(boolean directed)
-    {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
-        return this;
-    }
-    
-    @Override
-    public Graph<T> get()
-    {
-        return instance;
-    }
-    
 }

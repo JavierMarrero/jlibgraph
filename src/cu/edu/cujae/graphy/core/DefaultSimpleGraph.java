@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link Graph} interface. It is a simple graph (not simple in the mathematical
+ * This is a default implementation of the {@link Graph} interface.It is a simple graph (not simple in the mathematical
  * sense of a <i>"simple graph"</i>, but in the sense of the most basic implementation you will find in this library).
  * It does not aim to be the ultimate representation of a graph, but rather a default implementation that uncaring
  * users may rely upon.
@@ -28,15 +28,26 @@ package cu.edu.cujae.graphy.core;
  * library's API.
  *
  * @author Javier Marrero
+ * @param <T>
  */
 public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>
 {
+
+    public DefaultSimpleGraph()
+    {
+        super(false);
+    }
+
+    public DefaultSimpleGraph(boolean directed)
+    {
+        super(directed);
+    }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean isDirected()
+    public boolean isWeighted()
     {
         return false;
     }

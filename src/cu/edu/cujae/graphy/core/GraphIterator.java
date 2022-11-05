@@ -33,6 +33,22 @@ public interface GraphIterator<T> extends Iterator<T>
 {
 
     /**
+     * Returns to the last node left before stepping to this node.
+     *
+     * @return the data currently held by the iterator
+     */
+    public T back();
+
+    /**
+     * Jumps to the specified node.
+     *
+     * @param target
+     *
+     * @return the data currently being held by the iterator
+     */
+    public T back(Node<T> target);
+
+    /**
      * This method should return the edges that depart from the pointed node.
      *
      * @return a collection of edges
@@ -46,6 +62,24 @@ public interface GraphIterator<T> extends Iterator<T>
      * @return the label of the node that is the current iterating node
      */
     public int getLabel();
+
+    /**
+     * Returns true if this iterator is adjacent to some specified {@link Node}
+     *
+     * @param node
+     *
+     * @return
+     */
+    public boolean isAdjacent(Node<T> node);
+
+    /**
+     * Returns true if this iterator is adjacent to some node pointed by the specified {@link GraphIterator}
+     *
+     * @param it
+     *
+     * @return
+     */
+    public boolean isAdjacent(GraphIterator<T> it);
 
     /**
      * Jumps to the specified {@link Node}.

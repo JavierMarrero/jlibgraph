@@ -19,43 +19,46 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link GraphBuilder} interface.
+ * Default abstract {@link Weight} implementation.
  *
  * @author Javier Marrero
  * @param <T>
  */
-public class DefaultGraphBuilder<T> implements GraphBuilder<T>
+public abstract class AbstractWeight<T> implements Weight<T>
 {
-    
-    private DefaultSimpleGraph<T> instance;
-    
-    public DefaultGraphBuilder()
+
+    private T value;
+
+    public AbstractWeight(T value)
     {
-        this.instance = null;
+        this.value = value;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public GraphBuilder<T> buildGraph()
+    public T getValue()
     {
-        // Create the instance
-        instance = new DefaultSimpleGraph<>();
-        return this;
+        return value;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public GraphBuilder<T> directed(boolean directed)
+    public void setValue(T value)
     {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
-        return this;
+        this.value = value;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Graph<T> get()
+    public String toString()
     {
-        return instance;
+        return value.toString();
     }
-    
+
 }

@@ -19,43 +19,23 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link GraphBuilder} interface.
+ * This is an exception class that is raised every time an invalid operation is performed on either a {@link Graph} or
+ * a {@link GraphIterator}.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultGraphBuilder<T> implements GraphBuilder<T>
+public class InvalidOperationException extends RuntimeException
 {
-    
-    private DefaultSimpleGraph<T> instance;
-    
-    public DefaultGraphBuilder()
+
+    private static final long serialVersionUID = 2349393202055925741L;
+
+    public InvalidOperationException()
     {
-        this.instance = null;
+        this("Invalid operation");
     }
-    
-    @Override
-    public GraphBuilder<T> buildGraph()
+
+    public InvalidOperationException(String message)
     {
-        // Create the instance
-        instance = new DefaultSimpleGraph<>();
-        return this;
+        super(message);
     }
-    
-    @Override
-    public GraphBuilder<T> directed(boolean directed)
-    {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
-        return this;
-    }
-    
-    @Override
-    public Graph<T> get()
-    {
-        return instance;
-    }
-    
 }

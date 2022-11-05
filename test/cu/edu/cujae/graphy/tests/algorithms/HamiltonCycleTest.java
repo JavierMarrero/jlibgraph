@@ -16,58 +16,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.tests;
+package cu.edu.cujae.graphy.tests.algorithms;
 
+import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.GraphBuilders;
-import java.util.Iterator;
 
 /**
+ * Hamiltonian cycle test.
  *
  * @author Javier Marrero
  */
-public class SimpleGraphTest
+public class HamiltonCycleTest
 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args)
     {
         Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
 
-        /* Add some nodes */
-        for (int i = 0; i < 4; ++i)
+        // Create the hamiltonian path
+        for (int i = 0; i < 5; ++i)
         {
             graph.add(i);
         }
 
-        /* Connect these nodes */
         graph.connect(0, 1);
-        graph.connect(0, 2);
+        graph.connect(0, 3);
         graph.connect(1, 2);
-        graph.connect(2, 0);
-        graph.connect(2, 3);
-        graph.connect(3, 3);
+        graph.connect(1, 4);
+        graph.connect(2, 4);
+        graph.connect(4, 3);
 
-        /* Print the graph */
-        System.out.println(graph.toString());
-
-        /* Iterate depth first */
-        Iterator<Integer> dfs = graph.depthFirstSearchIterator(2);
-        while (dfs.hasNext())
-        {
-            System.out.print(dfs.next() + " ");
-        }
-        System.out.println();
-
-        /* Iterate breadth first */
-        Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2);
-        while (bfs.hasNext())
-        {
-            System.out.print(bfs.next() + " ");
-        }
-        System.out.println();
+        // Test the hamiltonian cycle
+        System.out.println("Hamilton cycle?: " + (new HamiltonianCycleDetection<>(graph).apply().get()));
     }
-
 }

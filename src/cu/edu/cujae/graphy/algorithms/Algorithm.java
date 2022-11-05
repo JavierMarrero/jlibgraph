@@ -26,7 +26,7 @@ package cu.edu.cujae.graphy.algorithms;
  * argument can retrieve the result using the method <code>get</code>.
  * <p>
  * Algorithms must be implemented in a way that they do not depend on the particular implementation of the graphs,
- * therefore, heavy use of <i>iterator</i> classes ({@link Iterator}, {@link GraphIterator}) is recommended.
+ * therefore, heavy use of <i>iterator</i> classes is recommended.
  *
  * @author Javier Marrero
  * @param <T>

@@ -19,43 +19,29 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link GraphBuilder} interface.
+ * This is an utility class that simplifies the creation of different graphs.However, being this an abstraction over
+ * the normal building process of graphs, it is much more limited in scope.For custom graphs, implement and use the
+ * builder pattern ({@link GraphBuilder}).
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultGraphBuilder<T> implements GraphBuilder<T>
+public class GraphBuilders
 {
-    
-    private DefaultSimpleGraph<T> instance;
-    
-    public DefaultGraphBuilder()
+
+    /**
+     * Creates a new simple undirected and unweighted graph.
+     *
+     * @param <T>
+     *
+     * @return
+     */
+    public static <T> Graph<T> makeSimpleUndirectedGraph()
     {
-        this.instance = null;
+        return new DefaultGraphBuilder<T>().buildGraph().directed(false).get();
     }
-    
-    @Override
-    public GraphBuilder<T> buildGraph()
+
+    public static <T> WeightedGraph<T> makeSimpleWeightedGraph(boolean directed)
     {
-        // Create the instance
-        instance = new DefaultSimpleGraph<>();
-        return this;
+        return (WeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().directed(false).get();
     }
-    
-    @Override
-    public GraphBuilder<T> directed(boolean directed)
-    {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
-        return this;
-    }
-    
-    @Override
-    public Graph<T> get()
-    {
-        return instance;
-    }
-    
 }

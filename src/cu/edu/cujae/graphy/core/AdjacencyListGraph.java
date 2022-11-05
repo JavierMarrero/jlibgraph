@@ -34,8 +34,10 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
 
     private final Map<Integer, Node<T>> nodes;
 
-    protected AdjacencyListGraph()
+    protected AdjacencyListGraph(boolean directed)
     {
+        super(directed);
+
         nodes = new HashMap<>();
     }
 
@@ -64,6 +66,15 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     protected Collection<Node<T>> getNodes()
     {
         return nodes.values();
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean isVertexAdjacent(int u, int v)
+    {
+        return findNodeByLabel(u).isAdjacent(findNodeByLabel(v));
     }
 
     /**

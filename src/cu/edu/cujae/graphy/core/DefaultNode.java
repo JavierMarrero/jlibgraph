@@ -20,18 +20,22 @@ package cu.edu.cujae.graphy.core;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * This is the default implementation of the {@link Node} interface. It provides some default operations for nodes.
+ * This is the default implementation of the {@link Node} interface.It provides some default operations for nodes.
  *
  * @author Javier Marrero
+ * @param <T>
  */
 public class DefaultNode<T> implements Node<T>
 {
 
-    private final Set<Edge> connections;
+    private final Map<Node<T>, Edge> connectionsToVertex;
+    private final Map<Node<T>, Edge> connectionsFromVertex;
     private T data;
     private final int label;
 
@@ -43,7 +47,8 @@ public class DefaultNode<T> implements Node<T>
      */
     public DefaultNode(int label, T data)
     {
-        this.connections = new LinkedHashSet<>(5);
+        this.connectionsFromVertex = new LinkedHashMap<>(5);
+        this.connectionsToVertex = new LinkedHashMap<>(5);
         this.data = data;
         this.label = label;
     }
@@ -52,9 +57,16 @@ public class DefaultNode<T> implements Node<T>
      * {@inheritDoc }
      */
     @Override
+    @SuppressWarnings ("unchecked")
     public boolean addEdge(Edge edge)
     {
-        return connections.add(edge);
+        boolean result = (getConnectionsFromVertex().putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);
+        if (edge.getFinalNode() instanceof DefaultNode)
+        {
+            DefaultNode<T> u = (DefaultNode<T>) edge.getFinalNode();
+            result &= (u.getConnectionsToVertex().putIfAbsent(this, edge) == null);
+        }
+        return result;
     }
 
     /**
@@ -72,13 +84,28 @@ public class DefaultNode<T> implements Node<T>
     @Override
     public Set<Edge> getConnectedEdges()
     {
-        return Collections.unmodifiableSet(connections);
+        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsFromVertex().values()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Edge> getEdgesConnectingSelf()
+    {
+        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsToVertex().values()));
     }
 
     @Override
     public int getLabel()
     {
         return label;
+    }
+
+    @Override
+    public boolean isAdjacent(Node<T> v)
+    {
+        return getConnectionsFromVertex().containsKey(v) || getConnectionsToVertex().containsKey(v);
     }
 
     /**
@@ -97,15 +124,37 @@ public class DefaultNode<T> implements Node<T>
     public String toString()
     {
         StringBuilder builder = new StringBuilder("<" + label + ":" + data.toString() + "> (");
-        for (Iterator<Edge> it = connections.iterator(); it.hasNext();)
+        for (Iterator<Edge> it = getConnectionsFromVertex().values().iterator(); it.hasNext();)
         {
             Edge edge = it.next();
             builder.append(edge.getFinalNode().getLabel());
+
+            if (edge.isWeighted())
+            {
+                builder.append(" <").append(edge.getWeight().toString()).append(">");
+            }
+
             if (it.hasNext())
             {
                 builder.append(", ");
             }
         }
         return builder.append(")").toString();
+    }
+
+    /**
+     * @return the connectionsFromVertex
+     */
+    protected Map<Node<T>, Edge> getConnectionsFromVertex()
+    {
+        return connectionsFromVertex;
+    }
+
+    /**
+     * @return the connectionsToVertex
+     */
+    protected Map<Node<T>, Edge> getConnectionsToVertex()
+    {
+        return connectionsToVertex;
     }
 }

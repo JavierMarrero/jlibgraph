@@ -19,43 +19,50 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is a default implementation of the {@link GraphBuilder} interface.
+ * This is a default implementation of a {@link WeightedGraph}.
  *
  * @author Javier Marrero
  * @param <T>
  */
-public class DefaultGraphBuilder<T> implements GraphBuilder<T>
+public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements WeightedGraph<T>
 {
-    
-    private DefaultSimpleGraph<T> instance;
-    
-    public DefaultGraphBuilder()
+
+    public DefaultWeightedGraph()
     {
-        this.instance = null;
+        super(false);
     }
-    
+
+    public DefaultWeightedGraph(boolean directed)
+    {
+        super(directed);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public GraphBuilder<T> buildGraph()
+    public boolean connect(int u, int v,
+                           Weight<?> w)
     {
-        // Create the instance
-        instance = new DefaultSimpleGraph<>();
-        return this;
+        return connect(findNodeByLabel(u), findNodeByLabel(v), w);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public GraphBuilder<T> directed(boolean directed)
+    public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
     {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
-        return this;
+        return u.addEdge(getEdgeFactory().build(w, u, v, w));
     }
-    
+
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Graph<T> get()
+    public boolean isWeighted()
     {
-        return instance;
+        return true;
     }
-    
+
 }

@@ -66,6 +66,23 @@ public interface Node<T>
     public Set<Edge> getConnectedEdges();
 
     /**
+     * Returns the set of edges that have this node as the destination node. If the node is isolated should return the
+     * empty set. The set is an unmodifiable view of the {@link Node}'s internal container.
+     *
+     * @return
+     */
+    public Set<Edge> getEdgesConnectingSelf();
+
+    /**
+     * Returns true if this node is adjacent to another node in a graph.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacent(Node<T> v);
+
+    /**
      * Sets this node's data attribute.
      *
      * @param data

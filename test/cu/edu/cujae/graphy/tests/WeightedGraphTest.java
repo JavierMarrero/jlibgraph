@@ -18,56 +18,57 @@
  */
 package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
 import cu.edu.cujae.graphy.core.GraphBuilders;
+import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.Weights;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
+ * Simple test for weighted graphs.
  *
  * @author Javier Marrero
  */
-public class SimpleGraphTest
+public class WeightedGraphTest
 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args)
     {
-        Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
+        WeightedGraph<Integer> wg = GraphBuilders.makeSimpleWeightedGraph(true);
+        Random random = new Random();
 
-        /* Add some nodes */
-        for (int i = 0; i < 4; ++i)
+        /* Add vertices */
+        for (int i = 0; i < 10; ++i)
         {
-            graph.add(i);
+            wg.add(i);
         }
 
-        /* Connect these nodes */
-        graph.connect(0, 1);
-        graph.connect(0, 2);
-        graph.connect(1, 2);
-        graph.connect(2, 0);
-        graph.connect(2, 3);
-        graph.connect(3, 3);
+        for (int i = 0; i < 20; ++i)
+        {
+            wg.connect(random.nextInt(10), random.nextInt(10), Weights.makeWeight(random.nextInt(50)));
+        }
 
-        /* Print the graph */
-        System.out.println(graph.toString());
+        /* Print */
+        System.out.println(wg.toString());
 
-        /* Iterate depth first */
-        Iterator<Integer> dfs = graph.depthFirstSearchIterator(2);
+        /* Dfs */
+        Iterator<Integer> dfs = wg.depthFirstSearchIterator();
         while (dfs.hasNext())
         {
             System.out.print(dfs.next() + " ");
         }
-        System.out.println();
+        System.out.print('\n');
 
-        /* Iterate breadth first */
-        Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2);
+        /* Bfs */
+        Iterator<Integer> bfs = wg.breadthFirstSearchIterator();
         while (bfs.hasNext())
         {
             System.out.print(bfs.next() + " ");
         }
         System.out.println();
-    }
 
+        /* Hamiltonian cycle */
+        System.out.println("Hamilton tour: " + (new HamiltonianCycleDetection<>(wg).apply().get()).toString());
+    }
 }
