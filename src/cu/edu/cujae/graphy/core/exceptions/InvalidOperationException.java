@@ -16,27 +16,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.exceptions;
 
 /**
+ * This is an exception class that is raised every time an invalid operation is performed on either a {@link Graph} or
+ * a {@link GraphIterator}.
  *
  * @author Javier Marrero
  */
-public class DefaultDirectedEdgeFactory extends DefaultEdgeFactory implements EdgeFactory
+public class InvalidOperationException extends RuntimeException
 {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Edge build(Object label,
-                      Node<?> u,
-                      Node<?> v,
-                      Weight<?> w)
+    private static final long serialVersionUID = 2349393202055925741L;
+
+    public InvalidOperationException()
     {
-        return new AbstractEdge(label, u, v, w, true)
-        {
-        };
+        this("Invalid operation");
     }
 
+    public InvalidOperationException(String message)
+    {
+        super(message);
+    }
 }

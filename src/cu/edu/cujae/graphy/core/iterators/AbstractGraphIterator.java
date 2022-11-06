@@ -16,8 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.iterators;
 
+import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
+import cu.edu.cujae.graphy.core.Edge;
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Node;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;

@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.CycleDetection;
-import cu.edu.cujae.graphy.core.DefaultGraphBuilder;
+import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.Graph;
 
 /**

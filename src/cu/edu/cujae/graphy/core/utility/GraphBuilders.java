@@ -16,7 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.utility;
+
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.defaults.DefaultWeightedGraphBuilder;
+import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 
 /**
  * This is an utility class that simplifies the creation of different graphs.However, being this an abstraction over

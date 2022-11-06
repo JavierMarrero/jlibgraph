@@ -16,7 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.abstractions;
+
+import cu.edu.cujae.graphy.core.Edge;
+import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.Weight;
 
 /**
  * This class simplifies the construction of {@link Edge} objects, by providing a bridge to common functionality.

@@ -16,53 +16,51 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.abstractions;
+
+import cu.edu.cujae.graphy.core.Weight;
 
 /**
- * This is a default implementation of a {@link WeightedGraph}.
+ * Default abstract {@link Weight} implementation.
  *
  * @author Javier Marrero
  * @param <T>
  */
-public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements WeightedGraph<T>
+public abstract class AbstractWeight<T> implements Weight<T>
 {
 
-    public DefaultWeightedGraph()
-    {
-        super(false);
-    }
+    private T value;
 
-    public DefaultWeightedGraph(boolean directed)
+    public AbstractWeight(T value)
     {
-        super(directed);
+        this.value = value;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean connect(int u, int v,
-                           Weight<?> w)
+    public T getValue()
     {
-        return connect(findNodeByLabel(u), findNodeByLabel(v), w);
+        return value;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
+    public void setValue(T value)
     {
-        return u.addEdge(getEdgeFactory().build(w, u, v, w));
+        this.value = value;
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean isWeighted()
+    public String toString()
     {
-        return true;
+        return value.toString();
     }
 
 }
