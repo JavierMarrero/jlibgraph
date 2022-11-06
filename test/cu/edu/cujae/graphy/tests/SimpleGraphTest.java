@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.tests;
 
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.GraphBuilders;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import java.util.Iterator;
 
 /**

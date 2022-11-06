@@ -20,7 +20,7 @@ package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.GraphBuilders;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
 /**
  * Hamiltonian cycle test.

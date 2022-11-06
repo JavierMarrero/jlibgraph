@@ -16,7 +16,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.utility;
+
+import cu.edu.cujae.graphy.core.Weight;
+import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
 
 /**
  * Utility implementation of a factory method for {@link Weight} interfaces.

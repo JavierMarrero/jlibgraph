@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.GraphIterator;
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;

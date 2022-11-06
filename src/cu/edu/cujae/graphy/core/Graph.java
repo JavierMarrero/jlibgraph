@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.Iterator;
 
 /**

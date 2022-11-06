@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.GraphIterator;
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

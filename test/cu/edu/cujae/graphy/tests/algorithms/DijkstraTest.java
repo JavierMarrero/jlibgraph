@@ -19,9 +19,9 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.DijkstraShortestPath;
-import cu.edu.cujae.graphy.core.GraphBuilders;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.WeightedGraph;
-import cu.edu.cujae.graphy.core.Weights;
+import cu.edu.cujae.graphy.core.utility.Weights;
 
 /**
  *

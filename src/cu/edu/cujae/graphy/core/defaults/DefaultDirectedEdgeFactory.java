@@ -16,49 +16,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.defaults;
+
+import cu.edu.cujae.graphy.core.abstractions.AbstractEdge;
+import cu.edu.cujae.graphy.core.Edge;
+import cu.edu.cujae.graphy.core.EdgeFactory;
+import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.Weight;
 
 /**
- * Default abstract {@link Weight} implementation.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public abstract class AbstractWeight<T> implements Weight<T>
+public class DefaultDirectedEdgeFactory extends DefaultEdgeFactory implements EdgeFactory
 {
 
-    private T value;
-
-    public AbstractWeight(T value)
-    {
-        this.value = value;
-    }
-
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     @Override
-    public T getValue()
+    public Edge build(Object label,
+                      Node<?> u,
+                      Node<?> v,
+                      Weight<?> w)
     {
-        return value;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void setValue(T value)
-    {
-        this.value = value;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String toString()
-    {
-        return value.toString();
+        return new AbstractEdge(label, u, v, w, true)
+        {
+        };
     }
 
 }

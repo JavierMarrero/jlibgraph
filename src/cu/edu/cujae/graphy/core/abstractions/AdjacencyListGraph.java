@@ -16,8 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.abstractions;
 
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
+import cu.edu.cujae.graphy.core.defaults.DefaultNode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,7 +58,7 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
      * {@inheritDoc }
      */
     @Override
-    protected Node<T> findNodeByLabel(int label)
+    public Node<T> findNodeByLabel(int label)
     {
         return nodes.get(label);
     }

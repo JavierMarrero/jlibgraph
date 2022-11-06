@@ -19,10 +19,11 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This interface is used to represents weights in a graph. It is mostly a wrapper over the {@link Comparable}
+ * This interface is used to represents weights in a graph.It is mostly a wrapper over the {@link Comparable}
  * interface.
  *
  * @author Javier Marrero
+ * @param <T>
  */
 public interface Weight<T> extends Comparable<T>
 {

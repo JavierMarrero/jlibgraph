@@ -16,39 +16,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.defaults;
+
+import cu.edu.cujae.graphy.core.Edge;
+import cu.edu.cujae.graphy.core.EdgeFactory;
+import cu.edu.cujae.graphy.core.Node;
 
 /**
- * Simple implementation of the builder pattern and the {@link GraphBuilder} interface for weighted graphs.
+ * Provides some default implementations for the {@link EdgeFactory} method.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public class DefaultWeightedGraphBuilder<T> implements GraphBuilder<T>
+public abstract class DefaultEdgeFactory implements EdgeFactory
 {
 
-    private DefaultWeightedGraph<T> instance;
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GraphBuilder<T> buildGraph()
+    public Edge build(Object label, Node<?> u, Node<?> v)
     {
-        instance = new DefaultWeightedGraph<>();
-        return this;
+        return build(label, u, v, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GraphBuilder<T> directed(boolean directed)
+    public Edge build(Node<?> u, Node<?> v)
     {
-        instance.setDirected(true);
-        instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                             : (new DefaultNotDirectedEdgeFactory()));
-        return this;
+        return build(null, u, v);
     }
-
-    @Override
-    public Graph<T> get()
-    {
-        return instance;
-    }
-
 }

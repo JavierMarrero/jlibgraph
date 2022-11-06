@@ -16,7 +16,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.core.defaults;
+
+import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
+import cu.edu.cujae.graphy.core.Graph;
 
 /**
  * This is a default implementation of the {@link Graph} interface.It is a simple graph (not simple in the mathematical
