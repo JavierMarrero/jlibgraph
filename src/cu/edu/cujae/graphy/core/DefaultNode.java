@@ -60,11 +60,11 @@ public class DefaultNode<T> implements Node<T>
     @SuppressWarnings ("unchecked")
     public boolean addEdge(Edge edge)
     {
-        boolean result = (getConnectionsFromVertex().putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);
+        boolean result = (connectionsFromVertex.putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);
         if (edge.getFinalNode() instanceof DefaultNode)
         {
             DefaultNode<T> u = (DefaultNode<T>) edge.getFinalNode();
-            result &= (u.getConnectionsToVertex().putIfAbsent(this, edge) == null);
+            result &= (u.connectionsToVertex.putIfAbsent(this, edge) == null);
         }
         return result;
     }
@@ -76,6 +76,12 @@ public class DefaultNode<T> implements Node<T>
     public T get()
     {
         return data;
+    }
+
+    @Override
+    public Edge getConnectedEdge(Node<T> v)
+    {
+        return getConnectionsFromVertex().get(v);
     }
 
     /**
@@ -147,7 +153,7 @@ public class DefaultNode<T> implements Node<T>
      */
     protected Map<Node<T>, Edge> getConnectionsFromVertex()
     {
-        return connectionsFromVertex;
+        return Collections.unmodifiableMap(connectionsFromVertex);
     }
 
     /**
@@ -155,6 +161,6 @@ public class DefaultNode<T> implements Node<T>
      */
     protected Map<Node<T>, Edge> getConnectionsToVertex()
     {
-        return connectionsToVertex;
+        return Collections.unmodifiableMap(connectionsToVertex);
     }
 }

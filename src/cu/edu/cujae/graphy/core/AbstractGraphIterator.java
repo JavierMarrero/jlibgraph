@@ -19,9 +19,13 @@
 package cu.edu.cujae.graphy.core;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * Esta clase define un iterador abstracto.
+ * This class defines an abstract iterator class: an utility class that may be used to ease implementation of several
+ * iterator functionalities.
  *
  * @author Javier Marrero
  * @param <T>
@@ -29,12 +33,13 @@ import java.util.Collection;
 public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
 {
 
-    private Graph<T> graph;
+    private final Graph<T> graph;
     private Node<T> current;
 
     /**
      * Construye un nuevo objeto iterador abstracto.
      *
+     * @param graph
      * @param current
      */
     protected AbstractGraphIterator(Graph<T> graph, Node<T> current)
@@ -56,7 +61,42 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
      * {@inheritDoc}
      */
     @Override
-    public Collection<Edge> getAdjacentEdges()
+    public Collection<Edge> getAllAdjacentEdges()
+    {
+        Set<Edge> candidates = new CopyOnWriteArraySet<>(getEdgesDepartingSelf());
+        candidates.addAll(getEdgesArrivingSelf());
+
+        return Collections.unmodifiableCollection(candidates);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Edge getAdjacentEdge(int v)
+    {
+        if (graph instanceof AbstractGraph)
+        {
+            return current.getConnectedEdge(((AbstractGraph<T>) graph).findNodeByLabel(v));
+        }
+        else
+        {
+            for (Edge e : getEdgesDepartingSelf())
+            {
+                if (e.getFinalNode().getLabel() == v)
+                {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<Edge> getEdgesDepartingSelf()
     {
         return getCurrent().getConnectedEdges();
     }
@@ -67,6 +107,12 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     protected Node<T> getCurrent()
     {
         return current;
+    }
+
+    @Override
+    public Collection<Edge> getEdgesArrivingSelf()
+    {
+        return getCurrent().getEdgesConnectingSelf();
     }
 
     /**

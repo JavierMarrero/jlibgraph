@@ -54,7 +54,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
         @Override
         public boolean hasNext()
         {
-            return !getAdjacentEdges().isEmpty();
+            return !getEdgesDepartingSelf().isEmpty();
         }
         
         @Override
@@ -69,7 +69,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
         @SuppressWarnings ("unchecked")
         public T next()
         {
-            Iterator<Edge> children = getAdjacentEdges().iterator();
+            Iterator<Edge> children = getEdgesDepartingSelf().iterator();
             Node<?> target = children.next().getFinalNode();
             while (target.equals(getCurrent()))
             {

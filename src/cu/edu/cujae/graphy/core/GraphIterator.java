@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.core;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A graph iterator is a special kind of iterator that allows random traversal of a graph.It extends the functionality
@@ -49,11 +50,34 @@ public interface GraphIterator<T> extends Iterator<T>
     public T back(Node<T> target);
 
     /**
+     * Returns all the {@link Edge}s departing or arriving to this node.
+     *
+     * @return
+     */
+    public Collection<Edge> getAllAdjacentEdges();
+
+    /**
      * This method should return the edges that depart from the pointed node.
      *
      * @return a collection of edges
      */
-    public Collection<Edge> getAdjacentEdges();
+    public Collection<Edge> getEdgesDepartingSelf();
+
+    /**
+     * Returns the {@link Edge} connecting this iterator and the vertex with label <i>v</i>.
+     *
+     * @param v
+     *
+     * @return edge, or null if no edge connects this and v.
+     */
+    public Edge getAdjacentEdge(int v);
+
+    /**
+     * Returns the {@link Set} of edges that have the vertex pointed by this iterator as destination.
+     *
+     * @return a {@link Collection} of edges having this vertex as destination.
+     */
+    public Collection<Edge> getEdgesArrivingSelf();
 
     /**
      * Each node in a graph is somehow labeled. In this library, labels are integer indices that are unique to each

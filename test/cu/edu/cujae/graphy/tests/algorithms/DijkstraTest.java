@@ -18,6 +18,11 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
+import cu.edu.cujae.graphy.algorithms.DijkstraShortestPath;
+import cu.edu.cujae.graphy.core.GraphBuilders;
+import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.Weights;
+
 /**
  *
  * @author Javier Marrero
@@ -27,6 +32,33 @@ public class DijkstraTest
 
     public static void main(String[] args)
     {
+        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
 
+        // Create the nodes
+        for (int i = 0; i < 9; ++i)
+        {
+            graph.add(i);
+        }
+
+        // Connect
+        graph.connect(0, 1, Weights.makeWeight(4));
+        graph.connect(0, 7, Weights.makeWeight(8));
+        graph.connect(1, 2, Weights.makeWeight(8));
+        graph.connect(1, 7, Weights.makeWeight(11));
+        graph.connect(2, 3, Weights.makeWeight(7));
+        graph.connect(2, 8, Weights.makeWeight(2));
+        graph.connect(2, 5, Weights.makeWeight(4));
+        graph.connect(3, 4, Weights.makeWeight(9));
+        graph.connect(3, 5, Weights.makeWeight(14));
+        graph.connect(4, 5, Weights.makeWeight(10));
+        graph.connect(5, 6, Weights.makeWeight(2));
+        graph.connect(6, 7, Weights.makeWeight(1));
+        graph.connect(6, 8, Weights.makeWeight(6));
+        graph.connect(7, 8, Weights.makeWeight(7));
+
+        System.out.println(graph);
+
+        System.out.println("Dijkstra: ");
+        System.out.println(new DijkstraShortestPath(graph, graph.iterator(0)).apply().get());
     }
 }

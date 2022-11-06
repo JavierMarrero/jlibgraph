@@ -58,6 +58,15 @@ public interface Node<T>
     public int getLabel();
 
     /**
+     * Returns the edge connecting this node and v.
+     *
+     * @param v
+     *
+     * @return the {@link Edge} connecting this node and v, or null.
+     */
+    public Edge getConnectedEdge(Node<T> v);
+
+    /**
      * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
      * set is an unmodifiable view of the {@link Node}'s internal container.
      *
