@@ -48,7 +48,7 @@ public class DefaultGraphBuilder<T> implements GraphBuilder<T>
     @Override
     public GraphBuilder<T> directed(boolean directed)
     {
-        instance.setDirected(true);
+        instance.setDirected(directed);
         instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
                                      : (new DefaultNotDirectedEdgeFactory()));
         
