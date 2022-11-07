@@ -34,7 +34,7 @@ public class SimpleGraphTest
      */
     public static void main(String[] args)
     {
-        Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
+        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(false);
 
         /* Add some nodes */
         for (int i = 0; i < 4; ++i)

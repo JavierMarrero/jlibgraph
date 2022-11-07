@@ -32,7 +32,7 @@ public class HamiltonCycleTest
 
     public static void main(String[] args)
     {
-        Graph<Integer> graph = GraphBuilders.makeSimpleUndirectedGraph();
+        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(false);
 
         // Create the hamiltonian path
         for (int i = 0; i < 5; ++i)

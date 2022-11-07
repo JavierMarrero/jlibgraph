@@ -5,10 +5,11 @@ import java.util.List;
 import cu.edu.cujae.graphy.algorithms.ExistPath;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
 public class ExistPathTest {
     public static void main(String[] args) {
-        Graph<Integer> graph = new DefaultGraphBuilder<Integer>().buildGraph().directed(false).get();
+        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
         System.out.println(graph.isDirected());
 
         graph.add(0);
