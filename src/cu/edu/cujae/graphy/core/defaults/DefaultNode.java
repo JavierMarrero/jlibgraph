@@ -81,7 +81,7 @@ public class DefaultNode<T> implements Node<T>
     }
 
     @Override
-    public Edge getConnectedEdge(Node<T> v)
+    public Edge getAdjacentEdge(Node<T> v)
     {
         return getConnectionsFromVertex().get(v);
     }

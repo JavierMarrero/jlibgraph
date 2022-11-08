@@ -58,6 +58,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
     private final WeightedGraph<T> G;
     private final GraphIterator<T> it;
     private final Map<Integer, Integer> previous;
+    private final int s;
     private final PriorityQueue<Integer> Q;
     private final int V;
 
@@ -75,7 +76,14 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         this.G = graph;
         this.it = iter;
         this.previous = new TreeMap<>();
-        this.Q = new PriorityQueue<>(graph.size());
+        this.s = iter.getLabel();
+        this.Q = new PriorityQueue<>(graph.size(), (Integer u, Integer v) -> 
+                             {
+                                 int du = distances.get(u);
+                                 int dv = distances.get(v);
+
+                                 return du - dv;
+                             });
         this.V = graph.size();
 
         // Get a set of all the integer vertices
@@ -92,13 +100,21 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         // Initialize the distances
         for (int v : vertices)
         {
-            distances.put(v, Integer.MAX_VALUE);
-            previous.put(v, null);
+            if (G.isVertexAdjacent(s, v))
+            {
+                distances.put(v, (Integer) iter.getAdjacentEdge(v).getWeight().getValue());
+                previous.put(v, iter.getLabel());
+            }
+            else
+            {
+                distances.put(v, Integer.MAX_VALUE);
+                previous.put(v, null);
+            }
+
             Q.add(v);
         }
-        
-        System.err.println(Q);
 
+        // System.err.println(Q);
         // Initialize the initial distances
         distances.put(iter.getLabel(), 0);
     }
@@ -109,6 +125,8 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         // Code
         while (!Q.isEmpty())
         {
+            // System.err.println(Q);
+
             int u = Q.poll();
             it.next(u);
 
@@ -127,7 +145,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
                 if (Q.contains(v))
                 {
                     int alt = distances.get(u) + (int) edge.getWeight().getValue();
-                    if (alt < distances.get(v))
+                    if (alt <= distances.get(v))
                     {
                         distances.put(v, alt);
                         previous.put(v, u);
@@ -141,14 +159,14 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         Map<Integer, Pair<Integer, List<Integer>>> result = getResult();
         for (int k : distances.keySet())
         {
-            result.put(k, new Pair<>(distances.get(k), makeShortestPathSequence(k)));
+            result.put(k, new Pair<>(distances.get(k), makeShortestPathSequence(s, k)));
         }
 
         // Mandated by the specification
         return this;
     }
 
-    private List<Integer> makeShortestPathSequence(int target)
+    private List<Integer> makeShortestPathSequence(int source, int target)
     {
         LinkedList<Integer> S = new LinkedList<>();
         int u = target;
@@ -161,6 +179,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
                 u = previous.get(u);
             }
         }
+        S.push(source);
         return S;
     }
 }
