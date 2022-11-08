@@ -81,7 +81,7 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     {
         if (graph instanceof AbstractGraph)
         {
-            return current.getConnectedEdge(((AbstractGraph<T>) graph).findNodeByLabel(v));
+            return current.getAdjacentEdge(((AbstractGraph<T>) graph).findNodeByLabel(v));
         }
         else
         {

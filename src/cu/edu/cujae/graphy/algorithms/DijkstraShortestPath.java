@@ -22,7 +22,12 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.utils.Pair;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 /**
  * Given a graph and a source vertex in the graph, find the shortest paths from the source to all vertices in the given
@@ -53,6 +58,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
     private final WeightedGraph<T> G;
     private final GraphIterator<T> it;
     private final Map<Integer, Integer> previous;
+    private final int s;
     private final PriorityQueue<Integer> Q;
     private final int V;
 
@@ -70,16 +76,13 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         this.G = graph;
         this.it = iter;
         this.previous = new TreeMap<>();
-        this.Q = new PriorityQueue<>(graph.size(), new Comparator<>()
+        this.s = iter.getLabel();
+        this.Q = new PriorityQueue<>(graph.size(), (Integer u, Integer v) -> 
                              {
-                                 @Override
-                                 public int compare(Integer u, Integer v)
-                                 {
-                                     int du = distances.get(u);
-                                     int dv = distances.get(v);
+                                 int du = distances.get(u);
+                                 int dv = distances.get(v);
 
-                                     return du - dv;
-                                 }
+                                 return du - dv;
                              });
         this.V = graph.size();
 
@@ -97,7 +100,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         // Initialize the distances
         for (int v : vertices)
         {
-            if (G.isVertexAdjacent(iter.getLabel(), v))
+            if (G.isVertexAdjacent(s, v))
             {
                 distances.put(v, (Integer) iter.getAdjacentEdge(v).getWeight().getValue());
                 previous.put(v, iter.getLabel());
@@ -111,8 +114,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
             Q.add(v);
         }
 
-        System.err.println(Q);
-
+        // System.err.println(Q);
         // Initialize the initial distances
         distances.put(iter.getLabel(), 0);
     }
@@ -123,7 +125,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         // Code
         while (!Q.isEmpty())
         {
-            System.err.println(Q);
+            // System.err.println(Q);
 
             int u = Q.poll();
             it.next(u);
@@ -157,14 +159,14 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         Map<Integer, Pair<Integer, List<Integer>>> result = getResult();
         for (int k : distances.keySet())
         {
-            result.put(k, new Pair<>(distances.get(k), makeShortestPathSequence(k)));
+            result.put(k, new Pair<>(distances.get(k), makeShortestPathSequence(s, k)));
         }
 
         // Mandated by the specification
         return this;
     }
 
-    private List<Integer> makeShortestPathSequence(int target)
+    private List<Integer> makeShortestPathSequence(int source, int target)
     {
         LinkedList<Integer> S = new LinkedList<>();
         int u = target;
@@ -177,6 +179,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
                 u = previous.get(u);
             }
         }
+        S.push(source);
         return S;
     }
 }
