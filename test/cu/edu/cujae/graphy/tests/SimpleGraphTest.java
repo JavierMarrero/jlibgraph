@@ -54,7 +54,7 @@ public class SimpleGraphTest
         System.out.println(graph.toString());
 
         /* Iterate depth first */
-        Iterator<Integer> dfs = graph.depthFirstSearchIterator(2);
+        Iterator<Integer> dfs = graph.depthFirstSearchIterator(2, true);
         while (dfs.hasNext())
         {
             System.out.print(dfs.next() + " ");
@@ -62,7 +62,7 @@ public class SimpleGraphTest
         System.out.println();
 
         /* Iterate breadth first */
-        Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2);
+        Iterator<Integer> bfs = graph.breadthFirstSearchIterator(2, true);
         while (bfs.hasNext())
         {
             System.out.print(bfs.next() + " ");

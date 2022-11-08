@@ -73,6 +73,12 @@ public abstract class AbstractGraph<T> implements Graph<T>
         }
 
         @Override
+        public T next(int u)
+        {
+            return next(findNodeByLabel(u));
+        }
+
+        @Override
         @SuppressWarnings ("unchecked")
         public T next()
         {
@@ -93,7 +99,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
         private final ListIterator<Node<T>> iter;
         private final List<Node<T>> dfsList;
 
-        public DepthFirstSearchIterator(Graph<T> graph, Node<T> start)
+        public DepthFirstSearchIterator(Graph<T> graph, Node<T> start, boolean includeDisconnected)
         {
             super(graph, start);
 
@@ -105,11 +111,14 @@ public abstract class AbstractGraph<T> implements Graph<T>
             walk(start, visited);
 
             // Walk and add disconnected vertices
-            for (Node<T> node : getNodes())
+            if (includeDisconnected)
             {
-                if (!visited.contains(node.getLabel()))
+                for (Node<T> node : getNodes())
                 {
-                    dfsList.add(node);
+                    if (!visited.contains(node.getLabel()))
+                    {
+                        dfsList.add(node);
+                    }
                 }
             }
 
@@ -178,7 +187,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
         private final ListIterator<Node<T>> iter;
         private final List<Node<T>> bfsList;
 
-        public BreadthFirstSearchIterator(Graph<T> graph, Node<T> start)
+        public BreadthFirstSearchIterator(Graph<T> graph, Node<T> start, boolean includeDisconnected)
         {
             super(graph, start);
 
@@ -217,11 +226,14 @@ public abstract class AbstractGraph<T> implements Graph<T>
             }
 
             // Add the disconnected nodes
-            for (Node<T> node : getNodes())
+            if (includeDisconnected)
             {
-                if (!visited.contains(node.getLabel()))
+                for (Node<T> node : getNodes())
                 {
-                    bfsList.add(node);
+                    if (!visited.contains(node.getLabel()))
+                    {
+                        bfsList.add(node);
+                    }
                 }
             }
 
@@ -303,27 +315,27 @@ public abstract class AbstractGraph<T> implements Graph<T>
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> breadthFirstSearchIterator()
+    public Iterator<T> breadthFirstSearchIterator(boolean includeDisconnected)
     {
-        return depthFirstSearchIterator(getNodes().iterator().next());
+        return breadthFirstSearchIterator(getNodes().iterator().next(), includeDisconnected);
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> breadthFirstSearchIterator(Node<T> node)
+    public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected)
     {
-        return new BreadthFirstSearchIterator(this, node);
+        return new BreadthFirstSearchIterator(this, node, includeDisconnected);
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> breadthFirstSearchIterator(int v)
+    public Iterator<T> breadthFirstSearchIterator(int v, boolean includeDisconnected)
     {
-        return breadthFirstSearchIterator(findNodeByLabel(v));
+        return breadthFirstSearchIterator(findNodeByLabel(v), includeDisconnected);
     }
 
     /**
@@ -358,27 +370,27 @@ public abstract class AbstractGraph<T> implements Graph<T>
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> depthFirstSearchIterator(Node<T> start)
+    public Iterator<T> depthFirstSearchIterator(Node<T> start, boolean includeDisconnected)
     {
-        return new DepthFirstSearchIterator(this, start);
+        return new DepthFirstSearchIterator(this, start, includeDisconnected);
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> depthFirstSearchIterator(int v)
+    public Iterator<T> depthFirstSearchIterator(int v, boolean includeDisconnected)
     {
-        return new DepthFirstSearchIterator(this, findNodeByLabel(v));
+        return new DepthFirstSearchIterator(this, findNodeByLabel(v), includeDisconnected);
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public Iterator<T> depthFirstSearchIterator()
+    public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected)
     {
-        return new DepthFirstSearchIterator(this, getNodes().iterator().next());
+        return new DepthFirstSearchIterator(this, getNodes().iterator().next(), includeDisconnected);
     }
 
     /**
