@@ -115,4 +115,13 @@ public interface GraphIterator<T> extends Iterator<T>
      * @return
      */
     public T next(Node<T> target);
+
+    /**
+     * Jumps to the node specified by this integer label.
+     *
+     * @param u
+     *
+     * @return
+     */
+    public T next(int u);
 }

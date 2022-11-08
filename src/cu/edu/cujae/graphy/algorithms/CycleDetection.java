@@ -41,7 +41,7 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
         super(Boolean.FALSE);
 
         /* Create the graph iterator */
-        this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator();
+        this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
     }
 
     @Override

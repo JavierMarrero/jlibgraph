@@ -58,7 +58,7 @@ public class HamiltonianCycleDetection<V> extends AbstractAlgorithm<List<Integer
         List<Integer> path = new ArrayList<>();
 
         // Vertices
-        GraphIterator<V> bfs = (GraphIterator<V>) graph.breadthFirstSearchIterator();
+        GraphIterator<V> bfs = (GraphIterator<V>) graph.breadthFirstSearchIterator(false);
         while (bfs.hasNext())
         {
             vertices.add(bfs.getLabel());
