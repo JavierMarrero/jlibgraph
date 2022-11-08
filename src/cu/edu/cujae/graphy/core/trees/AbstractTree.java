@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.core.trees;
 
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
+import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 
 /**
  * A utility implementation of the {@link Tree} interface.
@@ -27,7 +28,7 @@ import cu.edu.cujae.graphy.core.TreeNode;
  * @author Javier Marrero
  * @param <E>
  */
-public abstract class AbstractTree<E> implements Tree<E>
+public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E>
 {
 
     /**
@@ -43,7 +44,7 @@ public abstract class AbstractTree<E> implements Tree<E>
         {
             throw new IllegalArgumentException("need at least one element to return the maximum.");
         }
-
+        
         int result = args[0];
         for (int i = 1; i < args.length; ++i)
         {
@@ -63,7 +64,7 @@ public abstract class AbstractTree<E> implements Tree<E>
     {
         return recursiveHeight(getRoot());
     }
-
+    
     private int recursiveHeight(TreeNode<E> node)
     {
         if (isRoot(node) && !node.hasChildren())
@@ -78,7 +79,7 @@ public abstract class AbstractTree<E> implements Tree<E>
             {
                 array[k++] = recursiveHeight(n);
             }
-
+            
             return max(array);
         }
     }
