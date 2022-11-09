@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.core.trees;
 
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
+import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 
 /**
  * A utility implementation of the {@link Tree} interface.
@@ -27,7 +28,7 @@ import cu.edu.cujae.graphy.core.TreeNode;
  * @author Javier Marrero
  * @param <E>
  */
-public abstract class AbstractTree<E> implements Tree<E>
+public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E>
 {
 
     /**
@@ -53,6 +54,11 @@ public abstract class AbstractTree<E> implements Tree<E>
             }
         }
         return result;
+    }
+
+    public AbstractTree()
+    {
+        super(true);
     }
 
     /**

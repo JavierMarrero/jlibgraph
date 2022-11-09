@@ -19,12 +19,10 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * An edge is an ordered pair of the form <i>(u, v)</i>. The pair must be
- * ordered because <i>(u, v)</i> is not the same as <i>(v, u)</i> in the case of
- * a directed graph <i>(di-graph)</i>. The pair of the form <i>(u, v)</i>
- * indicates that there is an edge from vertex <i>u</i> to vertex <i>v</i>. The
- * edges may contain an attribute known as weight. This attribute is arbitrary,
- * but must be comparable; or in other words, a value.
+ * An edge is an ordered pair of the form <i>(u, v)</i>. The pair must be ordered because <i>(u, v)</i> is not the same
+ * as <i>(v, u)</i> in the case of a directed graph <i>(di-graph)</i>. The pair of the form <i>(u, v)</i> indicates that
+ * there is an edge from vertex <i>u</i> to vertex <i>v</i>. The edges may contain an attribute known as weight. This
+ * attribute is arbitrary, but must be comparable; or in other words, a value.
  *
  * @author Javier Marrero
  */
@@ -53,25 +51,22 @@ public interface Edge
     public Node<?> getStartNode();
 
     /**
-     * Returns the weight of this edge. It may return a null value in the case
-     * the edge is unweighted.
+     * Returns the weight of this edge. It may return a null value in the case the edge is unweighted.
      *
      * @return the value of the weight.
      */
     public Weight<?> getWeight();
 
     /**
-     * Returns true if the graph edge is directed. This will be true only if the
-     * containing graph is also directed. This method is established here as a
-     * convenience.
+     * Returns true if the graph edge is directed. This will be true only if the containing graph is also directed.
+     * This method is established here as a convenience.
      *
      * @return if the graph's edge is directed.
      */
     public boolean isDirected();
 
     /**
-     * Returns true if this edge contains a label. A label uniquely identifies
-     * an edge.
+     * Returns true if this edge contains a label. A label uniquely identifies an edge.
      *
      * @return if the node is labeled or not.
      */

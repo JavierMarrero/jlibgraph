@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,8 +19,7 @@
 package cu.edu.cujae.graphy.algorithms;
 
 /**
- * This class implements some utility functions useful when implementing
- * algorithms.It has no other utility whatsoever.
+ * This class implements some utility functions useful when implementing algorithms.It has no other utility whatsoever.
  *
  * @author Javier Marrero
  * @param <T>

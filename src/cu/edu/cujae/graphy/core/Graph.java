@@ -22,9 +22,9 @@ import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.Iterator;
 
 /**
- * The <code>Graph</code> interface represents a graph as an abstract data
- * structure.The graph does not make a distinction with the data type it holds,
- * it just presents an abstract model of a graph.
+ * The <code>Graph</code> interface represents a graph as an abstract
+ * data structure.The graph does not make a distinction with the data
+ * type it holds, it just presents an abstract model of a graph.
  *
  * @author Javier Marrero
  * @param <T>
@@ -62,8 +62,8 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected);
 
     /**
-     * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
-     * } but with the integer label of the node.
+     * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but with the integer label
+     * of the node.
      *
      * @param includeDisconnected
      *
@@ -84,9 +84,8 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> breadthFirstSearchIterator(boolean includeDisconnected);
 
     /**
-     * Connects two nodes in this graph. This method should return true if the
-     * connection was successful and false otherwise. The two input parameters
-     * are the labels of the nodes within the graph.
+     * Connects two nodes in this graph. This method should return true if the connection was successful and false
+     * otherwise. The two input parameters are the labels of the nodes within the graph.
      *
      * @param u
      * @param v
@@ -96,8 +95,7 @@ public interface Graph<T> extends Iterable<T>
     public boolean connect(int u, int v);
 
     /**
-     * Connects two nodes within the graph. This version of the method uses the
-     * nodes directly.
+     * Connects two nodes within the graph. This version of the method uses the nodes directly.
      *
      * @param u
      * @param v
@@ -107,19 +105,16 @@ public interface Graph<T> extends Iterable<T>
     public boolean connect(Node<T> u, Node<T> v);
 
     /**
-     * Generates an iterator that performs a depth first search.Depth first
-     * traversal for a graph is similar to depth first traversal of a tree, the
-     * only catch being that, unlike trees, graphs may contain cycles (a node
-     * may be visited twice). This iterator avoids processing a node more than
-     * once. A graph may have more than one DFS traversal.
+     * Generates an iterator that performs a depth first search.Depth first traversal for a graph is similar to depth
+     * first traversal of a tree, the only catch being that, unlike trees, graphs may contain cycles (a node may be
+     * visited twice). This iterator avoids processing a node more than once. A graph may have more than one DFS
+     * traversal.
      * <p>
-     * Depth-first search is an algorithm for traversing or searching a graph.
-     * The algorithm starts at the root node (some arbitrary node in this case,
-     * passed as a parameter) and explores as far as possible along each branch
+     * Depth-first search is an algorithm for traversing or searching a graph. The algorithm starts at the root node
+     * (some arbitrary node in this case, passed as a parameter) and explores as far as possible along each branch
      * before backtracking.
      * <p>
-     * The basic idea is to start from the root or any arbitrary node, and move
-     * to the next adjacent unmarked node.
+     * The basic idea is to start from the root or any arbitrary node, and move to the next adjacent unmarked node.
      *
      * @param start
      * @param includeDisconnected
@@ -133,15 +128,14 @@ public interface Graph<T> extends Iterable<T>
      *
      * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
      *
-     * @param v the label of the node.
+     * @param v                   the label of the node.
      *
      * @return
      */
     public Iterator<T> depthFirstSearchIterator(int v, boolean includeDisconnected);
 
     /**
-     * Generates an iterator that performs a depth first search, grabbing a
-     * random node as the root.
+     * Generates an iterator that performs a depth first search, grabbing a random node as the root.
      *
      * @param includeDisconnected
      *
@@ -160,8 +154,7 @@ public interface Graph<T> extends Iterable<T>
     /**
      * Returns if the graph is weighted or not.
      *
-     * @return <code>true</code> if the graph is weighted, <code>false</code> if
-     * otherwise.
+     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
      */
     public boolean isWeighted();
 
@@ -176,8 +169,8 @@ public interface Graph<T> extends Iterable<T>
     public boolean isVertexAdjacent(int u, int v);
 
     /**
-     * Returns a new {@link Iterator} for this graph. Order of iteration is not
-     * guaranteed, it may be insertion order or BSF or DSF.
+     * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or
+     * BSF or DSF.
      *
      * @return a new {@link Iterator}
      */
@@ -185,10 +178,9 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> iterator();
 
     /**
-     * Returns a new {@link GraphIterator} for this node in the graph. Order of
-     * iteration is not guaranteed, commonly it will be a random access
-     * iterator, but this is implementation dependent. This method takes as a
-     * parameter the label of a particular node.
+     * Returns a new {@link GraphIterator} for this node in the graph. Order of iteration is not guaranteed, commonly it
+     * will be a random access iterator, but this is implementation dependent. This method takes as a parameter the
+     * label of a particular node.
      *
      * @param v
      *
@@ -197,8 +189,8 @@ public interface Graph<T> extends Iterable<T>
     public GraphIterator<T> iterator(int v);
 
     /**
-     * Registers an {@link EdgeFactory} instance to this class. This allows to
-     * vary the behavior of the graph as long as {@link Edge} creation refers.
+     * Registers an {@link EdgeFactory} instance to this class. This allows to vary the behavior of the graph as long as
+     * {@link Edge} creation refers.
      *
      * @param factory
      */

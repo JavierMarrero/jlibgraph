@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,8 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.TreeNode;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -34,51 +36,56 @@ import java.util.Set;
 public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements TreeNode<E>
 {
 
-    private final Collection<Edge> children;
-    private int label;
+    private final Set<Edge> children;
 
     public DefaultGeneralTreeNode(Object label, E data)
     {
         super(label, data);
 
-        this.children = new LinkedList<>();
-
+        this.children = new HashSet<>();
     }
 
     @Override
     public boolean addEdge(Edge edge)
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return children.add(edge);
     }
 
     @Override
-    public E get()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
+    @SuppressWarnings ("unchecked")
     public Collection<TreeNode<E>> getChildren()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Collection<TreeNode<E>> childList = new LinkedList<>();
+        for (Edge e : children)
+        {
+            childList.add((TreeNode<E>) e.getFinalNode());
+        }
+        return Collections.unmodifiableCollection(childList);
     }
 
     @Override
     public Edge getAdjacentEdge(Node<E> v)
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (Edge e : children)
+        {
+            if (e.getFinalNode().equals(v))
+            {
+                return e;
+            }
+        }
+        return null;
     }
 
     @Override
     public Set<Edge> getConnectedEdges()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return Collections.unmodifiableSet(children);
     }
 
     @Override
     public Set<Edge> getEdgesConnectingSelf()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return Collections.emptySet();
     }
 
     @Override
@@ -90,7 +97,14 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public boolean isAdjacent(Node<E> v)
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (Edge e : children)
+        {
+            if (e.getFinalNode().equals(v))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

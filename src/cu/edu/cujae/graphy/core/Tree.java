@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,11 +19,10 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * A tree is a data structure represented by a directed acyclic graph, imitating
- * the shape of a tree.It is a set of connected nodes. A node is the basic unit
- * over which the tree is constructed and may have zero or several chidren. A
- * node A is parent of a node B if there is a direct connection from A to B.
- * There can be only a single node without a parent and that is called root.
+ * A tree is a data structure represented by a directed acyclic graph, imitating the shape of a tree.It is a set of
+ * connected nodes. A node is the basic unit over which the tree is constructed and may have zero or several children.
+ * A node A is parent of a node B if there is a direct connection from A to B. There can be only a single node without
+ * a parent and that is called root.
  * <p>
  * This interface represents trees on its most wide definition.
  *
@@ -44,14 +43,12 @@ public interface Tree<E> extends Graph<E>
      * @return
      */
     public boolean add(TreeNode<E> parent, E data);
-
+    
     /**
-     * Returns the height of the tree. The height of a tree is a recursive
-     * relation defined by the following formula:
+     * Returns the height of the tree. The height of a tree is a recursive relation defined by the following formula:
      * <ul>
      * <li>0 <i>if the tree contains the root only</i></li>
-     * <li>max(H(c<sub>1</sub>), H(c<sub>2</sub>), ..., H(c<sub>n</sub>) <i>if
-     * the tree contains more nodes</i></li>
+     * <li>max(H(c<sub>1</sub>), H(c<sub>2</sub>), ..., H(c<sub>n</sub>) <i>if the tree contains more nodes</i></li>
      * </ul>
      *
      * @return an integer representing the tree height
@@ -66,8 +63,7 @@ public interface Tree<E> extends Graph<E>
     public TreeNode<E> getRoot();
 
     /**
-     * Returns the result of testing wether the provided node is the root node
-     * of this tree.
+     * Returns the result of testing wether the provided node is the root node of this tree.
      *
      * @param node
      *

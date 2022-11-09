@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
 {
 
     private E data;
-    private int label;
+    private final int label;
 
     public AbstractTreeNode(Object label, E data)
     {

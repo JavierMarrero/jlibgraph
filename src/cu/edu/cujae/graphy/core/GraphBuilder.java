@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +19,8 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This is an implementation of the <i>builder</i> pattern for constructing
- * graphs. Graphs are complex data structures that may present several flavors.
- * Therefore, here we separate the concerns of building graphs via the
- * <i>builder</i>
+ * This is an implementation of the <i>builder</i> pattern for constructing graphs. Graphs are complex data structures
+ * that may present several flavors. Therefore, here we separate the concerns of building graphs via the <i>builder</i>
  * pattern.
  * <p>
  *
@@ -32,16 +30,14 @@ public interface GraphBuilder<T>
 {
 
     /**
-     * Constructs a new instance of an object that implements the {@link Graph}
-     * interface.
+     * Constructs a new instance of an object that implements the {@link Graph} interface.
      *
      * @return a reference to this builder
      */
     GraphBuilder<T> buildGraph();
 
     /**
-     * Constructs a directed or undirected graph depending on the boolean
-     * parameter.
+     * Constructs a directed or undirected graph depending on the boolean parameter.
      *
      * @param directed
      *

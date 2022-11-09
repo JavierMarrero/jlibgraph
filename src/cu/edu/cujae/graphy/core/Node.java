@@ -46,14 +46,12 @@ public interface Node<T>
     public T get();
 
     /**
-     * Nodes inserted within a graph get access to a label that uniquely
-     * identifies them within a graph. This could be their index in the
-     * adjacency matrix or their index within the adjacency list.
+     * Nodes inserted within a graph get access to a label that uniquely identifies them within a graph. This could be
+     * their index in the adjacency matrix or their index within the adjacency list.
      * <p>
-     * It is not correct to assume that this number is any of the things
-     * described above, but it can be used to uniquely identify the node within
-     * the graph, such as no other node will have the same label. Label
-     * allocation is responsibility of the {@link Graph} class.
+     * It is not correct to assume that this number is any of the things described above, but it can be used to
+     * uniquely identify the node within the graph, such as no other node will have the same label. Label allocation
+     * is responsibility of the {@link Graph} class.
      *
      * @return the integer label of this node
      */
@@ -69,18 +67,16 @@ public interface Node<T>
     public Edge getAdjacentEdge(Node<T> v);
 
     /**
-     * Returns the set of edges connected to this node. If the node is isolated,
-     * it should return the empty set. This set is an unmodifiable view of the
-     * {@link Node}'s internal container.
+     * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
+     * set is an unmodifiable view of the {@link Node}'s internal container.
      *
      * @return the set of connected edges.
      */
     public Set<Edge> getConnectedEdges();
 
     /**
-     * Returns the set of edges that have this node as the destination node. If
-     * the node is isolated should return the empty set. The set is an
-     * unmodifiable view of the {@link Node}'s internal container.
+     * Returns the set of edges that have this node as the destination node. If the node is isolated should return the
+     * empty set. The set is an unmodifiable view of the {@link Node}'s internal container.
      *
      * @return
      */

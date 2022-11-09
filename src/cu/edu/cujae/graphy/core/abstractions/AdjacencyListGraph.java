@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,8 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * An implementation of a graph using an <i>adjacency list</i> to keep track of
- * the nodes.
+ * An implementation of a graph using an <i>adjacency list</i> to keep track of the nodes.
  *
  * @author Javier Marrero
  * @param <T>

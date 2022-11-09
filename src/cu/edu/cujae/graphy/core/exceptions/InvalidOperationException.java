@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,8 +19,8 @@
 package cu.edu.cujae.graphy.core.exceptions;
 
 /**
- * This is an exception class that is raised every time an invalid operation is
- * performed on either a {@link Graph} or a {@link GraphIterator}.
+ * This is an exception class that is raised every time an invalid operation is performed on either a {@link Graph} or
+ * a {@link GraphIterator}.
  *
  * @author Javier Marrero
  */

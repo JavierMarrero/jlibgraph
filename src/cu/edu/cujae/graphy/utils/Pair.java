@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,8 +31,8 @@ public class Pair<U, V>
     /**
      * Creates a new pair object.
      *
-     * @param <E1> Parametrized type for the pair object.
-     * @param <E2> Parametrized type for the pair object.s
+     * @param <E1>  Parametrized type for the pair object.
+     * @param <E2>  Parametrized type for the pair object.s
      * @param first
      * @param last
      *

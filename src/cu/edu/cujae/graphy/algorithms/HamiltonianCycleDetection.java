@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,13 +25,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Determines whether a given graph contains a Hamiltonian cycle or not.If it
- * contains, returns a list of the vertices forming the cycle. Else, it returns
- * the empty list.
+ * Determines whether a given graph contains a Hamiltonian cycle or not.If it contains, returns a list of the vertices
+ * forming the cycle. Else, it returns the empty list.
  * <p>
- * Hamiltonian path in an undirected graph is a path that visits each vertex
- * exactly once. A Hamiltonian cycle (or Hamiltonian circuit) is a Hamiltonian
- * Path such that there is an edge in the graph from the last vertex to the
+ * Hamiltonian path in an undirected graph is a path that visits each vertex exactly once. A Hamiltonian cycle (or
+ * Hamiltonian circuit) is a Hamiltonian Path such that there is an edge in the graph from the last vertex to the
  * first vertex of the Hamiltonian Path.
  *
  * @author Javier Marrero

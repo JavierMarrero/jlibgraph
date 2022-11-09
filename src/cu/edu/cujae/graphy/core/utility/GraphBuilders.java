@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,9 @@ import cu.edu.cujae.graphy.core.defaults.DefaultWeightedGraphBuilder;
 import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 
 /**
- * This is an utility class that simplifies the creation of different
- * graphs.However, being this an abstraction over the normal building process of
- * graphs, it is much more limited in scope.For custom graphs, implement and use
- * the builder pattern ({@link GraphBuilder}).
+ * This is an utility class that simplifies the creation of different graphs.However, being this an abstraction over
+ * the normal building process of graphs, it is much more limited in scope.For custom graphs, implement and use the
+ * builder pattern ({@link GraphBuilder}).
  *
  * @author Javier Marrero
  */

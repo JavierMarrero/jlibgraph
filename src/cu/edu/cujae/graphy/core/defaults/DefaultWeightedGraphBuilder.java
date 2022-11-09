@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,8 +22,7 @@ import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.GraphBuilder;
 
 /**
- * Simple implementation of the builder pattern and the {@link GraphBuilder}
- * interface for weighted graphs.
+ * Simple implementation of the builder pattern and the {@link GraphBuilder} interface for weighted graphs.
  *
  * @author Javier Marrero
  * @param <T>
@@ -45,7 +44,7 @@ public class DefaultWeightedGraphBuilder<T> implements GraphBuilder<T>
     {
         instance.setDirected(true);
         instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
+                                             : (new DefaultNotDirectedEdgeFactory()));
         return this;
     }
 

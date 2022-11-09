@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,8 +28,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * This class defines an abstract iterator class: an utility class that may be
- * used to ease implementation of several iterator functionalities.
+ * This class defines an abstract iterator class: an utility class that may be used to ease implementation of several
+ * iterator functionalities.
  *
  * @author Javier Marrero
  * @param <T>
@@ -149,8 +149,8 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     /**
      * {@inheritDoc }
      * <p>
-     * This particular implementation is a stub and produces an exception
-     * whenever someone tries to random access a node.
+     * This particular implementation is a stub and produces an exception whenever someone tries to random access a
+     * node.
      */
     @Override
     public T next(Node<T> target)
