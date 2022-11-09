@@ -9,8 +9,8 @@
 :small_blue_diamond:On the other hand, this library will implement the different types of graphs:
 - [X] Simple
 - [ ] Multigraph 
-- [ ] Directed 
-- [ ] Labeled 
+- [X] Directed 
+- [X] Labeled 
 - [ ] Random 
 - [ ] Hypergraph 
 - [ ] Infinite 
