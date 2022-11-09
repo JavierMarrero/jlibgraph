@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * A graph iterator is a special kind of iterator that allows random traversal of a graph.It extends the functionality
+ * A graph iterator is a special kind of iterator that allows random traversal of a graph. It extends the functionality
  * found in {@link Iterator}, but does not replace it. One can still use a <code>GraphIterator</code> as a regular
  * {@link Iterator}.
  *
