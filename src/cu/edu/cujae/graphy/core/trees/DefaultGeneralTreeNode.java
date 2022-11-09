@@ -36,61 +36,61 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
 
     private final Collection<Edge> children;
     private int label;
-    
+
     public DefaultGeneralTreeNode(Object label, E data)
     {
         super(label, data);
-        
+
         this.children = new LinkedList<>();
-      
+
     }
-    
+
     @Override
     public boolean addEdge(Edge edge)
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public E get()
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public Collection<TreeNode<E>> getChildren()
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public Edge getAdjacentEdge(Node<E> v)
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public Set<Edge> getConnectedEdges()
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public Set<Edge> getEdgesConnectingSelf()
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-        
+
     @Override
     public boolean hasChildren()
     {
         return !children.isEmpty();
     }
-    
+
     @Override
     public boolean isAdjacent(Node<E> v)
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

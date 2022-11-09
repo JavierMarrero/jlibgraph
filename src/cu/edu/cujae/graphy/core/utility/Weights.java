@@ -34,7 +34,7 @@ public class Weights
         return new AbstractWeight<E>(data)
         {
             @Override
-            @SuppressWarnings ("unchecked")
+            @SuppressWarnings("unchecked")
             public int compareTo(E o)
             {
                 if (!(data instanceof Comparable))

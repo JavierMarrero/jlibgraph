@@ -19,7 +19,8 @@
 package cu.edu.cujae.graphy.algorithms;
 
 /**
- * This class implements some utility functions useful when implementing algorithms.It has no other utility whatsoever.
+ * This class implements some utility functions useful when implementing
+ * algorithms.It has no other utility whatsoever.
  *
  * @author Javier Marrero
  * @param <T>

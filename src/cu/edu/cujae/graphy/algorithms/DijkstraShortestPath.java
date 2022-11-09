@@ -30,23 +30,29 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 
 /**
- * Given a graph and a source vertex in the graph, find the shortest paths from the source to all vertices in the given
- * graph.
+ * Given a graph and a source vertex in the graph, find the shortest paths from
+ * the source to all vertices in the given graph.
  * <p>
- * The name of the algorithm refers to the Dutch computation scientist <i>Edsger Dijkstra</i>, who described it in 1959.
- * The algorithm solves the <b>single-source shortest path problem</b> for a weighted graph. This algorithm is greedy
- * and keeps track of the weights of the edges for finding the path that minimizes the total distance.
+ * The name of the algorithm refers to the Dutch computation scientist <i>Edsger
+ * Dijkstra</i>, who described it in 1959. The algorithm solves the
+ * <b>single-source shortest path problem</b> for a weighted graph. This
+ * algorithm is greedy and keeps track of the weights of the edges for finding
+ * the path that minimizes the total distance.
  * <p>
- * The time complexity of this algorithm is at most <code>O(n<sup>2</sup>)</code> but on the average case it may
- * achieve <code>O(V + E log(V))</code>. Dijkstra has several advantages such as its time complexity, that it is useful
- * in finding the shortest distance quite fast. However it is unable to handle negative weights and, as every greedy
+ * The time complexity of this algorithm is at most
+ * <code>O(n<sup>2</sup>)</code> but on the average case it may achieve
+ * <code>O(V + E log(V))</code>. Dijkstra has several advantages such as its
+ * time complexity, that it is useful in finding the shortest distance quite
+ * fast. However it is unable to handle negative weights and, as every greedy
  * algorithm it may not be optimal for certain conditions.
  * <p>
- * Dijkstra's algorithm fails on negative weights because since Dijkstra follows a greedy approach, once a node is
- * marked as visited it cannot be reconsidered even if there is another path with less cost or distance. This issue
- * arises only if there exists a negative weight or edge in the graph. If negative weights are needed, see the
- * Bellman-Ford algorithm. In this implementation, whenever a graph with negative weights is encountered it may throw
- * a {@link InvalidOperationException}.
+ * Dijkstra's algorithm fails on negative weights because since Dijkstra follows
+ * a greedy approach, once a node is marked as visited it cannot be reconsidered
+ * even if there is another path with less cost or distance. This issue arises
+ * only if there exists a negative weight or edge in the graph. If negative
+ * weights are needed, see the Bellman-Ford algorithm. In this implementation,
+ * whenever a graph with negative weights is encountered it may throw a
+ * {@link InvalidOperationException}.
  *
  * @author Javier Marrero
  * @param <T> The type of the graph
@@ -68,7 +74,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         if (!graph.isWeighted())
         {
             throw new IllegalArgumentException(
-                    "Attempted to apply Dijkstra Shortest Path algorithm to an unweighted graph.");
+                "Attempted to apply Dijkstra Shortest Path algorithm to an unweighted graph.");
         }
 
         // Initialize the fields of the classes
@@ -77,13 +83,13 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         this.it = iter;
         this.previous = new TreeMap<>();
         this.s = iter.getLabel();
-        this.Q = new PriorityQueue<>(graph.size(), (Integer u, Integer v) -> 
-                             {
-                                 int du = distances.get(u);
-                                 int dv = distances.get(v);
+        this.Q = new PriorityQueue<>(graph.size(), (Integer u, Integer v) ->
+                                 {
+                                     int du = distances.get(u);
+                                     int dv = distances.get(v);
 
-                                 return du - dv;
-                             });
+                                     return du - dv;
+                                 });
         this.V = graph.size();
 
         // Get a set of all the integer vertices

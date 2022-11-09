@@ -29,39 +29,47 @@ import java.util.TreeSet;
  * @author Jose
  * @param <V>
  */
-public class ExistSimpleRoad<V> extends AbstractAlgorithm<Boolean> {
+public class ExistSimpleRoad<V> extends AbstractAlgorithm<Boolean>
+{
+
     private final Graph<V> graph;
     private int k;
     private final GraphIterator<V> iterator;
-    
-    public ExistSimpleRoad (Graph<V> graph, GraphIterator<V> iterator, int k){
+
+    public ExistSimpleRoad(Graph<V> graph, GraphIterator<V> iterator, int k)
+    {
         super(Boolean.FALSE);
-        this.graph=graph;
+        this.graph = graph;
         this.k = k;
         this.iterator = (iterator);
     }
-    
+
     @Override
-    public Algorithm apply() {
+    public Algorithm apply()
+    {
         Set<Integer> visited = new TreeSet<>();
         boolean stop = false;
-        while(iterator.hasNext() && k>0 && !stop){
+        while (iterator.hasNext() && k > 0 && !stop)
+        {
             iterator.next();
             /*Verificar si ya se ha visitado ese nodo, es decir si existe un ciclo*/
-            if(visited.contains(iterator.getLabel())){
+            if (visited.contains(iterator.getLabel()))
+            {
                 setResult(Boolean.FALSE);
                 stop = false;
-            }else{
+            }
+            else
+            {
                 visited.add(iterator.getLabel());
                 k--;
             }
         }
-        if(!stop && k>0){
+        if (!stop && k > 0)
+        {
             setResult(Boolean.FALSE);
         }
-        
-        
+
         return this;
     }
-    
+
 }

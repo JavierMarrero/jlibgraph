@@ -22,7 +22,8 @@ import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.GraphBuilder;
 
 /**
- * Simple implementation of the builder pattern and the {@link GraphBuilder} interface for weighted graphs.
+ * Simple implementation of the builder pattern and the {@link GraphBuilder}
+ * interface for weighted graphs.
  *
  * @author Javier Marrero
  * @param <T>
@@ -44,7 +45,7 @@ public class DefaultWeightedGraphBuilder<T> implements GraphBuilder<T>
     {
         instance.setDirected(true);
         instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                             : (new DefaultNotDirectedEdgeFactory()));
+                                     : (new DefaultNotDirectedEdgeFactory()));
         return this;
     }
 

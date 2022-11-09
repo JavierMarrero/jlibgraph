@@ -28,7 +28,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * An implementation of a graph using an <i>adjacency list</i> to keep track of the nodes.
+ * An implementation of a graph using an <i>adjacency list</i> to keep track of
+ * the nodes.
  *
  * @author Javier Marrero
  * @param <T>
