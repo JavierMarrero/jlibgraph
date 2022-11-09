@@ -29,14 +29,14 @@ import cu.edu.cujae.graphy.core.GraphBuilder;
  */
 public class DefaultGraphBuilder<T> implements GraphBuilder<T>
 {
-    
+
     private DefaultSimpleGraph<T> instance;
-    
+
     public DefaultGraphBuilder()
     {
         this.instance = null;
     }
-    
+
     @Override
     public GraphBuilder<T> buildGraph()
     {
@@ -44,21 +44,21 @@ public class DefaultGraphBuilder<T> implements GraphBuilder<T>
         instance = new DefaultSimpleGraph<>();
         return this;
     }
-    
+
     @Override
     public GraphBuilder<T> directed(boolean directed)
     {
         instance.setDirected(true);
         instance.registerEdgeFactory((directed) ? (new DefaultDirectedEdgeFactory())
-                                     : (new DefaultNotDirectedEdgeFactory()));
-        
+                                             : (new DefaultNotDirectedEdgeFactory()));
+
         return this;
     }
-    
+
     @Override
     public Graph<T> get()
     {
         return instance;
     }
-    
+
 }

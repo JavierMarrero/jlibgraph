@@ -43,7 +43,7 @@ public interface Tree<E> extends Graph<E>
      * @return
      */
     public boolean add(TreeNode<E> parent, E data);
-    
+
     /**
      * Returns the height of the tree. The height of a tree is a recursive relation defined by the following formula:
      * <ul>
