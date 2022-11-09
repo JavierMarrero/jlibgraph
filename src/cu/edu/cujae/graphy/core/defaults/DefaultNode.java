@@ -28,7 +28,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * This is the default implementation of the {@link Node} interface.It provides some default operations for nodes.
+ * This is the default implementation of the {@link Node} interface.It provides
+ * some default operations for nodes.
  *
  * @author Javier Marrero
  * @param <T>
@@ -59,7 +60,7 @@ public class DefaultNode<T> implements Node<T>
      * {@inheritDoc }
      */
     @Override
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     public boolean addEdge(Edge edge)
     {
         boolean result = (connectionsFromVertex.putIfAbsent((Node<T>) edge.getFinalNode(), edge) == null);

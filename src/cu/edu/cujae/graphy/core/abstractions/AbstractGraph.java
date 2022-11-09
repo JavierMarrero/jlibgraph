@@ -28,8 +28,9 @@ import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.*;
 
 /**
- * This class eases the implementation of the {@link Graph} interface by offering some default implementations for
- * commonly used methods. However, any required specialization may be performed by descendant classes.
+ * This class eases the implementation of the {@link Graph} interface by
+ * offering some default implementations for commonly used methods. However, any
+ * required specialization may be performed by descendant classes.
  * <p>
  *
  * @see Graph
@@ -79,7 +80,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
         }
 
         @Override
-        @SuppressWarnings ("unchecked")
+        @SuppressWarnings("unchecked")
         public T next()
         {
             Iterator<Edge> children = getEdgesDepartingSelf().iterator();
@@ -170,7 +171,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
             Iterator<Edge> edges = v.getConnectedEdges().iterator();
             while (edges.hasNext())
             {
-                @SuppressWarnings ("unchecked")
+                @SuppressWarnings("unchecked")
                 Node<T> n = (Node<T>) edges.next().getFinalNode();
                 if (!visited.contains(n.getLabel()))
                 {
@@ -215,7 +216,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
                 Iterator<Edge> i = s.getConnectedEdges().iterator();
                 while (i.hasNext())
                 {
-                    @SuppressWarnings ("unchecked")
+                    @SuppressWarnings("unchecked")
                     Node<T> n = (Node<T>) i.next().getFinalNode();
                     if (!visited.contains(n.getLabel()))
                     {
@@ -401,8 +402,9 @@ public abstract class AbstractGraph<T> implements Graph<T>
     protected abstract Collection<Node<T>> getNodes();
 
     /**
-     * This abstract method should return a node with the identifier passed as argument. If the node is not present
-     * on the graph it is allowed to return null, or throw an {@link IllegalStateException}.
+     * This abstract method should return a node with the identifier passed as
+     * argument. If the node is not present on the graph it is allowed to return
+     * null, or throw an {@link IllegalStateException}.
      *
      * @param label
      *
@@ -455,8 +457,9 @@ public abstract class AbstractGraph<T> implements Graph<T>
     }
 
     /**
-     * Prints this graph as a series of nodes with their corresponding connections. This shall return a string
-     * containing all of the graph's vertex in a human-readable format.
+     * Prints this graph as a series of nodes with their corresponding
+     * connections. This shall return a string containing all of the graph's
+     * vertex in a human-readable format.
      *
      * @return
      */

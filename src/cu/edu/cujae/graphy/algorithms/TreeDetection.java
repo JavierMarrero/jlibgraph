@@ -29,41 +29,47 @@ import java.util.TreeSet;
  * @param <V>
  */
 public class TreeDetection<V> extends AbstractAlgorithm<Boolean>
-{   
+{
+
     private final GraphIterator<V> iterator;
     private final Graph<V> graph;
-    
+
     public TreeDetection(Graph<V> graph, GraphIterator<V> iterator)
     {
         super(Boolean.TRUE);
 
-        this.graph= graph;
+        this.graph = graph;
         this.iterator = iterator;
     }
 
     @Override
-    public Algorithm<Boolean> apply() {
+    public Algorithm<Boolean> apply()
+    {
         Set<Integer> visited = new TreeSet<>();
         GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(iterator.getLabel(), false);
         boolean stop = false;
-        while (dfs.hasNext() && !stop){
+        while (dfs.hasNext() && !stop)
+        {
             dfs.next();
             int node = dfs.getLabel();
-            
+
             /*Verificar si ya se ha visitado ese nodo antes o si a ese nodo entra más de una arista*/
-            
-            if(visited.contains(node)|| dfs.getEdgesArrivingSelf().size()>1){
+            if (visited.contains(node) || dfs.getEdgesArrivingSelf().size() > 1)
+            {
                 setResult(Boolean.FALSE);
                 stop = true;
-            }else{
+            }
+            else
+            {
                 visited.add(node);
-            }  
-        } 
+            }
+        }
         /*Verificar si la cantidad de nodos del grafo coincide con todos los nodos visitados y por tanto no hay nodos desconectados*/
-        if(!stop && graph.size()!= visited.size()){
+        if (!stop && graph.size() != visited.size())
+        {
             setResult(Boolean.FALSE);
         }
         return this;
     }
-    
+
 }

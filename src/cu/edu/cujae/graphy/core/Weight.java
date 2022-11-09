@@ -19,8 +19,8 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * This interface is used to represents weights in a graph.It is mostly a wrapper over the {@link Comparable}
- * interface.
+ * This interface is used to represents weights in a graph.It is mostly a
+ * wrapper over the {@link Comparable} interface.
  *
  * @author Javier Marrero
  * @param <T>

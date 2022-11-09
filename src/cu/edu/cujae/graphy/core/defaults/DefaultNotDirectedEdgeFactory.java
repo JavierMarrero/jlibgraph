@@ -6,15 +6,18 @@ import cu.edu.cujae.graphy.core.EdgeFactory;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Weight;
 
-public class DefaultNotDirectedEdgeFactory extends DefaultEdgeFactory implements EdgeFactory {
+public class DefaultNotDirectedEdgeFactory extends DefaultEdgeFactory implements EdgeFactory
+{
 
     /**
      * {@inheritDoc}}
      */
     @Override
-    public Edge build(Object label, Node<?> u, Node<?> v, Weight<?> w) {
-        return new AbstractEdge(label, u, v, w, false) {
-            
+    public Edge build(Object label, Node<?> u, Node<?> v, Weight<?> w)
+    {
+        return new AbstractEdge(label, u, v, w, false)
+        {
+
         };
     }
 

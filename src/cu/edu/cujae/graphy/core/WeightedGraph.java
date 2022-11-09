@@ -19,10 +19,11 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * A <i>weighted graph</i> is a {@link Graph} in which each branch is given a numerical weight.A weighted graph is
- * therefore a special type of labeled graph. Weighted graphs are implemented in this library by adding a special
- * property to existing graphs. Graphs can be labeled and weighted, for whatsoever the practical applications this may
- * have.
+ * A <i>weighted graph</i> is a {@link Graph} in which each branch is given a
+ * numerical weight.A weighted graph is therefore a special type of labeled
+ * graph. Weighted graphs are implemented in this library by adding a special
+ * property to existing graphs. Graphs can be labeled and weighted, for
+ * whatsoever the practical applications this may have.
  *
  * @author Javier Marrero
  * @param <T>
@@ -42,8 +43,8 @@ public interface WeightedGraph<T> extends Graph<T>
     public boolean connect(int u, int v, Weight<?> w);
 
     /**
-     * Connects two vertices in the graph using a weight as label. However, this version of the method uses the node
-     * handles directly.
+     * Connects two vertices in the graph using a weight as label. However, this
+     * version of the method uses the node handles directly.
      *
      * @param u
      * @param v

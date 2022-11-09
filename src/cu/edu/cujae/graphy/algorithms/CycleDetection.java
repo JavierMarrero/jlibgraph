@@ -26,7 +26,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * This algorithm checks if there are nodes in both directed and undirected graphs.
+ * This algorithm checks if there are nodes in both directed and undirected
+ * graphs.
  *
  * @author Javier Marrero
  * @param <V>

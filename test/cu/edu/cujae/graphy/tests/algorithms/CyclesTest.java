@@ -56,13 +56,13 @@ public class CyclesTest
         g1.connect(2, 1);
         g1.connect(0, 3);
         g1.connect(3, 4);
-        
+
         System.out.println("Built g1...");
 
         // Connect G2
         g2.connect(0, 1);
         g2.connect(1, 2);
-        
+
         System.out.println("Built g2...");
 
         // Contains cycle?

@@ -19,8 +19,8 @@
 package cu.edu.cujae.graphy.core.exceptions;
 
 /**
- * This is an exception class that is raised every time an invalid operation is performed on either a {@link Graph} or
- * a {@link GraphIterator}.
+ * This is an exception class that is raised every time an invalid operation is
+ * performed on either a {@link Graph} or a {@link GraphIterator}.
  *
  * @author Javier Marrero
  */

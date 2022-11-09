@@ -25,8 +25,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * A graph iterator is a special kind of iterator that allows random traversal of a graph.It extends the functionality
- * found in {@link Iterator}, but does not replace it. One can still use a <code>GraphIterator</code> as a regular
+ * A graph iterator is a special kind of iterator that allows random traversal
+ * of a graph.It extends the functionality found in {@link Iterator}, but does
+ * not replace it. One can still use a <code>GraphIterator</code> as a regular
  * {@link Iterator}.
  *
  * @author Javier Marrero
@@ -66,7 +67,8 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Edge> getEdgesDepartingSelf();
 
     /**
-     * Returns the {@link Edge} connecting this iterator and the vertex with label <i>v</i>.
+     * Returns the {@link Edge} connecting this iterator and the vertex with
+     * label <i>v</i>.
      *
      * @param v
      *
@@ -75,15 +77,17 @@ public interface GraphIterator<T> extends Iterator<T>
     public Edge getAdjacentEdge(int v);
 
     /**
-     * Returns the {@link Set} of edges that have the vertex pointed by this iterator as destination.
+     * Returns the {@link Set} of edges that have the vertex pointed by this
+     * iterator as destination.
      *
      * @return a {@link Collection} of edges having this vertex as destination.
      */
     public Collection<Edge> getEdgesArrivingSelf();
 
     /**
-     * Each node in a graph is somehow labeled. In this library, labels are integer indices that are unique to each
-     * node in the graph. This method should return the node's label of the node it is currently standing over.
+     * Each node in a graph is somehow labeled. In this library, labels are
+     * integer indices that are unique to each node in the graph. This method
+     * should return the node's label of the node it is currently standing over.
      *
      * @return the label of the node that is the current iterating node
      */
@@ -99,7 +103,8 @@ public interface GraphIterator<T> extends Iterator<T>
     public boolean isAdjacent(Node<T> node);
 
     /**
-     * Returns true if this iterator is adjacent to some node pointed by the specified {@link GraphIterator}
+     * Returns true if this iterator is adjacent to some node pointed by the
+     * specified {@link GraphIterator}
      *
      * @param it
      *
