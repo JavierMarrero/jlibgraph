@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,41 +29,38 @@ import java.util.TreeSet;
  * @author Jose
  * @param <V>
  */
-public class TreeDetection<V> extends AbstractAlgorithm<Boolean>
-{   
+public class ExistSimpleRoad<V> extends AbstractAlgorithm<Boolean> {
+    private Graph<V> graph;
+    private int k;
     private final GraphIterator<V> iterator;
-    private final Graph<V> graph;
     
-    public TreeDetection(Graph<V> graph, GraphIterator<V> iterator)
-    {
-        super(Boolean.TRUE);
-
-        this.graph= graph;
-        this.iterator = iterator;
+    public ExistSimpleRoad (Graph<V> graph, GraphIterator<V> iterator ,int k){
+        super(Boolean.FALSE);
+        this.graph=graph;
+        this.k = k;
+        this.iterator = (iterator);
     }
-
+    
     @Override
-    public Algorithm<Boolean> apply() {
+    public Algorithm apply() {
         Set<Integer> visited = new TreeSet<>();
-        GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(iterator.getLabel(), false);
         boolean stop = false;
-        while (dfs.hasNext() && !stop){
-            dfs.next();
-            int node = dfs.getLabel();
-            
-            /*Verificar si ya se ha visitado ese nodo antes o si a ese nodo entra más de una arista*/
-            
-            if(visited.contains(node)|| dfs.getEdgesArrivingSelf().size()>1){
+        while(iterator.hasNext() && k>0 && !stop){
+            iterator.next();
+            /*Verificar si ya se ha visitado ese nodo, es decir si existe un ciclo*/
+            if(visited.contains(iterator.getLabel())){
                 setResult(Boolean.FALSE);
-                stop = true;
+                stop = false;
             }else{
-                visited.add(node);
-            }  
-        } 
-        /*Verificar si la cantidad de nodos del grafo coincide con todos los nodos visitados y por tanto no hay nodos desconectados*/
-        if(!stop && graph.size()!= visited.size()){
+                visited.add(iterator.getLabel());
+                k--;
+            }
+        }
+        if(!stop && k>0){
             setResult(Boolean.FALSE);
         }
+        
+        
         return this;
     }
     
