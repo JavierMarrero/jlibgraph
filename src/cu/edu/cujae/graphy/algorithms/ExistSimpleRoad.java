@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Jose.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,11 +30,11 @@ import java.util.TreeSet;
  * @param <V>
  */
 public class ExistSimpleRoad<V> extends AbstractAlgorithm<Boolean> {
-    private Graph<V> graph;
+    private final Graph<V> graph;
     private int k;
     private final GraphIterator<V> iterator;
     
-    public ExistSimpleRoad (Graph<V> graph, GraphIterator<V> iterator ,int k){
+    public ExistSimpleRoad (Graph<V> graph, GraphIterator<V> iterator, int k){
         super(Boolean.FALSE);
         this.graph=graph;
         this.k = k;
