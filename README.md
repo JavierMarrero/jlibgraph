@@ -9,8 +9,8 @@
 :small_blue_diamond:On the other hand, this library will implement the different types of graphs:
 - [X] Simple
 - [ ] Multigraph 
-- [ ] Directed 
-- [ ] Labeled 
+- [X] Directed 
+- [X] Labeled 
 - [ ] Random 
 - [ ] Hypergraph 
 - [ ] Infinite 
@@ -22,6 +22,7 @@
 
 The following list is sorted by alphabetical order. Feel free to include yourself into this list, just keep it sorted, please:
 
+- J. García:mango:(@JoseCarlosGarcia)
 - J. Marrero:robot:(@JavierMarrero)
 - A. Morales:snowflake:(@SnowBlackQueen)
 - C. Robaina:evergreen_tree:(@cdrobaina01)
