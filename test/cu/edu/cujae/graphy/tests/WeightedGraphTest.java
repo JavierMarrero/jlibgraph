@@ -18,9 +18,7 @@
  */
 package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
 import cu.edu.cujae.graphy.core.WeightedGraph;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
 import java.util.Iterator;
 import java.util.Random;
