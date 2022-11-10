@@ -1,16 +1,13 @@
-package cu.edu.cujae.graphy.tests.algorithms;
+package cu.edu.cujae.graphy.tests;
 
-import java.util.List;
+import java.util.Iterator;
 
-import cu.edu.cujae.graphy.algorithms.ExistPath;
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
-public class ExistPathTest {
+public class LocalTest {
     public static void main(String[] args) {
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
-
         graph.add(0);
         graph.add(1);
         graph.add(2);
@@ -19,13 +16,16 @@ public class ExistPathTest {
         graph.add(5);
 
         graph.connect(0, 1);
-        graph.connect(0, 3);
         graph.connect(0, 4);
-        graph.connect(1, 2);
+        graph.connect(0, 3);
         graph.connect(1, 4);
+        graph.connect(1, 2);
         graph.connect(4, 5);
-        
 
-        System.out.println(new ExistPath<>(graph, 2, 5).apply().get());
+        Iterator<Integer> iter = graph.iterator(0);
+        while(iter.hasNext()){
+            System.out.println(iter.next());
+        }
     }
+    
 }

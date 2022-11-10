@@ -1,43 +1,40 @@
 package cu.edu.cujae.graphy.algorithms;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 
-public class ExistPath<T> extends AbstractAlgorithm<List<Integer>> {
+public class ExistPath<T> extends AbstractAlgorithm<Boolean> {
 
     private GraphIterator<T> iterator;
-    private int last;
+    private int end;
 
-    public ExistPath(Graph<T> graph, int first, int last) throws IllegalArgumentException{
-        super(new LinkedList<>());
+    public ExistPath(Graph<T> graph, int start, int end) throws IllegalArgumentException{
+        super(Boolean.FALSE);
         
         if(!graph.isDirected()){
             throw new IllegalArgumentException("The graph is not directed.");
         }
 
         //Build the iterator & initialize variables
-        iterator = graph.iterator(first);
-        this.last = last;
+        iterator = (GraphIterator<T>)graph.depthFirstSearchIterator(start);
+        this.end = end;
     }
 
     @Override
-    @SuppressWarnings (
-            {
-                "unchecked",
-            })
-    public Algorithm<List<Integer>> apply() {
-        Queue<Integer> queue = (Queue<Integer>)getResult();
+    //@SuppressWarnings ("unchecked")
+    public Algorithm<Boolean> apply() {
+        int label;
 
         while(iterator.hasNext()){
-            queue.add(iterator.getLabel());
-            if(!(iterator.getLabel() == last)){
-                iterator.next();
-            }
-            else {
+            iterator.next();
+            label = iterator.getLabel();
+
+            //#region Debugging
+            System.out.println(label);
+            //#endregion
+
+            if(label == end){
+                setResult(true);
                 break;
             }
         }
