@@ -32,7 +32,9 @@ public class TreeDetectionTest
 
     public static void checkIsATree(Graph<Integer> graph)
     {
-        System.out.println("Is a tree?: " + (new TreeDetection<>(graph, (GraphIterator<Integer>) graph.depthFirstSearchIterator(0, Boolean.FALSE)).apply().get()));
+        System.out.println("Is a tree?: " + (new TreeDetection<>(graph, (GraphIterator<Integer>) graph.
+                                                                 depthFirstSearchIterator(0, Boolean.FALSE)).apply().
+                                             get()));
     }
 
     public static void main(String[] args)
