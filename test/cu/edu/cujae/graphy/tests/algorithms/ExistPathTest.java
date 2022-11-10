@@ -1,10 +1,7 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import java.util.List;
-
 import cu.edu.cujae.graphy.algorithms.ExistPath;
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
 public class ExistPathTest {
@@ -24,8 +21,7 @@ public class ExistPathTest {
         graph.connect(1, 2);
         graph.connect(1, 4);
         graph.connect(4, 5);
-        
-
-        System.out.println(new ExistPath<>(graph, 2, 5).apply().get());
+    
+        System.out.println(new ExistPath<>(graph, 1, 3).apply().get());
     }
 }

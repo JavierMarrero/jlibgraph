@@ -16,22 +16,17 @@ public class ExistPath<T> extends AbstractAlgorithm<Boolean> {
         }
 
         //Build the iterator & initialize variables
-        iterator = (GraphIterator<T>)graph.depthFirstSearchIterator(start);
+        iterator = (GraphIterator<T>)graph.depthFirstSearchIterator(start, false);
         this.end = end;
     }
 
     @Override
-    //@SuppressWarnings ("unchecked")
     public Algorithm<Boolean> apply() {
         int label;
 
         while(iterator.hasNext()){
             iterator.next();
             label = iterator.getLabel();
-
-            //#region Debugging
-            System.out.println(label);
-            //#endregion
 
             if(label == end){
                 setResult(true);
