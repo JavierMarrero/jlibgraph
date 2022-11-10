@@ -35,5 +35,6 @@ import java.util.Map;
  */
 public class Kosaraju<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>> {
     private Graph<T> graph;
+    a
     
 }
