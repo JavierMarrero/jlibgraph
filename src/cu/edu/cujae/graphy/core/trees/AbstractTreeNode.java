@@ -16,35 +16,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.defaults;
+package cu.edu.cujae.graphy.core.trees;
 
-import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.EdgeFactory;
-import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.TreeNode;
 
 /**
- * Provides some default implementations for the {@link EdgeFactory} method.
+ * Abstract implementation of the {@link TreeNode} interface.
  *
  * @author Javier Marrero
+ * @param <E>
  */
-public abstract class DefaultEdgeFactory implements EdgeFactory
+public abstract class AbstractTreeNode<E> implements TreeNode<E>
 {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Edge build(Object label, Node<?> u, Node<?> v)
+    private E data;
+    private final int label;
+
+    public AbstractTreeNode(Object label, E data)
     {
-        return build(label, u, v, null);
+        this.data = data;
+        this.label = label.hashCode();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Edge build(Node<?> u, Node<?> v)
+    public E get()
     {
-        return build(null, u, v);
+        return data;
     }
+
+    @Override
+    public int getLabel()
+    {
+        return label;
+    }
+
+    @Override
+    public void set(E data)
+    {
+        this.data = data;
+    }
+
 }

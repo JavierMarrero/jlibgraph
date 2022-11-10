@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,8 +19,8 @@
 package cu.edu.cujae.graphy.tests;
 
 import cu.edu.cujae.graphy.algorithms.HamiltonianCycleDetection;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
 import java.util.Iterator;
 import java.util.Random;
@@ -53,7 +53,7 @@ public class WeightedGraphTest
         System.out.println(wg.toString());
 
         /* Dfs */
-        Iterator<Integer> dfs = wg.depthFirstSearchIterator();
+        Iterator<Integer> dfs = wg.depthFirstSearchIterator(true);
         while (dfs.hasNext())
         {
             System.out.print(dfs.next() + " ");
@@ -61,7 +61,7 @@ public class WeightedGraphTest
         System.out.print('\n');
 
         /* Bfs */
-        Iterator<Integer> bfs = wg.breadthFirstSearchIterator();
+        Iterator<Integer> bfs = wg.breadthFirstSearchIterator(true);
         while (bfs.hasNext())
         {
             System.out.print(bfs.next() + " ");

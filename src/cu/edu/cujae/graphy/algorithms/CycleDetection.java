@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,7 +41,7 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
         super(Boolean.FALSE);
 
         /* Create the graph iterator */
-        this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator();
+        this.iterator = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
     }
 
     @Override

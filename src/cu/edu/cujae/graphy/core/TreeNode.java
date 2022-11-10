@@ -16,35 +16,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.defaults;
+package cu.edu.cujae.graphy.core;
 
-import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.EdgeFactory;
-import cu.edu.cujae.graphy.core.Node;
+import java.util.Collection;
 
 /**
- * Provides some default implementations for the {@link EdgeFactory} method.
+ * An interface representing nodes of a tree.
  *
  * @author Javier Marrero
+ * @param <E>
  */
-public abstract class DefaultEdgeFactory implements EdgeFactory
+public interface TreeNode<E> extends Node<E>
 {
 
     /**
-     * {@inheritDoc}
+     * Returns a {@link Collection} containing all the children nodes of this.
+     *
+     * @return
      */
-    @Override
-    public Edge build(Object label, Node<?> u, Node<?> v)
-    {
-        return build(label, u, v, null);
-    }
+    public Collection<TreeNode<E>> getChildren();
 
     /**
-     * {@inheritDoc}
+     * Returns if the node has any child nodes.
+     *
+     * @return
      */
-    @Override
-    public Edge build(Node<?> u, Node<?> v)
-    {
-        return build(null, u, v);
-    }
+    public boolean hasChildren();
 }

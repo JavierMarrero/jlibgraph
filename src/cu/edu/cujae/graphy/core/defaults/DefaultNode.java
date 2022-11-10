@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -81,7 +81,7 @@ public class DefaultNode<T> implements Node<T>
     }
 
     @Override
-    public Edge getConnectedEdge(Node<T> v)
+    public Edge getAdjacentEdge(Node<T> v)
     {
         return getConnectionsFromVertex().get(v);
     }

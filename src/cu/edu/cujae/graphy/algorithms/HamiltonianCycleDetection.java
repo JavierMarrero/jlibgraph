@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,7 +58,7 @@ public class HamiltonianCycleDetection<V> extends AbstractAlgorithm<List<Integer
         List<Integer> path = new ArrayList<>();
 
         // Vertices
-        GraphIterator<V> bfs = (GraphIterator<V>) graph.breadthFirstSearchIterator();
+        GraphIterator<V> bfs = (GraphIterator<V>) graph.breadthFirstSearchIterator(false);
         while (bfs.hasNext())
         {
             vertices.add(bfs.getLabel());

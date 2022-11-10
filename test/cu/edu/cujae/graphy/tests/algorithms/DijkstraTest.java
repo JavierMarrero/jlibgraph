@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,8 +19,8 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.DijkstraShortestPath;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
 
 /**
@@ -59,6 +59,6 @@ public class DijkstraTest
         System.out.println(graph);
 
         System.out.println("Dijkstra: ");
-        System.out.println(new DijkstraShortestPath(graph, graph.iterator(0)).apply().get());
+        System.out.println(new DijkstraShortestPath<>(graph, graph.iterator(0)).apply().get());
     }
 }

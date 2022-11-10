@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,13 +19,15 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import cu.edu.cujae.graphy.core.Node;
-import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.utils.Pair;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 /**
  * Given a graph and a source vertex in the graph, find the shortest paths from the source to all vertices in the given
@@ -47,21 +49,20 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * a {@link InvalidOperationException}.
  *
  * @author Javier Marrero
+ * @param <T> The type of the graph
  */
-public class DijkstraShortestPath extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
+public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
 {
 
-    private final WeightedGraph<Object> G;
-    private final GraphIterator<Object> s;
-    private final Map<Integer, Integer> distance;
-    private final List<Integer> path;
-    private final Set<Integer> visited;
+    private final Map<Integer, Integer> distances;
+    private final WeightedGraph<T> G;
+    private final GraphIterator<T> it;
+    private final Map<Integer, Integer> previous;
+    private final int s;
+    private final PriorityQueue<Integer> Q;
+    private final int V;
 
-    @SuppressWarnings (
-            {
-                "unchecked", "unchecked"
-            })
-    public DijkstraShortestPath(WeightedGraph<?> graph, GraphIterator<?> iter)
+    public DijkstraShortestPath(WeightedGraph<T> graph, GraphIterator<T> iter)
     {
         super(new HashMap<>(graph.size()));
         if (!graph.isWeighted())
@@ -70,188 +71,115 @@ public class DijkstraShortestPath extends AbstractAlgorithm<Map<Integer, Pair<In
                     "Attempted to apply Dijkstra Shortest Path algorithm to an unweighted graph.");
         }
 
-        this.G = (WeightedGraph<Object>) graph;
-        this.s = (GraphIterator<Object>) iter;
-        this.distance = new HashMap<>(graph.size());
-        this.path = new ArrayList<>(graph.size() - 1);
-        this.visited = new TreeSet<>();
+        // Initialize the fields of the classes
+        this.distances = new HashMap<>(graph.size(), 0.25f);
+        this.G = graph;
+        this.it = iter;
+        this.previous = new TreeMap<>();
+        this.s = iter.getLabel();
+        this.Q = new PriorityQueue<>(graph.size(), (Integer u, Integer v) -> 
+                             {
+                                 int du = distances.get(u);
+                                 int dv = distances.get(v);
 
-        // Initialize the algorithm
-        // Set all the distances to infinity
-        List<Integer> vertices = new ArrayList<>(graph.size());
-        GraphIterator<?> dfs = (GraphIterator<?>) graph.depthFirstSearchIterator();
-        while (dfs.hasNext())
+                                 return du - dv;
+                             });
+        this.V = graph.size();
+
+        // Get a set of all the integer vertices
+        int[] vertices = new int[V];
+        int k = 0;
+
+        GraphIterator<T> depthFirstSearchIterator = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
+        while (depthFirstSearchIterator.hasNext())
         {
-            dfs.next();
-            vertices.add(dfs.getLabel());
+            depthFirstSearchIterator.next();
+            vertices[k++] = depthFirstSearchIterator.getLabel();
         }
 
-        for (int w : vertices)
+        // Initialize the distances
+        for (int v : vertices)
         {
-            if (w != s.getLabel())
+            if (G.isVertexAdjacent(s, v))
             {
-                if (graph.isVertexAdjacent(s.getLabel(), w))
-                {
-                    setDistance(w, (int) s.getAdjacentEdge(w).getWeight().getValue());
-                }
-                else
-                {
-                    setDistance(w, Integer.MAX_VALUE);
-                }
+                distances.put(v, (Integer) iter.getAdjacentEdge(v).getWeight().getValue());
+                previous.put(v, iter.getLabel());
             }
+            else
+            {
+                distances.put(v, Integer.MAX_VALUE);
+                previous.put(v, null);
+            }
+
+            Q.add(v);
         }
 
-        // Set the distance to S as zero
-        setDistance(label(s), 0);
-        setVisited(label(s));
-
-        // Just another debug statement
-        // System.out.println(distance);
+        // System.err.println(Q);
+        // Initialize the initial distances
+        distances.put(iter.getLabel(), 0);
     }
 
     @Override
     public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply()
     {
-        Map<Integer, List<Integer>> paths = new TreeMap<>();
-
-        while (visited.size() != G.size())
+        // Code
+        while (!Q.isEmpty())
         {
-            
-            // Choose the next node and mark it as visited       
-            Node<Object> chosen = chooseNextNode(s.getEdgesDepartingSelf(), s.getEdgesArrivingSelf());
-            if (chosen == null)
+            // System.err.println(Q);
+
+            int u = Q.poll();
+            it.next(u);
+
+            for (Edge edge : it.getAllAdjacentEdges())
             {
-                throw new IllegalStateException("Dijkstra could not choose a correct node to proceed.");
-            }
-
-            s.next(chosen);
-            setVisited(label(s));
-            
-            // System.out.println("visiting node: " + s.getLabel());
-            // Add the vertices to the path
-            paths.put(label(s), new ArrayList<>(path));
-
-            // Create the collection of possible jumpable nodes
-            Set<Edge> possibleEdges = new CopyOnWriteArraySet<>(s.getEdgesDepartingSelf());
-            possibleEdges.addAll(s.getEdgesArrivingSelf());
-
-            for (Edge w : possibleEdges)
-            {
-                Node<?> n = (s.getEdgesDepartingSelf().contains(w)) ? w.getFinalNode() : w.getStartNode();
-                int distancia_w = getDistance(n.getLabel());
-                int distancia_v = getDistance(s.getLabel());
-                int peso_w = (int) w.getWeight().getValue();
-
-                if (distancia_w > distancia_v + peso_w)
+                int v;
+                if (it.getEdgesDepartingSelf().contains(edge))
                 {
-                    setDistance(n.getLabel(), distancia_v + peso_w);
+                    v = edge.getFinalNode().getLabel();
+                }
+                else
+                {
+                    v = edge.getStartNode().getLabel();
+                }
+
+                if (Q.contains(v))
+                {
+                    int alt = distances.get(u) + (int) edge.getWeight().getValue();
+                    if (alt <= distances.get(v))
+                    {
+                        distances.put(v, alt);
+                        previous.put(v, u);
+                    }
                 }
             }
-            
-            // Get the label of this visited node
-            int labelOfLastVisited = label(s);
-            path.add(labelOfLastVisited);
         }
 
-        // End, now output the final results
-        for (int v : distance.keySet())
+        // Create the shortest path sequence
+        // Create the final result
+        Map<Integer, Pair<Integer, List<Integer>>> result = getResult();
+        for (int k : distances.keySet())
         {
-            List<Integer> currentPath = paths.get(v);
-            if (currentPath == null)
-            {
-                currentPath = new ArrayList<>();
-            }
-            getResult().put(v, Pair.makePair(distance.get(v), currentPath));
+            result.put(k, new Pair<>(distances.get(k), makeShortestPathSequence(s, k)));
         }
 
         // Mandated by the specification
         return this;
     }
 
-    @SuppressWarnings ("unchecked")
-    private void checkEdgeCompliesWithDijkstra(Edge edge)
+    private List<Integer> makeShortestPathSequence(int source, int target)
     {
-        if (!edge.isWeighted() || (((Weight<Integer>) edge.getWeight()).getValue() < 0))
+        LinkedList<Integer> S = new LinkedList<>();
+        int u = target;
+
+        if (previous.get(u) != null)
         {
-            throw new IllegalStateException(
-                    "Dijkstra applied with incorrect parameters but not detected on the class constructor.");
-        }
-    }
-
-    @SuppressWarnings ("unchecked")
-    private Node<Object> chooseNextNode(Collection<Edge> edgesDeparting, Collection<Edge> edgesArriving)
-    {
-        Node<Object> result = null;
-        Weight<Integer> lesser = null;
-
-        for (Edge edge : edgesDeparting)
-        {
-            // Security check
-            checkEdgeCompliesWithDijkstra(edge);
-
-            // This should execute only the first time
-            if (lesser == null || (compareEdgesLesserWeight(edge, lesser)
-                                   && (!isVisited(edge.getFinalNode().getLabel()))))
+            while (previous.get(u) != null)
             {
-                lesser = (Weight<Integer>) edge.getWeight();
-                result = (Node<Object>) edge.getFinalNode();
+                S.push(u);
+                u = previous.get(u);
             }
         }
-        for (Edge edge : edgesArriving)
-        {
-            checkEdgeCompliesWithDijkstra(edge);
-
-            if (lesser == null || (compareEdgesLesserWeight(edge, lesser)
-                                   && (!isVisited(edge.getStartNode().getLabel()))))
-            {
-                lesser = (Weight<Integer>) edge.getWeight();
-                result = (Node<Object>) edge.getStartNode();
-            }
-        }
-
-        return result;
-    }
-
-    @SuppressWarnings ("unchecked")
-    private boolean compareEdgesLesserWeight(Edge lhs, Weight<Integer> rhs)
-    {
-        return ((Comparable<Integer>) lhs.getWeight()).compareTo(rhs.getValue()) < 0;
-    }
-
-    /**
-     * Filter the algorithm results to obtain the shortest path to a particular node.
-     *
-     * @param v
-     *
-     * @return
-     */
-    public Pair<Integer, List<Integer>> filter(int v)
-    {
-        return getResult().get(v);
-    }
-
-    private boolean isVisited(int u)
-    {
-        return visited.contains(u);
-    }
-
-    private void setDistance(int v, int d)
-    {
-        distance.put(v, d);
-    }
-
-    private int getDistance(int v)
-    {
-        return distance.getOrDefault(v, 0);
-    }
-
-    private int label(GraphIterator<?> it)
-    {
-        return it.getLabel();
-    }
-
-    private void setVisited(int v)
-    {
-        visited.add(v);
+        S.push(source);
+        return S;
     }
 }

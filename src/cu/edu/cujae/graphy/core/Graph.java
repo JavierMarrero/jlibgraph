@@ -55,28 +55,33 @@ public interface Graph<T> extends Iterable<T>
      * Returns a BFS iterator to the selected node.
      *
      * @param node
+     * @param includeDisconnected
      *
      * @return a {@link Iterator} instance that is a BFS iterator.
      */
-    public Iterator<T> breadthFirstSearchIterator(Node<T> node);
+    public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected);
 
     /**
      * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but with the integer label
      * of the node.
+     *
+     * @param includeDisconnected
      *
      * @see Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
      * @param v
      *
      * @return a {@link Iterator} instance.
      */
-    public Iterator<T> breadthFirstSearchIterator(int v);
+    public Iterator<T> breadthFirstSearchIterator(int v, boolean includeDisconnected);
 
     /**
      * Returns a BFS iterator to a random node in the graph.
      *
+     * @param includeDisconnected
+     *
      * @return a {@link Iterator}
      */
-    public Iterator<T> breadthFirstSearchIterator();
+    public Iterator<T> breadthFirstSearchIterator(boolean includeDisconnected);
 
     /**
      * Connects two nodes in this graph. This method should return true if the connection was successful and false
@@ -100,7 +105,7 @@ public interface Graph<T> extends Iterable<T>
     public boolean connect(Node<T> u, Node<T> v);
 
     /**
-     * Generates an iterator that performs a depth first search. Depth first traversal for a graph is similar to depth
+     * Generates an iterator that performs a depth first search.Depth first traversal for a graph is similar to depth
      * first traversal of a tree, the only catch being that, unlike trees, graphs may contain cycles (a node may be
      * visited twice). This iterator avoids processing a node more than once. A graph may have more than one DFS
      * traversal.
@@ -112,27 +117,32 @@ public interface Graph<T> extends Iterable<T>
      * The basic idea is to start from the root or any arbitrary node, and move to the next adjacent unmarked node.
      *
      * @param start
+     * @param includeDisconnected
      *
      * @return a new {@link Iterator}
      */
-    public Iterator<T> depthFirstSearchIterator(Node<T> start);
+    public Iterator<T> depthFirstSearchIterator(Node<T> start, boolean includeDisconnected);
 
     /**
+     * @param includeDisconnected
+     *
      * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
      *
-     * @param v the label of the node.
+     * @param v                   the label of the node.
      *
      * @return
      */
-    public Iterator<T> depthFirstSearchIterator(int v);
+    public Iterator<T> depthFirstSearchIterator(int v, boolean includeDisconnected);
 
     /**
      * Generates an iterator that performs a depth first search, grabbing a random node as the root.
      *
+     * @param includeDisconnected
+     *
      * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
      * @return a new {@link Iterator}
      */
-    public Iterator<T> depthFirstSearchIterator();
+    public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected);
 
     /**
      * Returns if the graph is a directed graph or not.

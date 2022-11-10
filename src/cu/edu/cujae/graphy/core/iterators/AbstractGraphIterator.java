@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Javier Marrero.
+ * Copyright (C) 2022 CUJAE.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,10 +18,10 @@
  */
 package cu.edu.cujae.graphy.core.iterators;
 
-import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -81,7 +81,7 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     {
         if (graph instanceof AbstractGraph)
         {
-            return current.getConnectedEdge(((AbstractGraph<T>) graph).findNodeByLabel(v));
+            return current.getAdjacentEdge(((AbstractGraph<T>) graph).findNodeByLabel(v));
         }
         else
         {
@@ -154,6 +154,15 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
      */
     @Override
     public T next(Node<T> target)
+    {
+        throw new UnsupportedOperationException("This operation is not supported by this particular iterator");
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public T next(int u)
     {
         throw new UnsupportedOperationException("This operation is not supported by this particular iterator");
     }
