@@ -25,16 +25,28 @@ import java.util.Map;
 
 /**
  * El algoritmo de Dial, es decir, Dijkstra optimizado para pesos de rango pequeño,
- * emplea una nueva estructura denominada cubo y posee una complejidad de tiempo 
+ * emplea una nueva estructura denominada cubo y posee una complejidad de tiempo
  * O(E+WV), donde W es el peso máximo en cualquier borde del gráfico.
  * La distancia máxima entre dos nodos puede tener un máximo de w(V-1).
- * 
+ *
  *
  * @author Ananda
  * @param <T>
  */
-public class Dial<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>{
+public class Dial<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
+{
+
     private Graph<T> graph;
-    a
+
+    public Dial()
+    {
+        super(null);
+    }
     
+    @Override
+    public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

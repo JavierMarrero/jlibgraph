@@ -19,22 +19,31 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.utils.Pair;
-import java.util.List;
-import java.util.Map;
 
 /**
- *El algoritmo de Kosaraju está basado en DFS utilizado para encontrar componentes
+ * El algoritmo de Kosaraju está basado en DFS utilizado para encontrar componentes
  * fuertemente conexos (SCC) en un grafo.Si uno es capaz de alcanzar un vértice v
- *a partir del vértice u, entonces uno debería ser capaz de alcanzar el vértice u
- *a partir de v y si se cumple, puede decirse que v y u están en un subgrafo
- *fuertemente conectados.
- * 
+ * a partir del vértice u, entonces uno debería ser capaz de alcanzar el vértice u
+ * a partir de v y si se cumple, puede decirse que v y u están en un subgrafo
+ * fuertemente conectados.
+ *
  * @author Ananda
  * @param <T>
  */
-public class Kosaraju<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>> {
+public class Kosaraju<T> extends AbstractAlgorithm<Boolean>
+{
+
     private Graph<T> graph;
-    a
+
+    public Kosaraju()
+    {
+        super(null);
+    }
     
+    @Override
+    public Algorithm<Boolean> apply()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
