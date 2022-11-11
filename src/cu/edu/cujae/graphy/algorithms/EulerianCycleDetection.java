@@ -6,11 +6,12 @@ package cu.edu.cujae.graphy.algorithms;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-public class EulerianCycle<V> extends AbstractAlgorithm<List<Integer>> {
+
+public class EulerianCycleDetection<V> extends AbstractAlgorithm<Boolean> {
+
+	
+
 
 	private final Graph<V> graph;
 	private final int V;
@@ -19,7 +20,7 @@ public class EulerianCycle<V> extends AbstractAlgorithm<List<Integer>> {
 	}
 
 
-	public EulerianCycle(List<Integer> result, Graph<V> graph) {
+	public EulerianCycleDetection(Boolean result, Graph<V> graph) {
 		super(result);
 		this.graph = graph;
 		this.V = graph.size();
@@ -29,12 +30,10 @@ public class EulerianCycle<V> extends AbstractAlgorithm<List<Integer>> {
 
 
 
-	public EulerianCycle(List<Integer> result) {
+	public EulerianCycleDetection(Boolean result) {
 		super(result);
 		this.graph = null;
 		this.V = graph.size();
-
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -42,7 +41,7 @@ public class EulerianCycle<V> extends AbstractAlgorithm<List<Integer>> {
 
 
 	@Override
-	public Algorithm<List<Integer>> apply() {
+	public Algorithm<Boolean> apply() {
 		boolean isOdd = false;
 		GraphIterator<V> iterator = (GraphIterator<V>) graph.iterator();
 		while(!isOdd && iterator.hasNext()) {
@@ -50,7 +49,8 @@ public class EulerianCycle<V> extends AbstractAlgorithm<List<Integer>> {
 				isOdd=true;
 			}
 		}
-		return null;
+		setResult(!isOdd);
+		return this;
 	}
 
 

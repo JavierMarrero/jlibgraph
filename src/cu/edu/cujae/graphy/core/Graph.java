@@ -202,9 +202,4 @@ public interface Graph<T> extends Iterable<T>
      * @return
      */
     public int size();
-    /**
-     * Retorna verdadero si el grafo tiene un ciclo euleriano */
-    /*Esto va a crear conflictos con lo que implemente esta interfaz 
-     * */
-    public boolean isEulerian();
 }
