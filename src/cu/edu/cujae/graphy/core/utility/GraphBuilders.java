@@ -40,13 +40,13 @@ public class GraphBuilders
      *
      * @return
      */
-    public static <T> Graph<T> makeSimpleUndirectedGraph()
+    public static <T> Graph<T> makeSimpleGraph(boolean directed)
     {
-        return new DefaultGraphBuilder<T>().buildGraph().directed(false).get();
+        return new DefaultGraphBuilder<T>().buildGraph().directed(directed).get();
     }
 
     public static <T> WeightedGraph<T> makeSimpleWeightedGraph(boolean directed)
     {
-        return (WeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().directed(false).get();
+        return (WeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().directed(directed).get();
     }
 }
