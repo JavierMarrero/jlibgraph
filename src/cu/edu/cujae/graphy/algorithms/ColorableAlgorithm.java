@@ -18,46 +18,42 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
-import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import cu.edu.cujae.graphy.utils.Pair;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
- * El algoritmo de Dial, es decir, Dijkstra optimizado para pesos de rango pequeño,
- * emplea una nueva estructura denominada cubo y posee una complejidad de tiempo
- * O(E+WV), donde W es el peso máximo en cualquier borde del gráfico.
- * La distancia máxima entre dos nodos puede tener un máximo de w(V-1).
- *
- *
+ *El objetivo de este algoritmo es determinar si un grafo no dirigido puede ser
+ * coloreado con m colores, de forma tal que dos vértices adyacentes no posean
+ * igual coloratura.
+ * 
  * @author Ananda
  * @param <T>
  */
-public class Dial<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
-{
-    private final WeightedGraph<T> graph;
+public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean> {
+    private final Graph<T> graph;
+    private final int m;
+    private final String color;
     private final GraphIterator<T> iter;
-    private final int vertex;
-    private final int label;
-
-    public Dial(WeightedGraph<T> graph, GraphIterator<T> iter){
-        super(new HashMap<>(graph.size()));
-        if (!graph.isWeighted())
-        {
+    
+    public ColorableAlgorithm(Graph<T> graph, int m, String color, GraphIterator<T> iter){
+        super(Boolean.TRUE);
+        if(graph.isDirected()){
             throw new IllegalArgumentException(
-                    "Attempted to apply Dial algorithm to an unweighted graph.");
+                    "Attempted to apply Colorable algorithm to an directed graph.");
         }
         this.graph = graph;
-        this.iter = iter;
-        this.vertex = graph.size();
-        this.label = iter.getLabel();
+        this.m = m; 
+        this.color = color;
+        this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
     }
     
     @Override
-    public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply(){
+    public Algorithm<Boolean> apply(){
+        while(iter.hasNext()){
+            
+        }
         
         return this;
     }
+    
 }

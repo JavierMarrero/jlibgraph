@@ -32,12 +32,12 @@ import java.util.ArrayDeque;
  * @author Ananda
  * @param <T>
  */
-public class Kosaraju<T> extends AbstractAlgorithm<Boolean>
+public class KosarajuAlgorithm<T> extends AbstractAlgorithm<Boolean>
 {
     private final Graph<T> graph;
     private final GraphIterator<T> iter;
 
-    public Kosaraju(GraphIterator<T> iter, Graph<T> graph)
+    public KosarajuAlgorithm(GraphIterator<T> iter, Graph<T> graph)
     {
         super(Boolean.TRUE);
         if (!graph.isDirected())
@@ -46,18 +46,17 @@ public class Kosaraju<T> extends AbstractAlgorithm<Boolean>
                     "Attempted to apply Kosaraju algorithm to an undirected graph.");
         }
         this.graph = graph;
-        this.iter = iter;
+        this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(iter.getLabel(), false);
     }
     
     @Override
     public Algorithm<Boolean> apply()
     {
         ArrayDeque<Integer> stack = new ArrayDeque<>();
-        GraphIterator<T> dfs_iter = (GraphIterator<T>) graph.depthFirstSearchIterator(iter.getLabel(), false);
-        while(dfs_iter.hasNext()){
-            int label = dfs_iter.getLabel();
+        while(iter.hasNext()){
+            int label = iter.getLabel();
             stack.push(label);
-            dfs_iter.next();
+            iter.next();
         }
         return this;
     }
