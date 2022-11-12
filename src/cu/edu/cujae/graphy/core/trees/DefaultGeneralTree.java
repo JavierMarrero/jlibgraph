@@ -66,12 +66,6 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
     }
 
     @Override
-    public Collection<Integer> getLabels()
-    {
-        return nodes.keySet();
-    }
-
-    @Override
     public TreeNode<E> getRoot()
     {
         return root;
