@@ -18,8 +18,9 @@
  */
 package cu.edu.cujae.graphy.core.defaults;
 
-import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
 import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
 
 /**
  * This is a default implementation of the {@link Graph} interface.It is a simple graph (not simple in the mathematical
@@ -33,7 +34,7 @@ import cu.edu.cujae.graphy.core.Graph;
  * @author Javier Marrero
  * @param <T>
  */
-public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>
+public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>, Cloneable
 {
 
     public DefaultSimpleGraph()
@@ -44,6 +45,21 @@ public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Grap
     public DefaultSimpleGraph(boolean directed)
     {
         super(directed);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException
+    {
+        DefaultSimpleGraph<T> graph = new DefaultSimpleGraph<>(isDirected());
+        for (Node<T> node : getNodes())
+        {
+            graph.add(node.getLabel(), node.get());
+        }
+
+        return graph;
     }
 
     /**
