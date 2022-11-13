@@ -63,8 +63,8 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected);
 
     /**
-     * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but with the integer label
-     * of the node.
+     * The same as {@link cu.edu.cujae.graphy.core.Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but
+     * with the integer label of the node.
      *
      * @param includeDisconnected
      *
@@ -140,10 +140,27 @@ public interface Graph<T> extends Iterable<T>
      *
      * @param includeDisconnected
      *
-     * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
+     * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node, boolean)
      * @return a new {@link Iterator}
      */
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected);
+
+    /**
+     * This method should be, at some extent, similar to the Java cloning mechanism in that returns a deep copy of this
+     * object.The returned graph is not a view of this graph but two independent objects. Changes are not guaranteed
+     * to persists across clone instances as they don't share data.
+     * <p>
+     * While the two graphs does not share any internal representation, they both point to the same data, so any <b>
+     * data manipulation</b> will be seen in the original graph. If deep cloning of the internal data is desired,
+     * perform a manual copy or rather use the utility methods provided by the class <code>Graphs</code>.
+     * <p>
+     * If by any means the duplication cannot be made, a {@link CloneNotSupportedException} will be thrown.
+     *
+     * @return
+     *
+     * @throws java.lang.CloneNotSupportedException
+     */
+    public Graph<T> duplicate() throws CloneNotSupportedException;
 
     /**
      * Returns all the node labels of this graph.
@@ -203,6 +220,26 @@ public interface Graph<T> extends Iterable<T>
      * @param factory
      */
     public void registerEdgeFactory(EdgeFactory factory);
+
+    /**
+     * Removes a node from the graph. May throw a {@link IllegalArgumentException} if the node is not present in the
+     * graph.
+     *
+     * @param node the node to be removed.
+     *
+     * @return the value of the removed node.
+     */
+    public T remove(Node<T> node);
+
+    /**
+     * Removes a node from the graph.
+     *
+     * @see Graph#remove(cu.edu.cujae.graphy.core.Node)
+     * @param u the node to be removed
+     *
+     * @return the value of the removed node
+     */
+    public T remove(int u);
 
     /**
      * Returns the count of nodes in the graph.

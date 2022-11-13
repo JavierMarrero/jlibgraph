@@ -36,8 +36,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class DefaultNode<T> implements Node<T>
 {
 
-    private final Map<Node<T>, Edge> connectionsToVertex;
-    private final Map<Node<T>, Edge> connectionsFromVertex;
+    private Map<Node<T>, Edge> connectionsToVertex;
+    private Map<Node<T>, Edge> connectionsFromVertex;
     private T data;
     private final int label;
 
@@ -71,6 +71,30 @@ public class DefaultNode<T> implements Node<T>
         return result;
     }
 
+    @Override
+    public void disconnect()
+    {
+        for (Edge e : getEdgesDepartingSelf())
+        {
+            removeEdge(e);
+        }
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        @SuppressWarnings ("unchecked")
+        DefaultNode<T> clone = (DefaultNode<T>) super.clone();
+
+        clone.connectionsFromVertex = new LinkedHashMap<>(connectionsFromVertex);
+        clone.connectionsToVertex = new LinkedHashMap<>(connectionsToVertex);
+
+        // The resulting node is returned disconnected
+        clone.disconnect();
+
+        return clone;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -90,7 +114,7 @@ public class DefaultNode<T> implements Node<T>
      * {@inheritDoc}
      */
     @Override
-    public Set<Edge> getConnectedEdges()
+    public Set<Edge> getEdgesDepartingSelf()
     {
         return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsFromVertex().values()));
     }
@@ -99,7 +123,7 @@ public class DefaultNode<T> implements Node<T>
      * {@inheritDoc}
      */
     @Override
-    public Set<Edge> getEdgesConnectingSelf()
+    public Set<Edge> getEdgesArrivingSelf()
     {
         return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsToVertex().values()));
     }
@@ -114,6 +138,22 @@ public class DefaultNode<T> implements Node<T>
     public boolean isAdjacent(Node<T> v)
     {
         return getConnectionsFromVertex().containsKey(v) || getConnectionsToVertex().containsKey(v);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean removeEdge(Edge edge)
+    {
+        boolean result = connectionsFromVertex.remove(edge.getFinalNode(), edge);
+        if (edge.getFinalNode() instanceof DefaultNode)
+        {
+            @SuppressWarnings ("unchecked")
+            DefaultNode<T> v = (DefaultNode<T>) edge.getFinalNode();
+            result &= (v.connectionsToVertex.remove(this) != null);
+        }
+        return result;
     }
 
     /**

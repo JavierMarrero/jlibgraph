@@ -22,6 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.EdgeFactory;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import cu.edu.cujae.graphy.core.iterators.AbstractGraphIterator;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
@@ -167,7 +168,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
             dfsList.add(v);
 
             // Recur for all the vertices adjacent to this vertex
-            Iterator<Edge> edges = v.getConnectedEdges().iterator();
+            Iterator<Edge> edges = v.getEdgesDepartingSelf().iterator();
             while (edges.hasNext())
             {
                 @SuppressWarnings ("unchecked")
@@ -212,7 +213,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
                 // Get all adjacent vertices of the dequeued vertex s
                 // if an adjacent has not been visited, then mark it visited
                 // and enqueue it
-                Iterator<Edge> i = s.getConnectedEdges().iterator();
+                Iterator<Edge> i = s.getEdgesDepartingSelf().iterator();
                 while (i.hasNext())
                 {
                     @SuppressWarnings ("unchecked")
@@ -285,6 +286,8 @@ public abstract class AbstractGraph<T> implements Graph<T>
         this.directed = directed;
         this.lastAllocated = 0;
     }
+
+    protected abstract boolean addNode(Node<T> node);
 
     /**
      * {@inheritDoc}
@@ -364,6 +367,39 @@ public abstract class AbstractGraph<T> implements Graph<T>
     protected void deallocateLabel(int label)
     {
         allocatedLabels.remove(label);
+    }
+
+    @SuppressWarnings ("unchecked")
+    protected Collection<Node<T>> duplicateInternalNodes() throws CloneNotSupportedException
+    {
+        // For each node, clone it
+        Map<Integer, Node<T>> clonedNodes = new HashMap<>(size());
+        for (Node<T> node : getNodes())
+        {
+            clonedNodes.put(node.getLabel(), (Node<T>) node.clone());
+        }
+
+        // Now every node is cloned
+        // Clone the edges and connect the nodes
+        for (Node<T> node : getNodes())
+        {
+            for (Edge edge : node.getEdgesDepartingSelf())
+            {
+                Weight<?> w = edge.getWeight();
+                if (w != null)
+                {
+                    w = (Weight<?>) edge.getWeight().clone();
+                }
+
+                Edge clonedEdge = getEdgeFactory().build(edge.getLabel(),
+                                                         clonedNodes.get(edge.getStartNode().getLabel()),
+                                                         clonedNodes.get(edge.getFinalNode().getLabel()),
+                                                         w);
+                clonedNodes.get(node.getLabel()).addEdge(clonedEdge);
+            }
+        }
+
+        return clonedNodes.values();
     }
 
     /**

@@ -151,6 +151,17 @@ public abstract class AbstractEdge implements Edge
      * {@inheritDoc}
      */
     @Override
+    public void reverseApparentDirection()
+    {
+        Node<?> temp = start;
+        this.start = finish;
+        this.finish = temp;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setLabel(Object label)
     {
         this.label = label;
