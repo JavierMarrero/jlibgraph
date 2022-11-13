@@ -18,8 +18,10 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
-import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.utils.Pair;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,20 +35,25 @@ import java.util.Map;
  * @author Ananda
  * @param <T>
  */
-public class Dial<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
+public class DialShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
 {
+    private final WeightedGraph<T> graph;
+    private final GraphIterator<T> iter;
 
-    private Graph<T> graph;
-
-    public Dial()
-    {
-        super(null);
+    public DialShortestPath(WeightedGraph<T> graph, GraphIterator<T> iter){
+        super(new HashMap<>(graph.size()));
+        if (!graph.isWeighted())
+        {
+            throw new IllegalArgumentException(
+                    "Attempted to apply Dial algorithm to an unweighted graph.");
+        }
+        this.graph = graph;
+        this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
     }
     
     @Override
-    public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply(){
+        
+        return this;
     }
-
 }
