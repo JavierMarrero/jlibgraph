@@ -39,8 +39,6 @@ public class DialShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair<Int
 {
     private final WeightedGraph<T> graph;
     private final GraphIterator<T> iter;
-    private final int vertex;
-    private final int label;
 
     public DialShortestPath(WeightedGraph<T> graph, GraphIterator<T> iter){
         super(new HashMap<>(graph.size()));
@@ -51,8 +49,6 @@ public class DialShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair<Int
         }
         this.graph = graph;
         this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
-        this.vertex = graph.size();
-        this.label = iter.getLabel();
     }
     
     @Override
