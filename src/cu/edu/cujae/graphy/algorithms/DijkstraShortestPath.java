@@ -46,7 +46,7 @@ import java.util.TreeMap;
  * marked as visited it cannot be reconsidered even if there is another path with less cost or distance. This issue
  * arises only if there exists a negative weight or edge in the graph. If negative weights are needed, see the
  * Bellman-Ford algorithm. In this implementation, whenever a graph with negative weights is encountered it may throw
- * a {@link InvalidOperationException}.
+ * a {@link cu.edu.cujae.graphy.core.exceptions.InvalidOperationException}.
  *
  * @author Javier Marrero
  * @param <T> The type of the graph

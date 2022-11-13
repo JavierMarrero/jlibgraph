@@ -18,10 +18,11 @@
  */
 package cu.edu.cujae.graphy.core.defaults;
 
-import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
+import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
 
 /**
  * This is a default implementation of a {@link WeightedGraph}.
@@ -59,6 +60,17 @@ public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements We
     public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
     {
         return u.addEdge(getEdgeFactory().build(w, u, v, w));
+    }
+
+    @Override
+    public Graph<T> duplicate() throws CloneNotSupportedException
+    {
+        DefaultWeightedGraph<T> graph = new DefaultWeightedGraph<>(isDirected());
+        for (Node<T> node : duplicateInternalNodes())
+        {
+            graph.addNode(node);
+        }
+        return graph;
     }
 
     /**
