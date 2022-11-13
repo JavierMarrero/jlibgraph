@@ -102,7 +102,7 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     @Override
     public Collection<Edge> getEdgesDepartingSelf()
     {
-        return getCurrent().getConnectedEdges();
+        return getCurrent().getEdgesDepartingSelf();
     }
 
     /**
@@ -116,7 +116,7 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
     @Override
     public Collection<Edge> getEdgesArrivingSelf()
     {
-        return getCurrent().getEdgesConnectingSelf();
+        return getCurrent().getEdgesArrivingSelf();
     }
 
     /**

@@ -51,14 +51,14 @@ public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Grap
      * {@inheritDoc }
      */
     @Override
-    protected Object clone() throws CloneNotSupportedException
+    public Graph<T> duplicate() throws CloneNotSupportedException
     {
-        DefaultSimpleGraph<T> graph = new DefaultSimpleGraph<>(isDirected());
-        for (Node<T> node : getNodes())
+        DefaultSimpleGraph<T> graph = new DefaultSimpleGraph<>(true);
+        // Clone all the nodes
+        for (Node<T> node : duplicateInternalNodes())
         {
-            graph.add(node.getLabel(), node.get());
+            graph.addNode(node);
         }
-
         return graph;
     }
 

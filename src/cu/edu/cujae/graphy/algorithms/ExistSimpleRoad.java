@@ -58,13 +58,15 @@ public class ExistSimpleRoad<V> extends AbstractAlgorithm<Pair<Integer, List<Int
     @Override
     public Algorithm<Pair<Integer, List<Integer>>> apply()
     {
-        /*Tabla a rellenar usando DP. El valor trimatrix.get(i,j,l), donde i y j indican el nodo destino y el final respectivamente y l
-        y l almacenará el peso del camino mas corto de i a j con exactamente k aristas */
+        /*
+         * Tabla a rellenar usando DP. El valor trimatrix.get(i,j,l), donde i y j indican el nodo destino y el final respectivamente y l
+         * y l almacenará el peso del camino mas corto de i a j con exactamente k aristas 
+         */
         MapTriArray<Integer, Integer, Integer, Integer> trimatrix = new MapTriArray<>();
         ArrayList<Integer> visitados = new ArrayList<>(graph.size());
         GraphIterator<V> iter = (GraphIterator<V>) graph.breadthFirstSearchIterator(false);
 
-        //Guardando en una lista las etiquetas de cada nodo del grafo para acceder a ellas de forma secuencial
+        // Guardando en una lista las etiquetas de cada nodo del grafo para acceder a ellas de forma secuencial
         while (iter.hasNext())
         {
             iter.next();

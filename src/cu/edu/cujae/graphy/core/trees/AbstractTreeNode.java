@@ -39,6 +39,12 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
     public E get()
     {
         return data;
