@@ -19,6 +19,8 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.iterators.GraphIterator;
+import java.util.ArrayDeque;
 
 /**
  * El algoritmo de Kosaraju está basado en DFS utilizado para encontrar componentes
@@ -30,20 +32,33 @@ import cu.edu.cujae.graphy.core.Graph;
  * @author Ananda
  * @param <T>
  */
-public class Kosaraju<T> extends AbstractAlgorithm<Boolean>
+public class KosarajuAlgorithm<T> extends AbstractAlgorithm<Boolean>
 {
+    private final Graph<T> graph;
+    private final GraphIterator<T> iter;
 
-    private Graph<T> graph;
-
-    public Kosaraju()
+    public KosarajuAlgorithm(GraphIterator<T> iter, Graph<T> graph)
     {
-        super(null);
+        super(Boolean.TRUE);
+        if (!graph.isDirected())
+        {
+            throw new IllegalArgumentException(
+                    "Attempted to apply Kosaraju algorithm to an undirected graph.");
+        }
+        this.graph = graph;
+        this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(iter.getLabel(), false);
     }
     
     @Override
     public Algorithm<Boolean> apply()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        while(iter.hasNext()){
+            int label = iter.getLabel();
+            stack.push(label);
+            iter.next();
+        }
+        return this;
     }
-
-}
+    
+ }
