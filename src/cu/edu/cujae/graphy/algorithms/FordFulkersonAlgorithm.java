@@ -19,14 +19,19 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
+import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.utils.Pair;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * El algoritmo de Ford-Fulkerson resuelve el problema de flujo máximo. Dado un 
@@ -51,7 +56,7 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float,List
     private final int s;
     private final int t;
     private float maxFlow;
-    private final List<Integer> parent; // To store path
+    private final Map<Integer,Integer> parent; // To store path
     private final WeightedGraph<T> rg; // Residual graph
     
     // Constructor de la clase 
@@ -80,19 +85,18 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float,List
         this.s = source;
         this.t = dest;
         this.maxFlow = 0;
-        this.parent = new ArrayList<Integer>(graph.size());
+        this.parent = new HashMap<>();
         
         // Create residual graph
        this.rg = (WeightedGraph<T>) g.duplicate();       
     }
 
     @Override
-    public Algorithm<Pair<Float,List<Integer>>> apply() {
-        boolean existPath = (boolean) new ExistPath(rg,s,t).apply().get();
+    public Algorithm<Pair<Float,List<Integer>>> apply() 
+    {
 
-        
         // While exist a path from source to dest
-        while(existPath)
+        while(bfs(rg,s,t,parent))
         {
             // To store path flow
             float pathFlow = Float.MAX_VALUE;
@@ -130,12 +134,69 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float,List
         }
         
         // Create the final result
+        List<Integer> list = new ArrayList(g.size());
+        Stack stack = new Stack();
+        
+        int v = t;
+        while(v != s)
+        {
+            stack.push(v);
+            v = parent.get(v);
+        }
+        
+        while(!stack.isEmpty())
+        {
+            list.add((Integer) stack.pop());
+        }
+        
         Pair<Float,List<Integer>> result = getResult();
        
         result.setFirst(maxFlow);
-        result.setLast(parent);
+        result.setLast(list);
         
         return this;
+    }
+    
+    public boolean bfs(WeightedGraph<T> rg,int source,int dest,Map<Integer,Integer> parents)
+    {
+        // Array to store visited vertices
+        boolean[] seen = new boolean[rg.size()];
+        
+        for(int i = 0; i < rg.size(); i++)
+        {
+            seen[i] = false;
+        }
+        
+        LinkedList<Integer> l = new LinkedList<Integer>();
+        
+        // Visit source
+        l.add(source);
+        seen[source] = true;
+        parents.put(source, -1);
+        
+        // Loop trough all vertices
+        while(!l.isEmpty())
+        {
+            int i = l.poll();
+            // Check neighbours of vertex i
+            GraphIterator<T> it = rg.iterator(i);
+            
+            for(Integer j:  it.getAllAdjacentVertices())
+            {
+                Edge e = it.getAdjacentEdge(j);
+                float w = (float) e.getWeight().getValue();
+                
+                if((seen[j] == false) && w > 0)
+                {
+                    l.add(j);
+                    seen[j] = true;
+                    parents.put(j, i);
+                }
+            }
+        
+        }
+        
+        return seen[dest];
     }
     
 }
