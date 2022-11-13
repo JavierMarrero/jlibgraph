@@ -52,6 +52,19 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
+    @Override
+    public void disconnect()
+    {
+        ///TODO: Fixme
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     @SuppressWarnings ("unchecked")
     public Collection<TreeNode<E>> getChildren()
     {
@@ -77,13 +90,13 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
-    public Set<Edge> getConnectedEdges()
+    public Set<Edge> getEdgesDepartingSelf()
     {
         return Collections.unmodifiableSet(children);
     }
 
     @Override
-    public Set<Edge> getEdgesConnectingSelf()
+    public Set<Edge> getEdgesArrivingSelf()
     {
         return Collections.emptySet();
     }
@@ -105,6 +118,12 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean removeEdge(Edge edge)
+    {
+        return children.remove(edge);
     }
 
 }
