@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.core;
 
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -143,6 +144,13 @@ public interface Graph<T> extends Iterable<T>
      * @return a new {@link Iterator}
      */
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected);
+
+    /**
+     * Returns all the node labels of this graph.
+     *
+     * @return a {@link Collection} of integers representing node labels.
+     */
+    public Collection<Integer> getLabels();
 
     /**
      * Returns if the graph is a directed graph or not.

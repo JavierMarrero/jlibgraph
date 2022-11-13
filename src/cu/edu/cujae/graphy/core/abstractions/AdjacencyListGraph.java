@@ -20,7 +20,6 @@ package cu.edu.cujae.graphy.core.abstractions;
 
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
-import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 import cu.edu.cujae.graphy.core.defaults.DefaultNode;
 import java.util.Collection;
 import java.util.HashMap;
@@ -61,6 +60,15 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     public Node<T> findNodeByLabel(int label)
     {
         return nodes.get(label);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Collection<Integer> getLabels()
+    {
+        return nodes.keySet();
     }
 
     /**

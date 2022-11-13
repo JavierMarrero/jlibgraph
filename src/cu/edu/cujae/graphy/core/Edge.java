@@ -80,6 +80,12 @@ public interface Edge
     public boolean isWeighted();
 
     /**
+     * Reverse the direction of the edge. The departing node becomes the destination node and vice-versa. Weights are
+     * not modified in any way.
+     */
+    public void reverse();
+
+    /**
      * Sets the label corresponding to this edge.
      *
      * @param label

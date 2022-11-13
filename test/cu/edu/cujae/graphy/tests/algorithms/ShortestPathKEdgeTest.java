@@ -19,11 +19,7 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.ExistSimpleRoad;
-import cu.edu.cujae.graphy.algorithms.TreeDetection;
-import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.WeightedGraph;
-import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
@@ -35,9 +31,11 @@ import cu.edu.cujae.graphy.core.utility.Weights;
 public class ShortestPathKEdgeTest
 {
 
-    public static void checkIfExistASimpleRoad(WeightedGraph<Integer> graph, GraphIterator<Integer> iteratorNI, GraphIterator<Integer> iteratorNF, int k, int pesoMayor)
+    public static void checkIfExistASimpleRoad(WeightedGraph<Integer> graph, GraphIterator<Integer> iteratorNI,
+                                               GraphIterator<Integer> iteratorNF, int k, int pesoMayor)
     {
-         System.out.println("Exist simple road?: " + (new ExistSimpleRoad<>(graph,iteratorNI, iteratorNF,k,pesoMayor)).apply().get() );
+        System.out.println("Exist simple road?: "
+                           + (new ExistSimpleRoad<>(graph, iteratorNI, iteratorNF, k, pesoMayor)).apply().get());
     }
 
     public static void main(String[] args)
@@ -63,7 +61,7 @@ public class ShortestPathKEdgeTest
         graph.connect(5, 8, Weights.makeWeight(10));
 
         System.out.println(graph);
-        
+
         checkIfExistASimpleRoad(graph, graph.iterator(0), graph.iterator(5), 3, 11);
     }
 

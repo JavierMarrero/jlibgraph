@@ -53,7 +53,7 @@ public abstract class AbstractEdge implements Edge
         this.start = start;
         this.weight = weight;
     }
-
+    
     /**
      * Two edges are considered equals <i>if and only if</i> their start nodes match and their final nodes match too.
      * In the case that the edge is not directed, the correspondence may be given regardless of the order of comparison;
@@ -145,6 +145,17 @@ public abstract class AbstractEdge implements Edge
     public boolean isWeighted()
     {
         return weight != null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reverse()
+    {
+        Node<?> temp = start;
+        this.start = finish;
+        this.finish = temp;
     }
 
     /**

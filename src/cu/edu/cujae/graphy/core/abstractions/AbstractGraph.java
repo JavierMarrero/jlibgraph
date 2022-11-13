@@ -337,7 +337,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     {
         return breadthFirstSearchIterator(findNodeByLabel(v), includeDisconnected);
     }
-
+    
     /**
      * {@inheritDoc }
      */
