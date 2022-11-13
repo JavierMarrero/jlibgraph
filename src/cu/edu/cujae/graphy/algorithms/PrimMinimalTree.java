@@ -1,21 +1,13 @@
 package cu.edu.cujae.graphy.algorithms;
 
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.function.Consumer;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import cu.edu.cujae.graphy.core.trees.DefaultGeneralTree;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
-import cu.edu.cujae.graphy.core.utility.Weights;
 
 public class PrimMinimalTree<T> extends AbstractAlgorithm<Tree<T>>{
 
@@ -47,12 +39,12 @@ public class PrimMinimalTree<T> extends AbstractAlgorithm<Tree<T>>{
     public Algorithm<Tree<T>> apply() {
         GraphIterator<T> randomIter = graph.iterator(start);
         GraphIterator<T> iterator = (GraphIterator<T>)graph.depthFirstSearchIterator(false);
+
         PriorityQueue<Edge> queue =  new PriorityQueue<>(new Comparator<Edge>() {
             @Override
             public int compare(Edge a, Edge b) {
-                return 0;
+                return Integer.compare((Integer)a.getWeight().getValue(), (Integer)b.getWeight().getValue());
             }
-            
         });
         
         while(iterator.hasNext()){
