@@ -25,8 +25,13 @@ package cu.edu.cujae.graphy.core;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Weight<T> extends Comparable<T>
+public interface Weight<T> extends Comparable<T>, Cloneable
 {
+
+    /**
+     * {@inheritDoc }
+     */
+    public Object clone() throws CloneNotSupportedException;
 
     /**
      * Returns the actual value of the weight.

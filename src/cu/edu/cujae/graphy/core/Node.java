@@ -21,12 +21,14 @@ package cu.edu.cujae.graphy.core;
 import java.util.Set;
 
 /**
- * The node interface
+ * This interface represents <i>nodes</i> or <i>vertices</i> in a graph.
+ * <p>
+ * Members of this class must be cloneable in order to implement graph duplication.
  *
  * @author Javier Marrero
  * @param <T> a parametrized type.
  */
-public interface Node<T>
+public interface Node<T> extends Cloneable
 {
 
     /**
@@ -37,6 +39,16 @@ public interface Node<T>
      * @return true if the insertion was successful, false if not.
      */
     public boolean addEdge(Edge edge);
+
+    /**
+     * {@inheritDoc }
+     */
+    public Object clone() throws CloneNotSupportedException;
+
+    /**
+     * Disconnects this node, clearing all the edges incoming or outgoing.
+     */
+    public void disconnect();
 
     /**
      * Returns the data this node holds.
@@ -72,7 +84,7 @@ public interface Node<T>
      *
      * @return the set of connected edges.
      */
-    public Set<Edge> getConnectedEdges();
+    public Set<Edge> getEdgesDepartingSelf();
 
     /**
      * Returns the set of edges that have this node as the destination node. If the node is isolated should return the
@@ -80,7 +92,7 @@ public interface Node<T>
      *
      * @return
      */
-    public Set<Edge> getEdgesConnectingSelf();
+    public Set<Edge> getEdgesArrivingSelf();
 
     /**
      * Returns true if this node is adjacent to another node in a graph.
@@ -90,6 +102,15 @@ public interface Node<T>
      * @return
      */
     public boolean isAdjacent(Node<T> v);
+
+    /**
+     * Removes an edge from this node's adjacent edges.
+     *
+     * @param edge
+     *
+     * @return true if the deletion was successful
+     */
+    public boolean removeEdge(Edge edge);
 
     /**
      * Sets this node's data attribute.

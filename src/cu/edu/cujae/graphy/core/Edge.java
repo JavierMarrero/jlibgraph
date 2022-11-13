@@ -23,6 +23,7 @@ package cu.edu.cujae.graphy.core;
  * as <i>(v, u)</i> in the case of a directed graph <i>(di-graph)</i>. The pair of the form <i>(u, v)</i> indicates that
  * there is an edge from vertex <i>u</i> to vertex <i>v</i>. The edges may contain an attribute known as weight. This
  * attribute is arbitrary, but must be comparable; or in other words, a value.
+ * <p>
  *
  * @author Javier Marrero
  */
@@ -82,8 +83,11 @@ public interface Edge
     /**
      * Reverse the direction of the edge. The departing node becomes the destination node and vice-versa. Weights are
      * not modified in any way.
+     * <p>
+     * This method only reverses the apparent direction of an edge. Edge direction reversal is a much more complicated
+     * process that is carried in conjunction with {@link Node}
      */
-    public void reverse();
+    public void reverseApparentDirection();
 
     /**
      * Sets the label corresponding to this edge.
