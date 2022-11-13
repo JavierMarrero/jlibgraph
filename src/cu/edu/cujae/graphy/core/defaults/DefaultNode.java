@@ -70,7 +70,7 @@ public class DefaultNode<T> implements Node<T>
         }
         return result;
     }
-
+    
     /**
      * {@inheritDoc}
      */
