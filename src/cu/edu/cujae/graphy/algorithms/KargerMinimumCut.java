@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +16,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.algorithms;
 
 /**
- * This interface is used to represents weights in a graph.It is mostly a wrapper over the {@link Comparable}
- * interface.
+ * Given an undirected and unweighted graph, find the smallest cut (smallest number of edges that disconnects the graph
+ * into two components). The input graph may have parallel edges.
  *
  * @author Javier Marrero
- * @param <T>
  */
-public interface Weight<T> extends Comparable<T>
+public class KargerMinimumCut
 {
-
-    /**
-     * Returns the actual value of the weight.
-     *
-     * @return the actual value of the weight.
-     */
-    public T getValue();
-
-    /**
-     * Sets the actual value of the weight object.
-     *
-     * @param value
-     */
-    public void setValue(T value);
+    
 }
