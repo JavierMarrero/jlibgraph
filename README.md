@@ -24,5 +24,6 @@ The following list is sorted by alphabetical order. Feel free to include yoursel
 
 - J. García:mango:(@JoseCarlosGarcia)
 - J. Marrero:robot:(@JavierMarrero)
+- A. Méndez:watermelon:(@Amy-Mendez)
 - A. Morales:snowflake:(@SnowBlackQueen)
 - C. Robaina:evergreen_tree:(@cdrobaina01)
