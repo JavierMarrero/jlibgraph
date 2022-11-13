@@ -65,6 +65,18 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public Collection<Integer> getAllAdjacentVertices()
+    {
+        Collection<Integer> vertices = new LinkedList<>();
+        getChildren().
+                forEach(child -> 
+                {
+                    vertices.add(child.getLabel());
+                });
+        return Collections.unmodifiableCollection(vertices);
+    }
+
+    @Override
     @SuppressWarnings ("unchecked")
     public Collection<TreeNode<E>> getChildren()
     {

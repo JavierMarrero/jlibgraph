@@ -59,6 +59,13 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Edge> getAllAdjacentEdges();
 
     /**
+     * Returns a collection of all the adjacent vertices to this node.
+     *
+     * @return
+     */
+    public Collection<Integer> getAllAdjacentVertices();
+
+    /**
      * This method should return the edges that depart from the pointed node.
      *
      * @return a collection of edges

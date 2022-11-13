@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -77,6 +78,13 @@ public interface Node<T> extends Cloneable
      * @return the {@link Edge} connecting this node and v, or null.
      */
     public Edge getAdjacentEdge(Node<T> v);
+
+    /**
+     * Returns a {@link Collection} containing all the adjacent vertices to this node.
+     *
+     * @return
+     */
+    public Collection<Integer> getAllAdjacentVertices();
 
     /**
      * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
