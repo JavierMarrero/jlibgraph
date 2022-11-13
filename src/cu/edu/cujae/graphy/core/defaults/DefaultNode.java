@@ -20,11 +20,7 @@ package cu.edu.cujae.graphy.core.defaults;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -110,6 +106,22 @@ public class DefaultNode<T> implements Node<T>
         return getConnectionsFromVertex().get(v);
     }
 
+    @Override
+    public Collection<Integer> getAllAdjacentVertices()
+    {
+        Collection<Integer> nodes = new LinkedHashSet<>(getConnectionsFromVertex().size() + getConnectionsToVertex().size());
+        for (Edge e : getEdgesArrivingSelf())
+        {
+            nodes.add(e.getStartNode().getLabel());
+        }
+        for (Edge e : getEdgesDepartingSelf())
+        {
+            nodes.add(e.getFinalNode().getLabel());
+        }
+        
+        return Collections.unmodifiableCollection(nodes);
+    }
+    
     /**
      * {@inheritDoc}
      */

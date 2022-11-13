@@ -27,7 +27,7 @@ package cu.edu.cujae.graphy.algorithms;
 public abstract class AbstractAlgorithm<T> implements Algorithm<T>
 {
 
-    private T result;
+    T result;
 
     protected AbstractAlgorithm(T result)
     {
