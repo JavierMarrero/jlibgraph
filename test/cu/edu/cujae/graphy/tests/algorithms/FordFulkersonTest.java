@@ -18,7 +18,6 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.BellmanFordShortestPath;
 import cu.edu.cujae.graphy.algorithms.FordFulkersonAlgorithm;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
@@ -28,8 +27,9 @@ import cu.edu.cujae.graphy.core.utility.Weights;
  *
  * @author Amanda Mendez
  */
-public class FordFulkersonTest {
-    
+public class FordFulkersonTest
+{
+
     public static void main(String[] args) throws CloneNotSupportedException
     {
         WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
@@ -39,20 +39,20 @@ public class FordFulkersonTest {
             graph.add(i);
         }
 
-        graph.connect(0, 1, Weights.makeWeight(5.3));
-        graph.connect(0, 2, Weights.makeWeight(10.2));
-        graph.connect(0, 3, Weights.makeWeight(12.9));
-        graph.connect(1, 3, Weights.makeWeight(7.4));
-        graph.connect(1, 4, Weights.makeWeight(16.2));
-        graph.connect(2, 1, Weights.makeWeight(1.4));
-        graph.connect(2, 3, Weights.makeWeight(2.3));
-        graph.connect(3, 4, Weights.makeWeight(8.5));
-        graph.connect(4, 2, Weights.makeWeight(2.7));
-        graph.connect(4, 1, Weights.makeWeight(13.7));
-        
+        graph.connect(0, 1, Weights.makeWeight(5.3f));
+        graph.connect(0, 2, Weights.makeWeight(10.2f));
+        graph.connect(0, 3, Weights.makeWeight(12.9f));
+        graph.connect(1, 3, Weights.makeWeight(7.4f));
+        graph.connect(1, 4, Weights.makeWeight(16.2f));
+        graph.connect(2, 1, Weights.makeWeight(1.4f));
+        graph.connect(2, 3, Weights.makeWeight(2.3f));
+        graph.connect(3, 4, Weights.makeWeight(8.5f));
+        graph.connect(4, 2, Weights.makeWeight(2.7f));
+        graph.connect(4, 1, Weights.makeWeight(13.7f));
+
         System.out.println(graph);
 
         System.out.println("Ford Fulkerson: ");
-        System.out.println(new FordFulkersonAlgorithm<>(graph, 0, 4).apply().get());
+        System.out.println(new FordFulkersonAlgorithm<>(graph, graph.iterator(0), graph.iterator(4)).apply().get());
     }
 }

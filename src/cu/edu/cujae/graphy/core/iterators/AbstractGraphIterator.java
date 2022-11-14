@@ -101,6 +101,13 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
                     return e;
                 }
             }
+            for (Edge e : getEdgesArrivingSelf())
+            {
+                if (e.getStartNode().getLabel() == v)
+                {
+                    return e;
+                }
+            }
         }
         return null;
     }

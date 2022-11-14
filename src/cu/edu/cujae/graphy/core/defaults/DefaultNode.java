@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.core.defaults;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -103,13 +104,22 @@ public class DefaultNode<T> implements Node<T>
     @Override
     public Edge getAdjacentEdge(Node<T> v)
     {
-        return getConnectionsFromVertex().get(v);
+        Edge result = connectionsFromVertex.containsKey(v) ? connectionsFromVertex.get(v) : connectionsToVertex.get(v);
+
+        // If the result is still null
+        // throw an exception
+        if (result == null)
+        {
+            throw new InvalidOperationException(v.getLabel() + " is not connected to " + label + ", they are not adjacent.");
+        }
+        return result;
     }
 
     @Override
     public Collection<Integer> getAllAdjacentVertices()
     {
-        Collection<Integer> nodes = new LinkedHashSet<>(getConnectionsFromVertex().size() + getConnectionsToVertex().size());
+        Collection<Integer> nodes = new LinkedHashSet<>(getConnectionsFromVertex().size() + getConnectionsToVertex().
+                size());
         for (Edge e : getEdgesArrivingSelf())
         {
             nodes.add(e.getStartNode().getLabel());
@@ -118,10 +128,10 @@ public class DefaultNode<T> implements Node<T>
         {
             nodes.add(e.getFinalNode().getLabel());
         }
-        
+
         return Collections.unmodifiableCollection(nodes);
     }
-    
+
     /**
      * {@inheritDoc}
      */
