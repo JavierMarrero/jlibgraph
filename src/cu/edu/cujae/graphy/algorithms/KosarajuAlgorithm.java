@@ -18,9 +18,16 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
+import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.ArrayDeque;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.List;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
 /**
  * El algoritmo de Kosaraju está basado en DFS utilizado para encontrar componentes
@@ -32,14 +39,15 @@ import java.util.ArrayDeque;
  * @author Ananda
  * @param <T>
  */
-public class KosarajuAlgorithm<T> extends AbstractAlgorithm<Boolean>
+public class KosarajuAlgorithm<T> extends AbstractAlgorithm<List<Set<Integer>>>
 {
     private final Graph<T> graph;
     private final GraphIterator<T> iter;
+    private int source;
 
-    public KosarajuAlgorithm(GraphIterator<T> iter, Graph<T> graph)
+    public KosarajuAlgorithm(GraphIterator<T> iter, Graph<T> graph, int v)
     {
-        super(Boolean.TRUE);
+        super(new LinkedList<>());
         if (!graph.isDirected())
         {
             throw new IllegalArgumentException(
@@ -47,16 +55,45 @@ public class KosarajuAlgorithm<T> extends AbstractAlgorithm<Boolean>
         }
         this.graph = graph;
         this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(iter.getLabel(), false);
+        this.source = v;
     }
     
     @Override
-    public Algorithm<Boolean> apply()
+    public Algorithm<List<Set<Integer>>> apply()
     {
+        //Paso 1: crear pila y realizar DFS al grafo, guardando sus labels.
         ArrayDeque<Integer> stack = new ArrayDeque<>();
         while(iter.hasNext()){
-            int label = iter.getLabel();
-            stack.push(label);
+            source = iter.getLabel();
+            stack.push(source);
             iter.next();
+        }
+        try {
+            //Paso 2: obtener grafo traspuesto.
+            Graph<T> transposedGraph = graph.duplicate();
+            for(int v : transposedGraph.getLabels()){
+                GraphIterator<T> it = (GraphIterator<T>) graph.iterator(v);
+                for(Edge e : it.getEdgesDepartingSelf()){
+                    e.reverseApparentDirection();
+                }
+            }
+            //Paso 3: obtener SCC del vértice tomado como origen.
+            Set<Integer> visited = new TreeSet<>();
+            while(!stack.isEmpty()){
+                int v = (int)stack.pop();
+                //incompleto.
+                GraphIterator<T> iterT = transposedGraph.iterator(v);
+                while(iterT.hasNext()){
+                    if(!visited.contains(iterT.getLabel())){
+                        visited.add(iter.getLabel());
+                    }   
+                }
+                if(!visited.add(v)){
+                    transposedGraph.depthFirstSearchIterator(v, true);
+                }   
+            }
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(KosarajuAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return this;
     }
