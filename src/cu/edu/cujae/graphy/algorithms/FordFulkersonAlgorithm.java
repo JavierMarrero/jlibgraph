@@ -19,184 +19,181 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.utils.Pair;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
- * El algoritmo de Ford-Fulkerson resuelve el problema de flujo máximo. Dado un 
- * grafo que representa una red de flujo donde toda arista tiene una capacidad, 
- * y dados dos vértices: fuente (s)  y vertedero (t) en el grafo, se encuentra 
- * el flujo máximo posible desde s hasta t, teniendo en cuenta las siguientes 
+ * El algoritmo de Ford-Fulkerson resuelve el problema de flujo máximo. Dado un
+ * grafo que representa una red de flujo donde toda arista tiene una capacidad,
+ * y dados dos vértices: fuente (s) y vertedero (t) en el grafo, se encuentra
+ * el flujo máximo posible desde s hasta t, teniendo en cuenta las siguientes
  * restriciones:
- * - El flujo en un vértice no puede superar la capacidad máxima de dicho 
- * vértice.
- * - El flujo de entrada debe ser igual al flujo de salida para cada vértice 
- * excepto s y t.
- * 
- * Su nombre viene dado por sus creadores , L.R. Ford, Jr. y D.R. Fulkerson. 
- * 
+ * <ul>
+ * <li>El flujo en un vértice no puede superar la capacidad máxima de dicho
+ * vértice.</li>
+ * <li>El flujo de entrada debe ser igual al flujo de salida para cada vértice
+ * excepto s y t.</li>
+ * </ul>
+ * <p>
+ * Su nombre viene dado por sus creadores , L.R. Ford, Jr. y D.R. Fulkerson.
+ *
  * @author Amanda Mendez
  * @param <T>
  */
-public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float,List<Integer>>> {
-    
+public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, List<Integer>>>
+{
+
     // Campos de la clase 
     private final WeightedGraph<T> g; // Graph
     private final int s;
     private final int t;
     private float maxFlow;
-    private final Map<Integer,Integer> parent; // To store path
+    private final Map<Integer, Integer> parent; // To store path
     private final WeightedGraph<T> rg; // Residual graph
-    
+
     // Constructor de la clase 
-    public FordFulkersonAlgorithm(WeightedGraph<T> graph,int source, int dest) throws CloneNotSupportedException
+    public FordFulkersonAlgorithm(WeightedGraph<T> graph, GraphIterator<T> source, GraphIterator<T> dest) throws
+            CloneNotSupportedException
     {
-        super(new Pair<Float,List<Integer>>());
-        
-        if (!graph.isWeighted()) 
+        super(new Pair<Float, List<Integer>>());
+
+        // This algorithm only works on weighted graphs
+        if (!graph.isWeighted())
         {
-
             throw new IllegalArgumentException(
-                "Attempted to apply Ford Fulkerson algorithm to an unweighted graph.");
-
+                    "Attempted to apply Ford Fulkerson algorithm to an unweighted graph.");
         }
-        
-        if (!graph.isDirected()) 
+
+        // This algorithm only works on directed graphs
+        if (!graph.isDirected())
         {
-
             throw new IllegalArgumentException(
-                "Attempted to apply Ford Fulkerson algorithm to an undirected graph.");
-
+                    "Attempted to apply Ford Fulkerson algorithm to an undirected graph.");
         }
-        
+
         // Inicializar campos de la clase
         this.g = graph;
-        this.s = source;
-        this.t = dest;
+        this.s = source.getLabel();
+        this.t = dest.getLabel();
         this.maxFlow = 0;
         this.parent = new HashMap<>();
-        
-        // Create residual graph
-       this.rg = (WeightedGraph<T>) g.duplicate();       
-    }
 
+        // Create residual graph
+        this.rg = (WeightedGraph<T>) g.duplicate();
+    }
+    
     @Override
-    public Algorithm<Pair<Float,List<Integer>>> apply() 
+    public Algorithm<Pair<Float, List<Integer>>> apply()
     {
 
         // While exist a path from source to dest
-        while(bfs(rg,s,t,parent))
+        while (bfs(rg, s, t, parent))
         {
             // To store path flow
             float pathFlow = Float.MAX_VALUE;
-            
+
             // Find maximum flow of path
-            for(int i = t; i != s; i = parent.get(i))
+            for (int v = t; v != s; v = parent.get(v))
             {
-                int j = parent.get(i);
-                GraphIterator<T> it = rg.iterator(j);
-                Edge edge = it.getAdjacentEdge(i);
+                int u = parent.get(v);
+                
+                GraphIterator<T> it = rg.iterator(u);
+                Edge edge = it.getAdjacentEdge(v);
+                
                 float weight = (float) edge.getWeight().getValue();
-               
                 pathFlow = Math.min(pathFlow, weight);
             }
-            
+
             // Update residual graph capacities
             // Reverse edges along the path
-            for(int i = t; i != s; i = parent.get(i))
+            for (int v = t; v != s; v = parent.get(v))
             {
-                int j = parent.get(i);
-                GraphIterator<T> it = rg.iterator(i);
-                Edge e = it.getAdjacentEdge(j);
-                float wj = (float) e.getWeight().getValue();
-                GraphIterator<T> ite = rg.iterator(j);
-                Edge ed = it.getAdjacentEdge(i);
-                float wi = (float) ed.getWeight().getValue();
+                int u = parent.get(v);
                 
-                wj -= pathFlow;
-                wi += pathFlow;
+                GraphIterator<T> it = rg.iterator(u);
+                Edge adjacentEdge = it.getAdjacentEdge(v);
+                
+                @SuppressWarnings ("unchecked")
+                Weight<Float> ew = (Weight<Float>) adjacentEdge.getWeight();
+                
+                ew.setValue(ew.getValue() - pathFlow);
+
+                // Reverse the edges
                 
             }
-            
+
             // Add path flow to max flow
-            maxFlow += pathFlow; 
+            maxFlow += pathFlow;
         }
-        
+
         // Create the final result
-        List<Integer> list = new ArrayList(g.size());
-        Stack stack = new Stack();
+        List<Integer> list = new ArrayList<>(g.size());
+        Stack<Integer> stack = new Stack<>();
         
         int v = t;
-        while(v != s)
+        while (v != s)
         {
             stack.push(v);
             v = parent.get(v);
         }
         
-        while(!stack.isEmpty())
+        while (!stack.isEmpty())
         {
-            list.add((Integer) stack.pop());
+            list.add(stack.pop());
         }
         
-        Pair<Float,List<Integer>> result = getResult();
-       
+        Pair<Float, List<Integer>> result = getResult();
+        
         result.setFirst(maxFlow);
         result.setLast(list);
         
         return this;
     }
     
-    public boolean bfs(WeightedGraph<T> rg,int source,int dest,Map<Integer,Integer> parents)
+    public boolean bfs(WeightedGraph<T> rg, int source, int dest, Map<Integer, Integer> parents)
     {
         // Array to store visited vertices
-        boolean[] seen = new boolean[rg.size()];
+        Set<Integer> seen = new TreeSet<>();
         
-        for(int i = 0; i < rg.size(); i++)
-        {
-            seen[i] = false;
-        }
-        
-        LinkedList<Integer> l = new LinkedList<Integer>();
-        
+        Queue<Integer> l = new LinkedList<>();
+
         // Visit source
         l.add(source);
-        seen[source] = true;
-        parents.put(source, -1);
-        
+        seen.add(source);
+        parents.put(source, null);
+
         // Loop trough all vertices
-        while(!l.isEmpty())
+        while (!l.isEmpty())
         {
             int i = l.poll();
+
             // Check neighbours of vertex i
             GraphIterator<T> it = rg.iterator(i);
             
-            for(Integer j:  it.getAllAdjacentVertices())
+            for (Integer j : it.getAllAdjacentVertices())
             {
                 Edge e = it.getAdjacentEdge(j);
+                if (e == null)
+                {
+                    throw new RuntimeException("There's no adjacent vertex from " + i + " to " + j);
+                }
+                
                 float w = (float) e.getWeight().getValue();
                 
-                if((seen[j] == false) && w > 0)
+                if ((seen.contains(j) == false) && w > 0)
                 {
                     l.add(j);
-                    seen[j] = true;
+                    seen.add(j);
                     parents.put(j, i);
                 }
             }
-        
+            
         }
         
-        return seen[dest];
+        return seen.contains(dest);
     }
     
 }

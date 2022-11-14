@@ -347,7 +347,17 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public boolean connect(int u, int v)
     {
-        return connect(findNodeByLabel(u), findNodeByLabel(v));
+        Node<T> uNode = findNodeByLabel(u);
+        Node<T> vNode = findNodeByLabel(v);
+
+        if (uNode == null || vNode == null)
+        {
+            throw new InvalidOperationException("Attempted to connect nodes " + u + " and " + v
+                                                        + " which are not part of this graph. (u: " + uNode + " | v: "
+                                                        + vNode + ")");
+        }
+
+        return connect(uNode, vNode);
     }
 
     /**
