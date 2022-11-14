@@ -82,6 +82,12 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
         return current.getAllAdjacentVertices();
     }
 
+    @Override
+    public Collection<Integer> getAdjacentVerticesArrivingSelf()
+    {
+        return current.getAllVerticesArrivingSelf();
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -121,6 +127,12 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
         return getCurrent().getEdgesDepartingSelf();
     }
 
+    @Override
+    public Collection<Integer> getAdjacentVerticesDepartingSelf()
+    {
+        return current.getAllVerticesDepartingSelf();
+    }
+    
     /**
      * @return the current
      */
