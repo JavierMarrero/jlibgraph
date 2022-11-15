@@ -47,6 +47,13 @@ public interface Node<T> extends Cloneable
     public Object clone() throws CloneNotSupportedException;
 
     /**
+     * Returns the number of edges connected to this node.
+     *
+     * @return
+     */
+    public int degree();
+
+    /**
      * Disconnects this node, clearing all the edges incoming or outgoing.
      */
     public void disconnect();

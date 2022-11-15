@@ -69,6 +69,12 @@ public class DefaultNode<T> implements Node<T>
     }
 
     @Override
+    public int degree()
+    {
+        return connectionsFromVertex.size() + connectionsToVertex.size();
+    }
+
+    @Override
     public void disconnect()
     {
         for (Edge e : getEdgesDepartingSelf())
@@ -110,7 +116,8 @@ public class DefaultNode<T> implements Node<T>
         // throw an exception
         if (result == null)
         {
-            throw new InvalidOperationException(v.getLabel() + " is not connected to " + label + ", they are not adjacent.");
+            throw new InvalidOperationException(v.getLabel() + " is not connected to " + label
+                                                + ", they are not adjacent.");
         }
         return result;
     }

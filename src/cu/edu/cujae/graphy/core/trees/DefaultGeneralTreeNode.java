@@ -58,6 +58,12 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public int degree()
+    {
+        return children.size();
+    }
+
+    @Override
     public void disconnect()
     {
         ///TODO: Fixme
