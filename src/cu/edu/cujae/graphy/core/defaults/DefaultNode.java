@@ -69,6 +69,12 @@ public class DefaultNode<T> implements Node<T>
     }
 
     @Override
+    public int degree()
+    {
+        return connectionsFromVertex.size() + connectionsToVertex.size();
+    }
+
+    @Override
     public void disconnect()
     {
         for (Edge e : getEdgesDepartingSelf())
@@ -110,7 +116,8 @@ public class DefaultNode<T> implements Node<T>
         // throw an exception
         if (result == null)
         {
-            throw new InvalidOperationException(v.getLabel() + " is not connected to " + label + ", they are not adjacent.");
+            throw new InvalidOperationException(v.getLabel() + " is not connected to " + label
+                                                + ", they are not adjacent.");
         }
         return result;
     }
@@ -130,6 +137,28 @@ public class DefaultNode<T> implements Node<T>
         }
 
         return Collections.unmodifiableCollection(nodes);
+    }
+
+    @Override
+    public Collection<Integer> getAllVerticesArrivingSelf()
+    {
+        Collection<Integer> vertices = new LinkedList<>();
+        for (Edge e : getEdgesArrivingSelf())
+        {
+            vertices.add(e.getStartNode().getLabel());
+        }
+        return vertices;
+    }
+
+    @Override
+    public Collection<Integer> getAllVerticesDepartingSelf()
+    {
+        Collection<Integer> vertices = new LinkedList<>();
+        for (Edge e : getEdgesDepartingSelf())
+        {
+            vertices.add(e.getFinalNode().getLabel());
+        }
+        return vertices;
     }
 
     /**

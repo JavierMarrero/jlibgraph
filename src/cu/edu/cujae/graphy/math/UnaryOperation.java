@@ -19,22 +19,23 @@
 package cu.edu.cujae.graphy.math;
 
 /**
- * This functional interface represents a <code>BinaryOperation</code>
+ * This interface embodies the concept of unary operations.These are operations performed on a data type that receives
+ * only the data as argument.
  *
  * @author Javier Marrero
  * @param <ResultType>
+ * @param <ValueType>
  */
 @FunctionalInterface
-public interface BinaryOperation<ResultType>
+public interface UnaryOperation<ResultType, ValueType>
 {
 
     /**
-     * Applies the result of this operation.
+     * Applies the unary operation and returns a result.
      *
-     * @param argument
-     * @param arguments
+     * @param data
      *
      * @return
      */
-    public ResultType apply(Object argument, Object... arguments);
+    ResultType apply(ValueType data);
 }

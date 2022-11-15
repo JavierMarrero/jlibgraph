@@ -73,6 +73,14 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Edge> getEdgesDepartingSelf();
 
     /**
+     * This method should return a {@link Collection} of all the vertices that are final nodes of the edges departing
+     * this iterator's current node.
+     *
+     * @return a {@link Collection} of integer labels.
+     */
+    public Collection<Integer> getAdjacentVerticesDepartingSelf();
+
+    /**
      * Returns the {@link Edge} connecting this iterator and the vertex with label <i>v</i>.
      *
      * @param v
@@ -87,6 +95,14 @@ public interface GraphIterator<T> extends Iterator<T>
      * @return a {@link Collection} of edges having this vertex as destination.
      */
     public Collection<Edge> getEdgesArrivingSelf();
+
+    /**
+     * Returns the {@link Collection} of vertices that are departing nodes of the iterator's current position node's
+     * adjacent edges.
+     *
+     * @return
+     */
+    public Collection<Integer> getAdjacentVerticesArrivingSelf();
 
     /**
      * Each node in a graph is somehow labeled. In this library, labels are integer indices that are unique to each

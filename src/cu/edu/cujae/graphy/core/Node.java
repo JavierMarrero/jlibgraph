@@ -47,6 +47,13 @@ public interface Node<T> extends Cloneable
     public Object clone() throws CloneNotSupportedException;
 
     /**
+     * Returns the number of edges connected to this node.
+     *
+     * @return
+     */
+    public int degree();
+
+    /**
      * Disconnects this node, clearing all the edges incoming or outgoing.
      */
     public void disconnect();
@@ -95,12 +102,28 @@ public interface Node<T> extends Cloneable
     public Set<Edge> getEdgesDepartingSelf();
 
     /**
+     * Returns a {@link Collection} view of all the vertices that are adjacent to this node and can be reached through
+     * a registered edge with forward direction (u -> v).
+     *
+     * @return
+     */
+    public Collection<Integer> getAllVerticesDepartingSelf();
+
+    /**
      * Returns the set of edges that have this node as the destination node. If the node is isolated should return the
      * empty set. The set is an unmodifiable view of the {@link Node}'s internal container.
      *
      * @return
      */
     public Set<Edge> getEdgesArrivingSelf();
+
+    /**
+     * Returns a {@link Collection} view of all the vertices that are adjacent to this node and have this node as
+     * destination node.
+     *
+     * @return
+     */
+    public Collection<Integer> getAllVerticesArrivingSelf();
 
     /**
      * Returns true if this node is adjacent to another node in a graph.
