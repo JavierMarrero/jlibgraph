@@ -1,10 +1,11 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.ExistPath;
+import cu.edu.cujae.graphy.algorithms.PathDetection;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
-public class ExistPathTest {
+public class PathDetectionTest {
+
     public static void main(String[] args) {
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
 
@@ -22,6 +23,6 @@ public class ExistPathTest {
         graph.connect(1, 4);
         graph.connect(4, 5);
     
-        System.out.println(new ExistPath<>(graph, 1, 3).apply().get());
+        System.out.println(new PathDetection<>(graph, 1, 3).apply().get());
     }
 }
