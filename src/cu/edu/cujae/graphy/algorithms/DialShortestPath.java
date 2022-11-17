@@ -26,10 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.TreeMap;
 
 /**
@@ -44,42 +41,38 @@ import java.util.TreeMap;
 public class DialShortestPath extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>> {
 
     private final static int INFINITY = Integer.MAX_VALUE;
-
+    private final WeightedGraph<?> graph;
+    private GraphIterator<?> source;
     private final Map<Integer, Deque<Integer>> buckets;
     private final Map<Integer, Integer> distances;
-    private final WeightedGraph<?> G;
     private final Map<Integer, Integer> previous;
-    private final int V;
-    private final int W;
-    private GraphIterator<?> s;
+    private final int numberOfVertices;
+    private final int W;   
 
     public DialShortestPath(WeightedGraph<?> graph, GraphIterator<?> s, int maxW) {
         super(new HashMap<>(graph.size()));
-
         //debo verificar que ninguna arista posea un peso mayor que maxWeight!!!
-        if (!graph.isWeighted()) {
+        if(!graph.isWeighted()){
             throw new IllegalArgumentException(
                     "Attempted to apply Dial algorithm to an unweighted graph.");
         }
-
-        // Initialize the class's fields
+        
         this.buckets = new HashMap<>((int) maxW * graph.size() + 1);
         this.distances = new TreeMap<>();
-        this.G = graph;
+        this.graph = graph;
         this.previous = new TreeMap<>();
-        this.V = graph.size();
+        this.numberOfVertices = graph.size();
         this.W = maxW;
-        this.s = s;
+        this.source = s;
 
-        // Initialize all distances to infinity
-        for (int v : graph.getLabels()) {
+        //Inicializar las distancias a infinito.
+        for(int v : graph.getLabels()){
             distances.put(v, INFINITY);
             previous.put(v, null);
         }
 
-        // Initialize the buckets
-        for (int i = 0; i < (maxW * V + 1); ++i)
-        {
+        //Inicializar las cubetas.
+        for(int i = 0; i < (maxW * numberOfVertices + 1); ++i){
             buckets.put(i, new LinkedList<>());
         }
         
@@ -88,57 +81,50 @@ public class DialShortestPath extends AbstractAlgorithm<Map<Integer, Pair<Intege
         distances.put(s.getLabel(), 0);
         buckets.get(0).push(s.getLabel());        
 
-//        System.out.println(distances);
-//        System.out.println(buckets);
+        //System.out.println(distances);
+        //System.out.println(buckets);
     }
 
     @Override
     public Algorithm<Map<Integer, Pair<Integer, List<Integer>>>> apply() {
 
-        int idx = 0;
+        //Paso 1: Verificar el ìndice de las cubetas y si estàn vacías.
+        int index = 0;
         while (true)
         {
-            while (buckets.get(idx).isEmpty() && idx < W * V)
-                idx++;
-            
-            if (idx == W * V)
+            while (buckets.get(index).isEmpty() && index < W * numberOfVertices){
+                index++;
+            }
+            if (index == W * numberOfVertices){
                 break;
+            }
+            GraphIterator<?> u = graph.iterator(buckets.get(index).pop());
             
-            GraphIterator<?> u = G.iterator(buckets.get(idx).pop());
-            
-            // Process all adjacents of extracted vertex 'u'
-            // and update their distances if required.
-            for (Edge e : u.getAllAdjacentEdges())
-            {
+            // Paso 2: Procesar todos los adyacentes del vértice u y actualizar sus distancias si es requerido.
+            for (Edge e : u.getAllAdjacentEdges()){
                 int v = e.getFinalNode().getLabel();
                 int weight = (int) e.getWeight().getValue();
                 
                 int du = distances.get(u.getLabel());
                 int dv = distances.get(v);
                 
-                // If there is shorted path to v through u.
-                if (dv > du + weight)
-                {
+                //Verificar si hay un camino corto de v a u. 
+                if (dv > du + weight){
                     distances.put(v, du + weight);
                     dv = distances.get(v);
-                    
                     previous.put(v, u.getLabel());
-                    
-                    // Push vertex v into updated distances bucket
+                    //Añadir vértice v a las distancias actualizadas de la cubeta.
                     buckets.get(dv).push(v);
                 }
             }
         }
-        
-        for (int v : distances.keySet())
-        {
-            getResult().put(v, new Pair<>(distances.get(v), makeShortestPathSequence(s.getLabel(), v)));
+        for (int v : distances.keySet()){
+            getResult().put(v, new Pair<>(distances.get(v), makeShortestPathSequence(source.getLabel(), v)));
         }
-            
-        // This is mandated by the interface
         return this;
     }
 
+    //Esta función es común con Dijkstra´s Algorithm.
     private List<Integer> makeShortestPathSequence(int source, int target)
     {
         LinkedList<Integer> S = new LinkedList<>();
