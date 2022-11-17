@@ -18,10 +18,8 @@
  */
 package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.WeightedGraph;
-import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
 import java.util.logging.Level;
@@ -97,43 +95,6 @@ public class CloneTest
 
         System.out.println("\nTesting for weighted graphs:\n");
         testWeightedGraphs();
-
-        // TEST GRAPH REVERSION
-        System.out.println("Testing for graph reversibility:");
-        Graph<Integer> reversible = GraphBuilders.makeSimpleGraph(true);
-        for (int i = 0; i < 4; ++i)
-        {
-            reversible.add(i);
-        }
-        reversible.connect(0, 1);
-        reversible.connect(0, 2);
-        reversible.connect(1, 3);
-        reversible.connect(2, 1);
-        reversible.connect(3, 2);
-        System.out.println(reversible);
-
-        Graph<Integer> clonedReversed;
-        try
-        {
-            System.out.println("\nReversed graph:\n");
-            clonedReversed = reversible.duplicate();
-
-            GraphIterator<Integer> it = (GraphIterator<Integer>) clonedReversed.iterator();
-            for (int i : clonedReversed.getLabels())
-            {
-                it.next(i);
-                for (Edge e : it.getAllAdjacentEdges() && )
-                {
-                    e.reverseApparentDirection();
-                }
-            }
-
-            System.out.println(clonedReversed);
-        }
-        catch (CloneNotSupportedException ex)
-        {
-            Logger.getLogger(CloneTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
 }

@@ -41,3 +41,6 @@ nbdist/
 
 ### VS Code ###
 .vscode/
+
+### Releases
+releases
