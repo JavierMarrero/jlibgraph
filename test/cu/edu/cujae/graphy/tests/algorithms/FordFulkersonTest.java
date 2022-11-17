@@ -32,27 +32,27 @@ public class FordFulkersonTest
 
     public static void main(String[] args) throws CloneNotSupportedException
     {
-        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
+        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(true);
 
         for (int i = 0; i < 5; ++i)
         {
             graph.add(i);
         }
 
-        graph.connect(0, 1, Weights.makeWeight(5.3f));
-        graph.connect(0, 2, Weights.makeWeight(10.2f));
-        graph.connect(0, 3, Weights.makeWeight(12.9f));
-        graph.connect(1, 3, Weights.makeWeight(7.4f));
-        graph.connect(1, 4, Weights.makeWeight(16.2f));
-        graph.connect(2, 1, Weights.makeWeight(1.4f));
-        graph.connect(2, 3, Weights.makeWeight(2.3f));
-        graph.connect(3, 4, Weights.makeWeight(8.5f));
-        graph.connect(4, 2, Weights.makeWeight(2.7f));
-        graph.connect(4, 1, Weights.makeWeight(13.7f));
+        graph.connect(0, 1, Weights.makeWeight(16));
+        graph.connect(0, 2, Weights.makeWeight(13));
+        graph.connect(1, 2, Weights.makeWeight(10));
+        graph.connect(1, 3, Weights.makeWeight(12));
+        graph.connect(2, 1, Weights.makeWeight(4));
+        graph.connect(2, 4, Weights.makeWeight(14));
+        graph.connect(3, 2, Weights.makeWeight(9));
+        graph.connect(3, 5, Weights.makeWeight(20));
+        graph.connect(4, 3, Weights.makeWeight(7));
+        graph.connect(4, 4, Weights.makeWeight(5));
 
         System.out.println(graph);
 
         System.out.println("Ford Fulkerson: ");
-        System.out.println(new FordFulkersonAlgorithm<>(graph, graph.iterator(0), graph.iterator(4)).apply().get());
+        System.out.println(new FordFulkersonAlgorithm<>(graph, graph.iterator(0), graph.iterator(5)).apply().get());
     }
 }
