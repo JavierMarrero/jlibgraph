@@ -34,6 +34,7 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean> {
     private final int m;
     private final String color;
     private final GraphIterator<T> iter;
+    private int vertices;
     
     public ColorableAlgorithm(Graph<T> graph, int m, String color, GraphIterator<T> iter){
         super(Boolean.TRUE);
@@ -50,7 +51,26 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean> {
     @Override
     public Algorithm<Boolean> apply(){
         while(iter.hasNext()){
-            
+    /*        Collections.sort(vertices, new VertexComparator());
+            Map<String, String> vertex_color_index = new HashMap<String, String>();
+            for (int i = 0; i < vertices.size(); i++){
+                if ((vertex_color_index.containsKey(vertices.get(i).node))){	
+                    continue;
+                }
+                else{
+                    vertex_color_index.put(vertices.get(i).node, "Color" + i);
+                    for (int j = i+1; j < vertices.size(); j++){
+                        if (!( vertices.get(i).neighbors.contains(vertices.get(j).node)) && ! (vertex_color_index.containsKey(vertices.get(j).node))) {
+                            vertex_color_index.put(vertices.get(j).node, "Color" + i);
+                        }
+			else{
+                            continue;
+                        }
+                    }
+		}	
+            }
+            System.out.println(vertex_color_index);	
+	}*/
         }
         
         return this;
