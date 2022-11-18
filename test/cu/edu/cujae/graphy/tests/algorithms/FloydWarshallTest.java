@@ -37,7 +37,7 @@ public class FloydWarshallTest
         System.out.println("Matriz de distancia");
         System.out.println("   0  1  2  3  4");
         for(int i = 0;i<5;i++){
-            System.out.print(Integer.valueOf(i) + "  ");
+            System.out.print(i + "  ");
             for (int j =0;j<5;j++){
                 System.out.print((aux.getFirst().get(i, j) != Integer.MAX_VALUE?aux.getFirst().get(i, j) : "-" ) + "  ");
             }
@@ -48,7 +48,7 @@ public class FloydWarshallTest
         System.out.println("Matriz de recorrido");
         System.out.println("   0  1  2  3  4");
         for(int i = 0;i<5;i++){
-            System.out.print(Integer.valueOf(i) + "  ");
+            System.out.print(i + "  ");
             for (int j =0;j<5;j++){
                 System.out.print((aux.getLast().get(i, j) != Integer.MAX_VALUE? aux.getLast().get(i, j) : "-" ) + "  ");
             }
