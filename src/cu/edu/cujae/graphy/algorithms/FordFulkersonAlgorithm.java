@@ -22,6 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
+import cu.edu.cujae.graphy.core.utility.Weights;
 import cu.edu.cujae.graphy.utils.Pair;
 import java.util.*;
 
@@ -108,7 +109,7 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, Lis
             }
 
             // Update residual graph capacities
-            // Reverse edges along the path
+             // Reverse the edges
             for (int v = t; v != s; v = parent.get(v))
             {
                 int u = parent.get(v);
@@ -119,9 +120,14 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, Lis
                 @SuppressWarnings ("unchecked")
                 Weight<Float> ew = (Weight<Float>) adjacentEdge.getWeight();
                 
-                ew.setValue(ew.getValue() - pathFlow);
+                rg.connect(u,v,ew);
+               
+                Edge ae = it.getAdjacentEdge(v);
 
-                // Reverse the edges
+                Weight<Float> w = (Weight<Float>) ae.getWeight();
+                
+                ew.setValue(ew.getValue() - pathFlow);
+                w.setValue(w.getValue() + pathFlow);
                 
             }
 
@@ -155,6 +161,7 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, Lis
     
     public boolean bfs(WeightedGraph<T> rg, int source, int dest, Map<Integer, Integer> parents)
     {
+        
         // Array to store visited vertices
         Set<Integer> seen = new TreeSet<>();
         
@@ -169,31 +176,21 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, Lis
         while (!l.isEmpty())
         {
             int i = l.poll();
-
-            // Check neighbours of vertex i
-            GraphIterator<T> it = rg.iterator(i);
-            
-            for (Integer j : it.getAllAdjacentVertices())
+ 
+            for (Integer j : rg.getLabels())
             {
-                Edge e = it.getAdjacentEdge(j);
-                if (e == null)
+                if (j == t)
                 {
-                    throw new RuntimeException("There's no adjacent vertex from " + i + " to " + j);
-                }
-                
-                float w = (float) e.getWeight().getValue();
-                
-                if ((seen.contains(j) == false) && w > 0)
-                {
-                    l.add(j);
-                    seen.add(j);
                     parents.put(j, i);
+                    return true;
                 }
-            }
-            
+                
+                 l.add(j);
+                 seen.add(j);
+                 parents.put(j, i);
+            } 
         }
         
-        return seen.contains(dest);
+        return false;
     }
-    
 }
