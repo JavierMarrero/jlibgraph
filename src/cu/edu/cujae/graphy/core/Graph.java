@@ -242,6 +242,11 @@ public interface Graph<T> extends Iterable<T>
     public T remove(int u);
 
     /**
+     * Reverses this graph's edges.If an edge was (u, v) then after this will be (v, u). Weights are preserved.
+     */
+    public void reverse();
+
+    /**
      * Returns the count of nodes in the graph.
      *
      * @return

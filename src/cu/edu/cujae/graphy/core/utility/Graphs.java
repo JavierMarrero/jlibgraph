@@ -169,6 +169,12 @@ public class Graphs
         }
 
         @Override
+        public void reverse()
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
         public int size()
         {
             return graph.size();

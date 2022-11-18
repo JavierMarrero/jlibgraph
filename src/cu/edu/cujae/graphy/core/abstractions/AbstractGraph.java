@@ -501,6 +501,33 @@ public abstract class AbstractGraph<T> implements Graph<T>
     }
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void reverse()
+    {
+        Set<Edge> visited = new HashSet<>();
+        getNodes().stream().
+                map(node -> 
+                {
+                    Set<Edge> edges = node.getEdgesArrivingSelf();
+                    edges.addAll(node.getEdgesDepartingSelf());
+                    return edges;
+                }).
+                forEachOrdered(edges -> 
+                {
+                    for (Edge edge : edges)
+                    {
+                        if (!visited.contains(edge))
+                        {
+                            edge.reverseApparentDirection();
+                            visited.add(edge);
+                        }
+                    }
+                });
+    }
+
+    /**
      * Prints this graph as a series of nodes with their corresponding connections. This shall return a string
      * containing all of the graph's vertex in a human-readable format.
      *
