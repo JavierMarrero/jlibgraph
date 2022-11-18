@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
+import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.utils.HashTuple;
 import cu.edu.cujae.graphy.utils.Tuple;
 import java.util.Set;
@@ -34,7 +35,7 @@ import java.util.Set;
 public class GirvanNewmanAlgorithm extends AbstractAlgorithm<Tuple<Set<Integer>>>
 {
 
-    public GirvanNewmanAlgorithm()
+    public GirvanNewmanAlgorithm(Graph<?> graph)
     {
         super(new HashTuple<>());
     }
