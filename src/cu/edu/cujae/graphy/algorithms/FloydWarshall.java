@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.WeightedGraph;
+import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.utils.MapBiArray;
 import cu.edu.cujae.graphy.utils.Pair;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  */
 public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer,Integer,Integer>,MapBiArray<Integer,Integer,Integer>>>{
     private final WeightedGraph<V> graph;
-    private final int INF = Integer.MAX_VALUE;
+    private static final int INF = Integer.MAX_VALUE;
 
     public FloydWarshall (WeightedGraph<V> graph){
         super(new Pair(null,null));
@@ -76,7 +77,15 @@ public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer,
                 int label1 = iterat1.getLabel();
                 int label2 = iterat2.getLabel();
                 // Si existe una arista adyacente se le asigna a distancia [i][j] el peso de dicha arista sino, seria INF
-                distancia.put(label1, label2, iterat1.getAdjacentEdge(iterat2.getLabel()) != null ? (Integer) iterat1.getAdjacentEdge(iterat2.getLabel()).getWeight().getValue(): INF);
+                try
+                {
+                    distancia.put(label1, label2, (Integer) iterat1.getAdjacentEdge(iterat2.getLabel()).getWeight().getValue());
+                }
+                catch (InvalidOperationException ex)
+                {
+                    //TODO: Añadir logging (slf4j como dependencia)
+                    distancia.put(label1, label2, INF);
+                }
                 //La ruta más corta desde i hasta j pasa por el vertice j
                 ruta.put(label1, label2, label2);
             }

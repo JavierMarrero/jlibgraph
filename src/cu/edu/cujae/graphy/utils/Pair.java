@@ -100,5 +100,4 @@ public class Pair<U, V>
     {
         return "<" + first + " : " + last + ">";
     }
-
 }
