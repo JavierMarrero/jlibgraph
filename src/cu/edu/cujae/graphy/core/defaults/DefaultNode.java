@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.core.defaults;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -33,8 +34,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class DefaultNode<T> implements Node<T>
 {
 
-    private Map<Node<T>, Edge> connectionsToVertex;
+    private final Map<Object, Object> attributes;
     private Map<Node<T>, Edge> connectionsFromVertex;
+    private Map<Node<T>, Edge> connectionsToVertex;
     private T data;
     private final int label;
 
@@ -46,6 +48,7 @@ public class DefaultNode<T> implements Node<T>
      */
     public DefaultNode(int label, T data)
     {
+        this.attributes = new HashMap<>(5);
         this.connectionsFromVertex = new LinkedHashMap<>(5);
         this.connectionsToVertex = new LinkedHashMap<>(5);
         this.data = data;
@@ -69,21 +72,6 @@ public class DefaultNode<T> implements Node<T>
     }
 
     @Override
-    public int degree()
-    {
-        return connectionsFromVertex.size() + connectionsToVertex.size();
-    }
-
-    @Override
-    public void disconnect()
-    {
-        for (Edge e : getEdgesDepartingSelf())
-        {
-            removeEdge(e);
-        }
-    }
-
-    @Override
     public Object clone() throws CloneNotSupportedException
     {
         @SuppressWarnings ("unchecked")
@@ -96,6 +84,21 @@ public class DefaultNode<T> implements Node<T>
         clone.disconnect();
 
         return clone;
+    }
+
+    @Override
+    public int degree()
+    {
+        return connectionsFromVertex.size() + connectionsToVertex.size();
+    }
+
+    @Override
+    public void disconnect()
+    {
+        for (Edge e : getEdgesDepartingSelf())
+        {
+            removeEdge(e);
+        }
     }
 
     /**
@@ -117,7 +120,7 @@ public class DefaultNode<T> implements Node<T>
         if (result == null)
         {
             throw new InvalidOperationException(v.getLabel() + " is not connected to " + label
-                                                + ", they are not adjacent.");
+                                                        + ", they are not adjacent.");
         }
         return result;
     }
@@ -161,6 +164,25 @@ public class DefaultNode<T> implements Node<T>
         return vertices;
     }
 
+    @Override
+    public Object getAttribute(Object key) throws InvalidKeyException
+    {
+        if (!attributes.containsKey(key))
+        {
+            throw new InvalidKeyException(attributes, key);
+        }
+        return attributes.get(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Edge> getEdgesArrivingSelf()
+    {
+        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsToVertex().values()));
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -174,21 +196,42 @@ public class DefaultNode<T> implements Node<T>
      * {@inheritDoc}
      */
     @Override
-    public Set<Edge> getEdgesArrivingSelf()
-    {
-        return Collections.unmodifiableSet(new CopyOnWriteArraySet<>(getConnectionsToVertex().values()));
-    }
-
-    @Override
     public int getLabel()
     {
         return label;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<Object, Object> getNodeAttributes()
+    {
+        return Collections.unmodifiableMap(attributes);
     }
 
     @Override
     public boolean isAdjacent(Node<T> v)
     {
         return getConnectionsFromVertex().containsKey(v) || getConnectionsToVertex().containsKey(v);
+    }
+
+    @Override
+    public boolean isAdjacentAndArriving(Node<T> v)
+    {
+        return getConnectionsFromVertex().containsKey(v);
+    }
+
+    @Override
+    public boolean isAdjacentAndDeparting(Node<T> v)
+    {
+        return getConnectionsToVertex().containsKey(v);
+    }
+
+    @Override
+    public Object removeAttribute(Object key)
+    {
+        return attributes.remove(key);
     }
 
     /**
@@ -216,6 +259,12 @@ public class DefaultNode<T> implements Node<T>
         this.data = data;
     }
 
+    @Override
+    public Object setAttribute(Object key, Object value)
+    {
+        return attributes.put(key, value);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -226,7 +275,14 @@ public class DefaultNode<T> implements Node<T>
         for (Iterator<Edge> it = getConnectionsFromVertex().values().iterator(); it.hasNext();)
         {
             Edge edge = it.next();
-            builder.append(edge.getFinalNode().getLabel());
+            if (edge.getFinalNode() != null)
+            {
+                builder.append(edge.getFinalNode().getLabel());
+            }
+            else
+            {
+                builder.append("<null>");
+            }
 
             if (edge.isWeighted())
             {

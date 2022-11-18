@@ -146,6 +146,26 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected);
 
     /**
+     * Disconnects the {@link Edge} passed as argument.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean disconnect(Node<T> u, Node<T> v);
+
+    /**
+     * Disconnects the edge running between u and v.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean disconnect(int u, int v);
+
+    /**
      * This method should be, at some extent, similar to the Java cloning mechanism in that returns a deep copy of this
      * object.The returned graph is not a view of this graph but two independent objects. Changes are not guaranteed
      * to persists across clone instances as they don't share data.
@@ -163,6 +183,17 @@ public interface Graph<T> extends Iterable<T>
     public Graph<T> duplicate() throws CloneNotSupportedException;
 
     /**
+     * Tests if exists and {@link Edge} <code>e</code> such that there's a connection between nodes <code>u</code> and
+     * <code>v</code> where <b>u</b> is the departing node and <b>v</b> is the arrival node.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean existsEdgeWithDirection(int u, int v);
+
+    /**
      * Returns all the node labels of this graph.
      *
      * @return a {@link Collection} of integers representing node labels.
@@ -177,13 +208,6 @@ public interface Graph<T> extends Iterable<T>
     public boolean isDirected();
 
     /**
-     * Returns if the graph is weighted or not.
-     *
-     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
-     */
-    public boolean isWeighted();
-
-    /**
      * Returns true wether u and v are adjacent vertex in the graph.
      *
      * @param u
@@ -194,8 +218,16 @@ public interface Graph<T> extends Iterable<T>
     public boolean isVertexAdjacent(int u, int v);
 
     /**
+     * Returns if the graph is weighted or not.
+     *
+     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
+     */
+    public boolean isWeighted();
+
+    /**
      * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or
-     * BSF or DSF.
+     * BSF or DSF. Most implementations will just return a {@link GraphIterator} to some random node. However, it is
+     * not guaranteed.
      *
      * @return a new {@link Iterator}
      */
@@ -212,6 +244,14 @@ public interface Graph<T> extends Iterable<T>
      * @return a new {@link GraphIterator}
      */
     public GraphIterator<T> iterator(int v);
+
+    /**
+     * Similar to the <code>iterator()</code> method but it guarantees a random access iterator to some randomly
+     * selected node.
+     *
+     * @return a new {@link GraphIterator}
+     */
+    public GraphIterator<T> randomIterator();
 
     /**
      * Registers an {@link EdgeFactory} instance to this class. This allows to vary the behavior of the graph as long as

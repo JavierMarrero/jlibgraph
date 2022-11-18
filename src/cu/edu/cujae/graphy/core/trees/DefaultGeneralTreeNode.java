@@ -21,10 +21,12 @@ package cu.edu.cujae.graphy.core.trees;
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.TreeNode;
+import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -95,6 +97,12 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public Object getAttribute(Object key) throws InvalidKeyException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     @SuppressWarnings ("unchecked")
     public Collection<TreeNode<E>> getChildren()
     {
@@ -132,6 +140,12 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public Map<Object, Object> getNodeAttributes()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public boolean hasChildren()
     {
         return !children.isEmpty();
@@ -151,9 +165,33 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public boolean isAdjacentAndArriving(Node<E> v)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isAdjacentAndDeparting(Node<E> v)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Object removeAttribute(Object key)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public boolean removeEdge(Edge edge)
     {
         return children.remove(edge);
+    }
+
+    @Override
+    public Object setAttribute(Object key, Object value)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
