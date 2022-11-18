@@ -109,9 +109,27 @@ public class Graphs
         }
 
         @Override
+        public boolean disconnect(Node<T> u, Node<T> v)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
+        public boolean disconnect(int u, int v)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
         public Graph<T> duplicate() throws CloneNotSupportedException
         {
             throw new CloneNotSupportedException();
+        }
+
+        @Override
+        public boolean existsEdgeWithDirection(int u, int v)
+        {
+            return graph.existsEdgeWithDirection(u, v);
         }
 
         @Override
@@ -148,6 +166,12 @@ public class Graphs
         public GraphIterator<T> iterator(int v)
         {
             return graph.iterator(v);
+        }
+
+        @Override
+        public GraphIterator<T> randomIterator()
+        {
+            return graph.randomIterator();
         }
 
         @Override
