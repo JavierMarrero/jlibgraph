@@ -51,18 +51,18 @@ import java.util.TreeMap;
  * @author Javier Marrero
  * @param <T> The type of the graph
  */
-public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
+public class DijkstraShortestPath extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
 {
 
     private final Map<Integer, Integer> distances;
-    private final WeightedGraph<T> G;
-    private final GraphIterator<T> it;
+    private final WeightedGraph<?> G;
+    private final GraphIterator<?> it;
     private final Map<Integer, Integer> previous;
     private final int s;
     private final PriorityQueue<Integer> Q;
     private final int V;
 
-    public DijkstraShortestPath(WeightedGraph<T> graph, GraphIterator<T> iter)
+    public DijkstraShortestPath(WeightedGraph<?> graph, GraphIterator<?> iter)
     {
         super(new HashMap<>(graph.size()));
         if (!graph.isWeighted())
@@ -90,7 +90,7 @@ public class DijkstraShortestPath<T> extends AbstractAlgorithm<Map<Integer, Pair
         int[] vertices = new int[V];
         int k = 0;
 
-        GraphIterator<T> depthFirstSearchIterator = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
+        GraphIterator<?> depthFirstSearchIterator = (GraphIterator<?>) graph.depthFirstSearchIterator(false);
         while (depthFirstSearchIterator.hasNext())
         {
             depthFirstSearchIterator.next();

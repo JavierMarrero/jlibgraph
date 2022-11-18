@@ -159,7 +159,7 @@ public abstract class AbstractEdge implements Edge
         Node<?> temp = start;
         this.start = finish;
         this.finish = temp;
-
+        
         // Reverse and reconnect
         start.addEdge(this);
     }

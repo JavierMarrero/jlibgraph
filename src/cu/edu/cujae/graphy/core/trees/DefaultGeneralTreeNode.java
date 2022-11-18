@@ -58,6 +58,12 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    public int degree()
+    {
+        return children.size();
+    }
+
+    @Override
     public void disconnect()
     {
         ///TODO: Fixme
@@ -74,6 +80,18 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
                     vertices.add(child.getLabel());
                 });
         return Collections.unmodifiableCollection(vertices);
+    }
+
+    @Override
+    public Collection<Integer> getAllVerticesArrivingSelf()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Collection<Integer> getAllVerticesDepartingSelf()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

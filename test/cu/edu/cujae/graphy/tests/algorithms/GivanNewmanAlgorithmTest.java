@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,47 +18,48 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.DijkstraShortestPath;
+import cu.edu.cujae.graphy.algorithms.GirvanNewmanAlgorithm;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
+import java.util.Random;
 
 /**
  *
  * @author Javier Marrero
  */
-public class DijkstraTest
+public class GivanNewmanAlgorithmTest
 {
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args)
     {
-        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
+        Random random = new Random();
 
-        // Create the nodes
-        for (int i = 0; i < 9; ++i)
+        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
+        for (int i = 0; i < 200; ++i)
         {
             graph.add(i);
         }
 
-        // Connect
-        graph.connect(0, 1, Weights.makeWeight(4));
-        graph.connect(0, 7, Weights.makeWeight(8));
-        graph.connect(1, 2, Weights.makeWeight(8));
-        graph.connect(1, 7, Weights.makeWeight(11));
-        graph.connect(2, 3, Weights.makeWeight(7));
-        graph.connect(2, 8, Weights.makeWeight(2));
-        graph.connect(2, 5, Weights.makeWeight(4));
-        graph.connect(3, 4, Weights.makeWeight(9));
-        graph.connect(3, 5, Weights.makeWeight(14));
-        graph.connect(4, 5, Weights.makeWeight(10));
-        graph.connect(5, 6, Weights.makeWeight(2));
-        graph.connect(6, 7, Weights.makeWeight(1));
-        graph.connect(6, 8, Weights.makeWeight(6));
-        graph.connect(7, 8, Weights.makeWeight(7));
+        // Make connections
+        for (int i = 0; i < 200; ++i)
+        {
+            graph.connect(i, (2 * i + 1) % 200, Weights.makeWeight(random.nextInt(15) + 1));
+            if (i % 7 == 0 || i % 11 == 0 || i % 9 == 0 || i % 4 == 0)
+            {
+                graph.connect(i, (i + 3) % 200, Weights.makeWeight(random.nextInt(12) + 1));
+                graph.connect((i + 3) % 200, i, Weights.makeWeight(random.nextInt(17) + 1));
+            }
+        }
 
+        // Print the graph
         System.out.println(graph);
 
-        System.out.println("Dijkstra: ");
-        System.out.println(new DijkstraShortestPath(graph, graph.iterator(0)).apply().get());
+        System.out.println("Givan-Newman algorithm for communities yielded this value:");
+        System.out.println(new GirvanNewmanAlgorithm(graph).apply().get());
     }
+
 }
