@@ -21,6 +21,7 @@ package cu.edu.cujae.graphy.core.trees;
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
+import cu.edu.cujae.graphy.core.defaults.DefaultDirectedEdgeFactory;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -63,6 +64,7 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
     public AbstractTree()
     {
         super(true);
+        setEdgeFactory(new DefaultDirectedEdgeFactory());
 
         this.usedLabels = new TreeSet<>();
     }
@@ -73,6 +75,7 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
         {
             if (usedLabels.contains(i) == false)
             {
+                useLabel(i);
                 return i;
             }
         }
@@ -113,7 +116,7 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
                 array[k++] = recursiveHeight(n);
             }
 
-            return max(array);
+            return max(array) + 1;
         }
     }
 

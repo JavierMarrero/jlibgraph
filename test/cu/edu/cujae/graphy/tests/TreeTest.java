@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.tests;
 
+import cu.edu.cujae.graphy.algorithms.TreeDetection;
 import cu.edu.cujae.graphy.core.trees.DefaultGeneralTree;
 
 /**
@@ -32,10 +33,17 @@ public class TreeTest
      */
     public static void main(String[] args)
     {
-        DefaultGeneralTree<Integer> tree = new DefaultGeneralTree<>();
-        tree.add(null, 1);
+        DefaultGeneralTree<Character> tree = new DefaultGeneralTree<>();
+        tree.add(null, 'a');
+        tree.add(tree.getRoot(), 'b');
+        tree.add(tree.getRoot(), 'c');
+        tree.add(tree.getRoot().getChildByIndex(0), 'd');
+        tree.add(tree.getRoot().getChildByIndex(1), 'e');
 
         System.out.println(tree);
+        System.out.println("Is a tree?: " + new TreeDetection<>(tree, tree.iterator(tree.getRoot().getLabel())).apply().
+                get());
+        // System.out.println("Height of this tree: " + tree.getHeight());
     }
 
 }

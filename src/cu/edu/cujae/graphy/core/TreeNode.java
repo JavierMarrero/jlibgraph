@@ -37,6 +37,22 @@ public interface TreeNode<E> extends Node<E>
     public TreeNode<E> getParent();
 
     /**
+     * Returns the i<sup>th</sup> child.
+     *
+     * @param i
+     *
+     * @return
+     */
+    public TreeNode<E> getChildByIndex(int i);
+
+    /**
+     * Returns the first child of this node.
+     *
+     * @return
+     */
+    public TreeNode<E> getFirstChild();
+
+    /**
      * Returns a {@link Collection} containing all the children nodes of this.
      *
      * @return

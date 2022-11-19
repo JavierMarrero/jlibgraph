@@ -109,6 +109,32 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
 
     @Override
     @SuppressWarnings ("unchecked")
+    public TreeNode<E> getChildByIndex(int i)
+    {
+        if (i > children.size() || i < 0)
+        {
+            throw new IndexOutOfBoundsException("Attempted to access ith children with index " + i
+                                                        + " and size of children list is " + children.size());
+        }
+
+        int j = 0;
+        Iterator<Edge> it = children.iterator();
+        Edge edge = null;
+
+        while (j++ <= i && it.hasNext())
+        {
+            edge = it.next();
+        }
+
+        if (edge == null)
+        {
+            throw new IllegalStateException("Could not find child number " + i);
+        }
+        return (TreeNode<E>) edge.getFinalNode();
+    }
+
+    @Override
+    @SuppressWarnings ("unchecked")
     public Collection<TreeNode<E>> getChildren()
     {
         Collection<TreeNode<E>> childList = new LinkedList<>();
@@ -205,5 +231,5 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
