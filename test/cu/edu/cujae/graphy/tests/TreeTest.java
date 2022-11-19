@@ -44,6 +44,7 @@ public class TreeTest
         tree.add(tree.findFirstNode('d'), 'h');
         tree.add(tree.findFirstNode('d'), 'i');
         tree.add(null, 'z');
+        tree.add(tree.add(tree.add(tree.getRoot(), 'j'), 'k'), 'l');
 
         System.out.println(tree);
         System.out.println("Is a tree?: " + new TreeDetection<>(tree, tree.iterator(tree.getRoot().getLabel())).apply().
