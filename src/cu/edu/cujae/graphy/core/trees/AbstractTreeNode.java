@@ -51,6 +51,12 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
     }
 
     @Override
+    public TreeNode<E> getFirstChild()
+    {
+        return getChildByIndex(0);
+    }
+
+    @Override
     public int getLabel()
     {
         return label;
@@ -77,7 +83,7 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
         {
             builder.append("  ");
         }
-        builder.append(toString());
+        builder.append(toString()).append(System.lineSeparator());
 
         for (TreeNode<E> child : getChildren())
         {

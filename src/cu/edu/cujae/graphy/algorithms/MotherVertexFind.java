@@ -27,6 +27,7 @@ import java.util.TreeSet;
  * reached by a path from <i>v</i>.
  *
  * @author Javier Marrero
+ * @param <T>
  */
 public class MotherVertexFind<T> extends AbstractAlgorithm<Integer>
 {
@@ -51,16 +52,16 @@ public class MotherVertexFind<T> extends AbstractAlgorithm<Integer>
         // Store the last finished vertex
         // (or mother vertex)
         int v = -1;
-                
+
         while (dfsIterator.hasNext())
         {
             // Step to the next vertex
             dfsIterator.next();
-            
+
             // Add this to the list of visited
             if (!isVisited(dfsIterator.getLabel()))
             {
-                
+
                 v = dfsIterator.getLabel();
             }
         }

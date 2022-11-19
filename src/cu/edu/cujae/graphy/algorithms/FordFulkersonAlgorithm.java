@@ -41,7 +41,6 @@ import java.util.*;
  * Su nombre viene dado por sus creadores , L.R. Ford, Jr. y D.R. Fulkerson.
  *
  * @author Amanda Mendez
- * @param <T>
  */
 public class FordFulkersonAlgorithm extends AbstractAlgorithm<Pair<Float, List<Integer>>>
 {

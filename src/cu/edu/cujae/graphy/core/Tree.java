@@ -45,6 +45,24 @@ public interface Tree<E> extends Graph<E>
     public boolean add(TreeNode<E> parent, E data);
 
     /**
+     * Finds the first node containing data.
+     *
+     * @param data
+     *
+     * @return
+     */
+    public TreeNode<E> findFirstNode(E data);
+
+    /**
+     * Retrieves a node by its label.
+     *
+     * @param label
+     *
+     * @return
+     */
+    public TreeNode<E> getNodeByLabel(int label);
+
+    /**
      * Returns the height of the tree. The height of a tree is a recursive relation defined by the following formula:
      * <ul>
      * <li>0 <i>if the tree contains the root only</i></li>

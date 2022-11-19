@@ -52,7 +52,7 @@ public class GreedyColoringAlgorithm<T> extends AbstractAlgorithm<Graph<T>>
 
     // Campos de la clase
     public final Graph<T> graph;
-    
+
     public GreedyColoringAlgorithm(Graph<T> graph)
     {
         super(graph);
@@ -60,11 +60,11 @@ public class GreedyColoringAlgorithm<T> extends AbstractAlgorithm<Graph<T>>
         // Inicializar campos de la clase
         this.graph = graph;
     }
-    
+
     @Override
     public Algorithm<Graph<T>> apply()
     {
-        
+
         Map<Integer, Integer> result = new HashMap<>(graph.size());
 
         // Inicializar todos los vértices a no asignados
@@ -77,7 +77,7 @@ public class GreedyColoringAlgorithm<T> extends AbstractAlgorithm<Graph<T>>
         Collection<Integer> labels = graph.getLabels();
         Iterator<Integer> it = labels.iterator();
         int firstVertex = it.next();
-        
+
         result.put(firstVertex, 0);
 
         // Almacenar el color de los vértices adyacentes de "u"
@@ -90,7 +90,7 @@ public class GreedyColoringAlgorithm<T> extends AbstractAlgorithm<Graph<T>>
             // Lista de vértices adyacentes a "u"
             int u = it.next();
             GraphIterator<T> ite = graph.iterator(u);
-            
+
             for (int i : ite.getAllAdjacentVertices())
             {
                 if (result.get(i) != -1)
@@ -109,21 +109,21 @@ public class GreedyColoringAlgorithm<T> extends AbstractAlgorithm<Graph<T>>
                     break;
                 }
             }
-            
+
             result.put(u, cr);
-            
+
             available.addAll(labels);
         }
-        
+
         Set<Integer> keySet = result.keySet();
-        
+
         for (int k : keySet)
         {
             GraphIterator<T> ite = graph.iterator(k);
             ite.setAttribute(Node.COLOR, result.get(k));
         }
-        
+
         return this;
     }
-    
+
 }

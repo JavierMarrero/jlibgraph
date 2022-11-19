@@ -26,5 +26,5 @@ package cu.edu.cujae.graphy.algorithms;
  */
 public class KargerMinimumCut
 {
-    
+
 }
