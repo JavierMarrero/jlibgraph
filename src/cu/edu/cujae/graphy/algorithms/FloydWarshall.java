@@ -25,61 +25,64 @@ import cu.edu.cujae.graphy.utils.MapBiArray;
 import cu.edu.cujae.graphy.utils.Pair;
 import java.util.ArrayList;
 
-
 /**
- * El algoritmo de Floyd-Warshall es uno de los que se han creado para encontrar el camino más corto entre nodos, se trabaja
+ * El algoritmo de Floyd-Warshall es uno de los que se han creado para encontrar el camino más corto entre nodos, se
+ * trabaja
  * con programación dinámica, lo que garantiza que la solución entregada sea óptima.
  * Entrada: Grafo dirigido con pesos asociados a las aristas
  * Salida: Matriz distancia que entrega el menor camino para ir de un nodo a otro del grafo
- *         Matriz ruta que entrega el nodo intermedio para llegar desde un nodo a otro del grafo
- * 
+ * Matriz ruta que entrega el nodo intermedio para llegar desde un nodo a otro del grafo
+ *
  * @author Jose
  * @param <V>
  */
-public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer,Integer,Integer>,MapBiArray<Integer,Integer,Integer>>>{
+public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>>>
+{
+
     private final WeightedGraph<V> graph;
     private static final int INF = Integer.MAX_VALUE;
 
-    public FloydWarshall (WeightedGraph<V> graph){
-        super(new Pair(null,null));
+    public FloydWarshall(WeightedGraph<V> graph)
+    {
+        super(new Pair<>(null, null));
         this.graph = graph;
-}
+    }
 
     @Override
-    public Algorithm apply()
+    public Algorithm<Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>>> apply()
     {
         int cantVertices = graph.size();
-        
+
         /*Se crean dos MapBiArray que funcionan como arreglos bidimensionales cada uno
         similar a distancia [i][j]=valor, donde valor es el tercer parámetro.*/
-        MapBiArray<Integer,Integer,Integer> distancia = new MapBiArray();
-        MapBiArray<Integer,Integer,Integer> ruta = new MapBiArray();
-        
-        ArrayList<Integer> vertices = new ArrayList<Integer>(graph.size());
+        MapBiArray<Integer, Integer, Integer> distancia = new MapBiArray<>();
+        MapBiArray<Integer, Integer, Integer> ruta = new MapBiArray<>();
+
+        ArrayList<Integer> vertices = new ArrayList<>(graph.size());
         GraphIterator<V> iter = (GraphIterator<V>) graph.breadthFirstSearchIterator(false);
- 
+
         // Guardando en una lista las etiquetas de cada nodo del grafo para acceder a ellas de forma secuencial
         while (iter.hasNext())
         {
             iter.next();
             vertices.add(iter.getLabel());
         }
-       
-        
+
         //Inicializar
-        for (int i =0;i < cantVertices;i++)
+        for (int i = 0; i < cantVertices; i++)
         {
-            for (int j=0;j< cantVertices;j++)
-            {    
+            for (int j = 0; j < cantVertices; j++)
+            {
                 GraphIterator<V> iterat1 = graph.iterator(vertices.get(i));
                 GraphIterator<V> iterat2 = graph.iterator(vertices.get(j));
-                
+
                 int label1 = iterat1.getLabel();
                 int label2 = iterat2.getLabel();
                 // Si existe una arista adyacente se le asigna a distancia [i][j] el peso de dicha arista sino, seria INF
                 try
                 {
-                    distancia.put(label1, label2, (Integer) iterat1.getAdjacentEdge(iterat2.getLabel()).getWeight().getValue());
+                    distancia.put(label1, label2, (Integer) iterat1.getAdjacentEdge(iterat2.getLabel()).getWeight().
+                                  getValue());
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -90,22 +93,26 @@ public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer,
                 ruta.put(label1, label2, label2);
             }
         }
-        
+
         //Determinar la ruta más corta
-        for (int k = 0; k< cantVertices;k++)
+        for (int k = 0; k < cantVertices; k++)
         {
-            for (int i=0; i<cantVertices;i++)
+            for (int i = 0; i < cantVertices; i++)
             {
-                for (int j=0; j<cantVertices;j++)
+                for (int j = 0; j < cantVertices; j++)
                 {
-                    if(i==j)
+                    if (i == j)
                     {
                         distancia.put(i, j, Integer.MAX_VALUE);
                     }
-                    else{
+                    else
+                    {
                         /*Si la ruta a través del vértice del subíndice k es más corta que la ruta entre los puntos originales, 
-                        actualizar distancia [i][j] y ruta [i][j]*/ 
-                    int tmp = (distancia.get(i,k) == INF || distancia.get(k,j) == INF) ? INF : (distancia.get(i, k) + distancia.get(k, j));
+                        actualizar distancia [i][j] y ruta [i][j]*/
+                        int tmp = (distancia.get(i, k) == INF || distancia.get(k, j) == INF) ? INF : (distancia.
+                                                                                                      get(i, k)
+                                                                                                      + distancia.get(k,
+                                                                                                                      j));
                         if (distancia.get(i, j) > tmp)
                         {
                             //El valor correspondiente a la ruta más corta de i a j se establece en el más pequeño después de k  
@@ -115,22 +122,22 @@ public class FloydWarshall<V> extends AbstractAlgorithm<Pair<MapBiArray<Integer,
                         }
                     }
                 }
-            }     
+            }
         }
-        
-        for (int i =0;i<cantVertices;i++)
+
+        for (int i = 0; i < cantVertices; i++)
         {
-            for(int j =0;j<cantVertices;j++)
+            for (int j = 0; j < cantVertices; j++)
             {
-                if(distancia.get(i, j)== Integer.MAX_VALUE)
+                if (distancia.get(i, j) == Integer.MAX_VALUE)
                 {
                     ruta.put(i, j, Integer.MAX_VALUE);
                 }
             }
         }
-        setResult(new Pair<MapBiArray<Integer,Integer,Integer>,MapBiArray<Integer,Integer,Integer>>(distancia,ruta));
+        setResult(new Pair<>(distancia, ruta));
         return this;
-        
+
     }
-    
+
 }

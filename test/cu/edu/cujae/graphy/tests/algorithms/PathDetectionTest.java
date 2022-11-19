@@ -4,9 +4,11 @@ import cu.edu.cujae.graphy.algorithms.PathDetection;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
-public class PathDetectionTest {
+public class PathDetectionTest
+{
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
 
         graph.add(0);
@@ -22,7 +24,7 @@ public class PathDetectionTest {
         graph.connect(1, 2);
         graph.connect(1, 4);
         graph.connect(4, 5);
-    
+
         System.out.println(new PathDetection<>(graph, 1, 3).apply().get());
     }
 }

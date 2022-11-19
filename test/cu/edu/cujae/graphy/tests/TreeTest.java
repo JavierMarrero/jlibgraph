@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Ananda.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,17 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.tests.algorithms;
+package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.algorithms.KosarajuAlgorithm;
-import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
+import cu.edu.cujae.graphy.algorithms.TreeDetection;
+import cu.edu.cujae.graphy.core.trees.DefaultGeneralTree;
 
 /**
  *
- * @author Ananda
+ * @author Javier Marrero
  */
-public class KosarajuTest
+public class TreeTest
 {
 
     /**
@@ -34,22 +33,17 @@ public class KosarajuTest
      */
     public static void main(String[] args)
     {
+        DefaultGeneralTree<Character> tree = new DefaultGeneralTree<>();
+        tree.add(null, 'a');
+        tree.add(tree.getRoot(), 'b');
+        tree.add(tree.getRoot(), 'c');
+        tree.add(tree.getRoot().getChildByIndex(0), 'd');
+        tree.add(tree.getRoot().getChildByIndex(1), 'e');
 
-        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
-        for (int i = 0; i < 5; i++)
-        {
-            graph.add(i);
-        }
-
-        graph.connect(0, 3);
-        graph.connect(0, 2);
-        graph.connect(1, 0);
-        graph.connect(2, 1);
-        graph.connect(3, 4);
-
-        System.out.println(graph);
-        System.out.println("Kosaraju?:");
-        System.out.println(new KosarajuAlgorithm<>(graph, graph.iterator(0)).apply().get());
+        System.out.println(tree);
+        System.out.println("Is a tree?: " + new TreeDetection<>(tree, tree.iterator(tree.getRoot().getLabel())).apply().
+                get());
+        // System.out.println("Height of this tree: " + tree.getHeight());
     }
 
 }

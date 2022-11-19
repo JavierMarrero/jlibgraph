@@ -17,7 +17,7 @@ public class DefaultNotDirectedEdgeFactory extends DefaultEdgeFactory implements
     {
         return new AbstractEdge(label, u, v, w, false)
         {
-            
+
         };
     }
 

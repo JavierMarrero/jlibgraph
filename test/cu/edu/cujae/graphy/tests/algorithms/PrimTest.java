@@ -5,10 +5,12 @@ import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
 
-public class PrimTest {
+public class PrimTest
+{
 
     // Main Test
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         WeightedGraph<Character> graph = GraphBuilders.makeSimpleWeightedGraph(false);
 
         graph.add(0, 'a');

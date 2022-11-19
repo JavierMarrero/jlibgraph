@@ -1,12 +1,14 @@
 package cu.edu.cujae.graphy.tests;
 
-import java.util.Iterator;
-
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
+import java.util.Iterator;
 
-public class LocalTest {
-    public static void main(String[] args) {
+public class LocalTest
+{
+
+    public static void main(String[] args)
+    {
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
         graph.add(0);
         graph.add(1);
@@ -23,9 +25,10 @@ public class LocalTest {
         graph.connect(4, 5);
 
         Iterator<Integer> iter = graph.iterator(0);
-        while(iter.hasNext()){
+        while (iter.hasNext())
+        {
             System.out.println(iter.next());
         }
     }
-    
+
 }

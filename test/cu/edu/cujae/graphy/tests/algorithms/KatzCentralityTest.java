@@ -28,9 +28,12 @@ import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
  */
 public class KatzCentralityTest
 {
-    public static void getKatz (Graph<Integer> graph, double alpha){
-        System.out.println("Katz Centrality" + new KatzCentrality(graph,alpha).apply().get());
+
+    public static void getKatz(Graph<Integer> graph, double alpha)
+    {
+        System.out.println("Katz Centrality" + new KatzCentrality(graph, alpha).apply().get());
     }
+
     /**
      * @param args the command line arguments
      */
@@ -38,27 +41,27 @@ public class KatzCentralityTest
     {
         //Juego de datos para cuando existen vertices aislados
         Graph<Integer> graph = new DefaultGraphBuilder<Integer>().buildGraph().directed(false).get();
-        
-        for(int i = 0;i<9;i++)
+
+        for (int i = 0; i < 9; i++)
         {
             graph.add(i, i);
         }
-        
+
         graph.connect(0, 1);
         graph.connect(0, 2);
         graph.connect(0, 5);
         graph.connect(1, 5);
         graph.connect(1, 6);
-        graph.connect( 2, 5);
-        graph.connect( 2,3 );
-        graph.connect( 3,4 );
-        graph.connect( 4,5 );
-        graph.connect( 4,8 );
-        graph.connect( 5,7 );
-        graph.connect( 6,7 );
-        graph.connect( 7,8 );
-        
+        graph.connect(2, 5);
+        graph.connect(2, 3);
+        graph.connect(3, 4);
+        graph.connect(4, 5);
+        graph.connect(4, 8);
+        graph.connect(5, 7);
+        graph.connect(6, 7);
+        graph.connect(7, 8);
+
         getKatz(graph, 1.5);
     }
-    
+
 }

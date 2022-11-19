@@ -41,12 +41,11 @@ import java.util.*;
  * Su nombre viene dado por sus creadores , L.R. Ford, Jr. y D.R. Fulkerson.
  *
  * @author Amanda Mendez
- * @param <T>
  */
 public class FordFulkersonAlgorithm extends AbstractAlgorithm<Pair<Float, List<Integer>>>
 {
 
-    // Campos de la clase 
+    // Fields of class 
     private final WeightedGraph<?> G; // Graph
     private final int s;
     private final int t;
@@ -54,7 +53,7 @@ public class FordFulkersonAlgorithm extends AbstractAlgorithm<Pair<Float, List<I
     private final Map<Integer, Integer> parent; // To store path
     private final WeightedGraph<?> rG; // Residual graph
 
-    // Constructor de la clase 
+    // Constructor
     public FordFulkersonAlgorithm(WeightedGraph<?> graph, GraphIterator<?> source, GraphIterator<?> dest)
     {
         super(new Pair<Float, List<Integer>>());

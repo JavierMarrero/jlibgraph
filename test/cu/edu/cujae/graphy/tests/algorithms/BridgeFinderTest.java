@@ -28,7 +28,7 @@ import cu.edu.cujae.graphy.core.utility.GraphBuilders;
  */
 public class BridgeFinderTest
 {
-    
+
     private static void bridges(Graph<?> graph)
     {
         System.out.println(new BridgeFinderAlgorithm(graph).apply().get());
@@ -45,7 +45,7 @@ public class BridgeFinderTest
         {
             g1.add(i);
         }
-        
+
         g1.connect(1, 0);
         g1.connect(0, 2);
         g1.connect(2, 1);
@@ -60,7 +60,7 @@ public class BridgeFinderTest
         {
             g2.add(i);
         }
-        
+
         g2.connect(0, 1);
         g2.connect(1, 2);
         g2.connect(2, 3);
@@ -73,7 +73,7 @@ public class BridgeFinderTest
         {
             g3.add(i);
         }
-        
+
         g3.connect(0, 1);
         g3.connect(1, 2);
         g3.connect(2, 0);
@@ -83,7 +83,7 @@ public class BridgeFinderTest
         g3.connect(3, 5);
         g3.connect(4, 5);
         bridges(g3);
-        
+
     }
-    
+
 }

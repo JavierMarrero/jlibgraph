@@ -30,15 +30,15 @@ import java.util.LinkedList;
  */
 public class IsolatedVerticesTest
 {
-    
-    public static void getIsolatedVertices (Graph<Integer> graph)
+
+    public static void getIsolatedVertices(Graph<Integer> graph)
     {
         LinkedList<Integer> aux = (LinkedList<Integer>) (new IsolatedVertices(graph)).apply().get();
         Iterator<Integer> iter = aux.iterator();
-        
-        if(!aux.isEmpty())
+
+        if (!aux.isEmpty())
         {
-            while(iter.hasNext()) 
+            while (iter.hasNext())
             {
                 Integer in = iter.next();
                 System.out.println(in);
@@ -57,12 +57,12 @@ public class IsolatedVerticesTest
     {
         //Juego de datos para cuando existen vertices aislados
         Graph<Integer> graph = new DefaultGraphBuilder<Integer>().buildGraph().directed(false).get();
-        
-        for(int i = 0;i<10;i++)
+
+        for (int i = 0; i < 10; i++)
         {
             graph.add(i, i);
         }
-        
+
         graph.connect(0, 1);
         graph.connect(0, 2);
         graph.connect(2, 3);
@@ -70,17 +70,17 @@ public class IsolatedVerticesTest
         graph.connect(4, 5);
         graph.connect(5, 6);
         graph.connect(1, 9);
-        
+
         getIsolatedVertices(graph);
-        
+
         //Juego de datos para cuando no existen vertices aislados
         Graph<Integer> graph2 = new DefaultGraphBuilder<Integer>().buildGraph().directed(false).get();
-        
-        for(int i =0;i<10;i++)
+
+        for (int i = 0; i < 10; i++)
         {
             graph2.add(i, i);
         }
-        
+
         graph2.connect(0, 1);
         graph2.connect(0, 2);
         graph2.connect(2, 3);
@@ -89,8 +89,8 @@ public class IsolatedVerticesTest
         graph2.connect(5, 6);
         graph2.connect(1, 9);
         graph2.connect(7, 8);
-        
+
         getIsolatedVertices(graph2);
     }
-    
+
 }

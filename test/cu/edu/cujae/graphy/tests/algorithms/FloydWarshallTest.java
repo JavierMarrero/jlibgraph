@@ -31,53 +31,64 @@ import cu.edu.cujae.graphy.utils.Pair;
  */
 public class FloydWarshallTest
 {
-    public static void getMatrix(WeightedGraph<Integer> graph){
-        Pair<MapBiArray<Integer,Integer,Integer>,MapBiArray<Integer,Integer,Integer>> aux = (Pair<MapBiArray<Integer,Integer,Integer>,MapBiArray<Integer,Integer,Integer>>) new FloydWarshall<>(graph).apply().get();
+
+    public static void getMatrix(WeightedGraph<Integer> graph)
+    {
+        @SuppressWarnings ("unchecked")
+        Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>> aux
+                                                                                                   = (Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>>) new FloydWarshall<>(
+                        graph).apply().get();
         System.out.println("Floyd-Warshall");
         System.out.println("Matriz de distancia");
         System.out.println("   0  1  2  3  4");
-        for(int i = 0;i<5;i++){
+        for (int i = 0; i < 5; i++)
+        {
             System.out.print(i + "  ");
-            for (int j =0;j<5;j++){
-                System.out.print((aux.getFirst().get(i, j) != Integer.MAX_VALUE?aux.getFirst().get(i, j) : "-" ) + "  ");
+            for (int j = 0; j < 5; j++)
+            {
+                System.out.
+                        print((aux.getFirst().get(i, j) != Integer.MAX_VALUE ? aux.getFirst().get(i, j) : "-") + "  ");
             }
             System.out.println();
         }
-        
+
         System.out.println("Floyd-Warshall");
         System.out.println("Matriz de recorrido");
         System.out.println("   0  1  2  3  4");
-        for(int i = 0;i<5;i++){
+        for (int i = 0; i < 5; i++)
+        {
             System.out.print(i + "  ");
-            for (int j =0;j<5;j++){
-                System.out.print((aux.getLast().get(i, j) != Integer.MAX_VALUE? aux.getLast().get(i, j) : "-" ) + "  ");
+            for (int j = 0; j < 5; j++)
+            {
+                System.out.print((aux.getLast().get(i, j) != Integer.MAX_VALUE ? aux.getLast().get(i, j) : "-") + "  ");
             }
             System.out.println();
         }
     }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-         WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(true);
+        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(true);
 
         // Create the nodes
         for (int i = 0; i < 5; ++i)
         {
             graph.add(i);
         }
-        
-          // Connect
-        graph.connect(0,1, Weights.makeWeight(5));
-        graph.connect(1,4 , Weights.makeWeight(3));
-        graph.connect(4,0 , Weights.makeWeight(6));
-        graph.connect(0,3 , Weights.makeWeight(1));
-        graph.connect(3,2 , Weights.makeWeight(2));
-        graph.connect(4,2 , Weights.makeWeight(4));
-        
+
+        // Connect
+        graph.connect(0, 1, Weights.makeWeight(5));
+        graph.connect(1, 4, Weights.makeWeight(3));
+        graph.connect(4, 0, Weights.makeWeight(6));
+        graph.connect(0, 3, Weights.makeWeight(1));
+        graph.connect(3, 2, Weights.makeWeight(2));
+        graph.connect(4, 2, Weights.makeWeight(4));
+
         getMatrix(graph);
-        
+
     }
-    
+
 }
