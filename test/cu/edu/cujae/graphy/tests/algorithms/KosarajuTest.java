@@ -26,15 +26,18 @@ import cu.edu.cujae.graphy.core.utility.GraphBuilders;
  *
  * @author Ananda
  */
-public class KosarajuTest {
+public class KosarajuTest
+{
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             graph.add(i);
         }
 

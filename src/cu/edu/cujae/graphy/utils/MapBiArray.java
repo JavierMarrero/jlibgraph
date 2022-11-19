@@ -30,9 +30,10 @@ import java.util.TreeMap;
  * @param <V> Value type
  *
  */
-public class MapBiArray<K,I,V>
+public class MapBiArray<K, I, V>
 {
-     /// An associative array of maps.
+    /// An associative array of maps.
+
     private final Map<K, Map<I, V>> dictionary;
 
     /**

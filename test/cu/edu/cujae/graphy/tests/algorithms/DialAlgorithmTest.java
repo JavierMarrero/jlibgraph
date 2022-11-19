@@ -27,12 +27,14 @@ import cu.edu.cujae.graphy.core.utility.Weights;
  *
  * @author Ananda
  */
-public class DialAlgorithmTest {
+public class DialAlgorithmTest
+{
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
 
         // Create the nodes
@@ -61,5 +63,5 @@ public class DialAlgorithmTest {
         System.out.println("Dial: ");
         System.out.println(new DialShortestPath(graph, graph.iterator(0), 14).apply().get());
     }
-    
+
 }

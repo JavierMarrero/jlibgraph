@@ -49,7 +49,6 @@ import java.util.TreeMap;
  * a {@link cu.edu.cujae.graphy.core.exceptions.InvalidOperationException}.
  *
  * @author Javier Marrero
- * @param <T> The type of the graph
  */
 public class DijkstraShortestPath extends AbstractAlgorithm<Map<Integer, Pair<Integer, List<Integer>>>>
 {

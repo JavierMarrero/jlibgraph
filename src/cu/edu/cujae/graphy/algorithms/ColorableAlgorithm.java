@@ -22,36 +22,42 @@ import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 
 /**
- *El objetivo de este algoritmo es determinar si un grafo no dirigido puede ser
+ * El objetivo de este algoritmo es determinar si un grafo no dirigido puede ser
  * coloreado con m colores, de forma tal que dos vértices adyacentes no posean
  * igual coloratura.
- * 
+ *
  * @author Ananda
  * @param <T>
  */
-public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean> {
+public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean>
+{
+
     private final Graph<T> graph;
     private final int m;
     private final String color;
     private final GraphIterator<T> iter;
     private int vertices;
-    
-    public ColorableAlgorithm(Graph<T> graph, int m, String color, GraphIterator<T> iter){
+
+    public ColorableAlgorithm(Graph<T> graph, int m, String color, GraphIterator<T> iter)
+    {
         super(Boolean.TRUE);
-        if(graph.isDirected()){
+        if (graph.isDirected())
+        {
             throw new IllegalArgumentException(
                     "Attempted to apply Colorable algorithm to an directed graph.");
         }
         this.graph = graph;
-        this.m = m; 
+        this.m = m;
         this.color = color;
         this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
     }
-    
+
     @Override
-    public Algorithm<Boolean> apply(){
-        while(iter.hasNext()){
-    /*        Collections.sort(vertices, new VertexComparator());
+    public Algorithm<Boolean> apply()
+    {
+        while (iter.hasNext())
+        {
+            /*        Collections.sort(vertices, new VertexComparator());
             Map<String, String> vertex_color_index = new HashMap<String, String>();
             for (int i = 0; i < vertices.size(); i++){
                 if ((vertex_color_index.containsKey(vertices.get(i).node))){	
@@ -72,8 +78,8 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean> {
             System.out.println(vertex_color_index);	
 	}*/
         }
-        
+
         return this;
     }
-    
+
 }

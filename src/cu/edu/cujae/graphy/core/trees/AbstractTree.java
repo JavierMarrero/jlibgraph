@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.core.trees;
 
+import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
@@ -33,8 +34,6 @@ import java.util.TreeSet;
  */
 public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E>
 {
-
-    private final Set<Integer> usedLabels;
 
     /**
      * Returns the maximum within an unspecified set of parameters.
@@ -60,6 +59,7 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
         }
         return result;
     }
+    private final Set<Integer> usedLabels;
 
     public AbstractTree()
     {
@@ -67,6 +67,52 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
         setEdgeFactory(new DefaultDirectedEdgeFactory());
 
         this.usedLabels = new TreeSet<>();
+    }
+
+    @Override
+    public TreeNode<E> findFirstNode(E data)
+    {
+        for (Node<E> node : getNodes())
+        {
+            if (node.get().equals(data))
+            {
+                return (TreeNode<E>) node;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int getHeight()
+    {
+        return recursiveHeight(getRoot());
+    }
+
+    @Override
+    public TreeNode<E> getNodeByLabel(int label)
+    {
+        return (TreeNode<E>) findNodeByLabel(label);
+    }
+
+    @Override
+    public String toString()
+    {
+        if (getRoot() == null)
+        {
+            return "<empty-tree>";
+        }
+        else
+        {
+            return getRoot().toString(0);
+        }
+    }
+
+    protected boolean freeLabel(int i)
+    {
+        return usedLabels.remove(i);
     }
 
     protected int generateLabel()
@@ -87,20 +133,6 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
         return usedLabels.add(i);
     }
 
-    protected boolean freeLabel(int i)
-    {
-        return usedLabels.remove(i);
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getHeight()
-    {
-        return recursiveHeight(getRoot());
-    }
-
     private int recursiveHeight(TreeNode<E> node)
     {
         if (isRoot(node) && !node.hasChildren())
@@ -117,19 +149,6 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
             }
 
             return max(array) + 1;
-        }
-    }
-
-    @Override
-    public String toString()
-    {
-        if (getRoot() == null)
-        {
-            return "<empty-tree>";
-        }
-        else
-        {
-            return getRoot().toString(0);
         }
     }
 

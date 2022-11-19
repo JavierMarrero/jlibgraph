@@ -167,7 +167,10 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public Set<Edge> getEdgesArrivingSelf()
     {
-        return Collections.emptySet();
+        Set<Edge> result = new HashSet<>(1);
+        result.add(parent);
+
+        return result;
     }
 
     @Override
@@ -192,6 +195,11 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public boolean isAdjacent(Node<E> v)
     {
+        if (v.equals(parent.getStartNode()))
+        {
+            return true;
+        }
+
         for (Edge e : children)
         {
             if (e.getFinalNode().equals(v))
