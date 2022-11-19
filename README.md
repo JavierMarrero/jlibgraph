@@ -50,6 +50,63 @@ Actualmente se encuentran soportados los siguientes IDEs:
 - NetBeans (el desarrollo principal se efectúa aquí)
 - Visual Studio Code
 - Eclipse (soporte parcial)
+
+### Pequeño ejemplo
+
+#### Grafos simples
+
+```java
+
+// La interfaz Graph es genérica y puede contener cualquier objeto
+// El boolean de makeSimpleGraph determina si el grafo construído es dirigido o no
+
+Graph<Object> graph = GraphBuilders.makeSimpleGraph(false);
+
+```
+  
+### Grafos con pesos
+
+```java
+
+// La interfaz WeightedGraph<?> extiende a Graph<?>
+// El boolean cumple la misma función en todos los métodos de GraphBuilders
+
+WeightedGraph<Object> weightedGraph = GraphBuilders.makeSimpleWeightedGraph(false);
+
+```
+
+### Iteradores
+
+> Los iteradores pueden ser aleatorios, a lo ancho o en profundidad
+
+#### Iterador aleatorio
+
+```java
+
+Graph<Object> graph = GraphBuilders.makeSimpleGraph(false);
+GraphIterator<Object> randomIterator = graph.randomIterator();
+
+// o también un parámetro entero que representa el identificador del nodo en el grafo
+
+randomIterator = graph.iterator(0);
+
+```
+
+#### Iterador en profundidad
+
+```java
+
+GraphIterator<Object> depthFirstSearchIterator = graph.depthFirstSearchIterator();
+
+```
+
+#### Iterador a lo ancho
+
+```java
+
+GraphIterator<Object> breadthFirstSearchIterator = graph.breadthFirstSearchIterator();
+
+```
   
 ## Contribuyendo al proyecto
 
