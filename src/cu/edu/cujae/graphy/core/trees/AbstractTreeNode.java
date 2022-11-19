@@ -62,4 +62,28 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
         this.data = data;
     }
 
+    @Override
+    public String toString()
+    {
+        return "+ (" + data + ")[" + getLabel() + "]";
+    }
+
+    @Override
+    public String toString(int level)
+    {
+        int originalLevel = level;
+        StringBuilder builder = new StringBuilder();
+        while (level-- > 0)
+        {
+            builder.append("  ");
+        }
+        builder.append(toString());
+
+        for (TreeNode<E> child : getChildren())
+        {
+            builder.append(child.toString(originalLevel + 1));
+        }
+        return builder.toString();
+    }
+
 }

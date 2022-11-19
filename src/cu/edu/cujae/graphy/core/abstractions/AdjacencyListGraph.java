@@ -125,6 +125,9 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
             edge.getStartNode().removeEdge(edge);
         }
 
+        // Remove the node
+        nodes.remove(node.getLabel());
+
         return node.get();
     }
 
