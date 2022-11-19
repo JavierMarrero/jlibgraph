@@ -47,17 +47,30 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
     public boolean add(int label, E data)
     {
         TreeNode<E> newNode = new DefaultGeneralTreeNode<>(label, data);
-        if (root == null)
-        {
-            root = newNode;
-        }
         return nodes.put(label, newNode) == null;
     }
 
     @Override
     public boolean add(TreeNode<E> parent, E data)
     {
-        throw new UnsupportedOperationException("not supported yet!");
+        int l = generateLabel();
+        if (add(l, data))
+        {
+            TreeNode<E> newNode = (TreeNode<E>) findNodeByLabel(l);
+            if (parent == null)
+            {
+                root = newNode;
+            }
+            else
+            {
+                connect(parent, newNode);
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     @Override

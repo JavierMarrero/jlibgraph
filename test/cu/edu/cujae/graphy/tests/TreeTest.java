@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,46 +16,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core;
+package cu.edu.cujae.graphy.tests;
 
-import java.util.Collection;
+import cu.edu.cujae.graphy.core.trees.DefaultGeneralTree;
 
 /**
- * An interface representing nodes of a tree.
  *
  * @author Javier Marrero
- * @param <E>
  */
-public interface TreeNode<E> extends Node<E>
+public class TreeTest
 {
 
     /**
-     * Returns the parent of this node. If this node is not in a tree or is the root, returns null.
-     *
-     * @return
+     * @param args the command line arguments
      */
-    public TreeNode<E> getParent();
+    public static void main(String[] args)
+    {
+        DefaultGeneralTree<Integer> tree = new DefaultGeneralTree<>();
+        tree.add(null, 1);
 
-    /**
-     * Returns a {@link Collection} containing all the children nodes of this.
-     *
-     * @return
-     */
-    public Collection<TreeNode<E>> getChildren();
+        System.out.println(tree);
+    }
 
-    /**
-     * Returns if the node has any child nodes.
-     *
-     * @return
-     */
-    public boolean hasChildren();
-
-    /**
-     * Prints a node with correct indentation.
-     *
-     * @param level
-     *
-     * @return
-     */
-    public String toString(int level);
 }

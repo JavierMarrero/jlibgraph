@@ -22,12 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation of the {@link TreeNode} interface.
@@ -38,6 +33,7 @@ import java.util.Set;
 public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements TreeNode<E>
 {
 
+    private Edge parent;
     private final Set<Edge> children;
 
     public DefaultGeneralTreeNode(Object label, E data)
@@ -87,13 +83,22 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public Collection<Integer> getAllVerticesArrivingSelf()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Integer> result = new ArrayList<>();
+        result.add(parent.getStartNode().getLabel());
+
+        return Collections.unmodifiableCollection(result);
     }
 
     @Override
     public Collection<Integer> getAllVerticesDepartingSelf()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Collection<Integer> result = new ArrayList<>(children.size());
+        for (Edge e : children)
+        {
+            result.add(e.getFinalNode().getLabel());
+        }
+
+        return Collections.unmodifiableCollection(result);
     }
 
     @Override
@@ -146,6 +151,13 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     }
 
     @Override
+    @SuppressWarnings ("unchecked")
+    public TreeNode<E> getParent()
+    {
+        return (TreeNode<E>) parent.getStartNode();
+    }
+
+    @Override
     public boolean hasChildren()
     {
         return !children.isEmpty();
@@ -193,5 +205,5 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
 }

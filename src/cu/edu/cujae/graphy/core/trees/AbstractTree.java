@@ -21,6 +21,8 @@ package cu.edu.cujae.graphy.core.trees;
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A utility implementation of the {@link Tree} interface.
@@ -30,6 +32,8 @@ import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
  */
 public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E>
 {
+
+    private final Set<Integer> usedLabels;
 
     /**
      * Returns the maximum within an unspecified set of parameters.
@@ -59,6 +63,30 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
     public AbstractTree()
     {
         super(true);
+
+        this.usedLabels = new TreeSet<>();
+    }
+
+    protected int generateLabel()
+    {
+        for (int i = 0; i < Integer.MAX_VALUE; ++i)
+        {
+            if (usedLabels.contains(i) == false)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    protected boolean useLabel(int i)
+    {
+        return usedLabels.add(i);
+    }
+
+    protected boolean freeLabel(int i)
+    {
+        return usedLabels.remove(i);
     }
 
     /**
@@ -88,4 +116,18 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
             return max(array);
         }
     }
+
+    @Override
+    public String toString()
+    {
+        if (getRoot() == null)
+        {
+            return "<empty-tree>";
+        }
+        else
+        {
+            return getRoot().toString(0);
+        }
+    }
+
 }
