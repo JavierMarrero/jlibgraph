@@ -18,7 +18,9 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,6 +33,9 @@ import java.util.Set;
  */
 public interface Node<T> extends Cloneable
 {
+
+    /// The attribute name representing color
+    public static final int COLOR = 0;
 
     /**
      * Creates a new connection given an edge.
@@ -66,18 +71,6 @@ public interface Node<T> extends Cloneable
     public T get();
 
     /**
-     * Nodes inserted within a graph get access to a label that uniquely identifies them within a graph. This could be
-     * their index in the adjacency matrix or their index within the adjacency list.
-     * <p>
-     * It is not correct to assume that this number is any of the things described above, but it can be used to
-     * uniquely identify the node within the graph, such as no other node will have the same label. Label allocation
-     * is responsibility of the {@link Graph} class.
-     *
-     * @return the integer label of this node
-     */
-    public int getLabel();
-
-    /**
      * Returns the edge connecting this node and v.
      *
      * @param v
@@ -94,12 +87,12 @@ public interface Node<T> extends Cloneable
     public Collection<Integer> getAllAdjacentVertices();
 
     /**
-     * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
-     * set is an unmodifiable view of the {@link Node}'s internal container.
+     * Returns a {@link Collection} view of all the vertices that are adjacent to this node and have this node as
+     * destination node.
      *
-     * @return the set of connected edges.
+     * @return
      */
-    public Set<Edge> getEdgesDepartingSelf();
+    public Collection<Integer> getAllVerticesArrivingSelf();
 
     /**
      * Returns a {@link Collection} view of all the vertices that are adjacent to this node and can be reached through
@@ -110,6 +103,15 @@ public interface Node<T> extends Cloneable
     public Collection<Integer> getAllVerticesDepartingSelf();
 
     /**
+     * Returns the value of the attribute given by this key.
+     *
+     * @param key
+     *
+     * @return
+     */
+    public Object getAttribute(Object key) throws InvalidKeyException;
+
+    /**
      * Returns the set of edges that have this node as the destination node. If the node is isolated should return the
      * empty set. The set is an unmodifiable view of the {@link Node}'s internal container.
      *
@@ -118,12 +120,31 @@ public interface Node<T> extends Cloneable
     public Set<Edge> getEdgesArrivingSelf();
 
     /**
-     * Returns a {@link Collection} view of all the vertices that are adjacent to this node and have this node as
-     * destination node.
+     * Returns the set of edges connected to this node. If the node is isolated, it should return the empty set. This
+     * set is an unmodifiable view of the {@link Node}'s internal container.
+     *
+     * @return the set of connected edges.
+     */
+    public Set<Edge> getEdgesDepartingSelf();
+
+    /**
+     * Nodes inserted within a graph get access to a label that uniquely identifies them within a graph. This could be
+     * their index in the adjacency matrix or their index within the adjacency list.
+     * <p>
+     * It is not correct to assume that this number is any of the things described above, but it can be used to
+     * uniquely identify the node within the graph, such as no other node will have the same label. Label allocation
+     * is responsibility of the {@link Graph} class.
+     *
+     * @return the integer label of this node
+     */
+    public int getLabel();
+
+    /**
+     * Returns a mapping of the node attributes.
      *
      * @return
      */
-    public Collection<Integer> getAllVerticesArrivingSelf();
+    public Map<Object, Object> getNodeAttributes();
 
     /**
      * Returns true if this node is adjacent to another node in a graph.
@@ -133,6 +154,33 @@ public interface Node<T> extends Cloneable
      * @return
      */
     public boolean isAdjacent(Node<T> v);
+
+    /**
+     * Returns true if the node is adjacent to v and v is an arriving node of the edge that joins u and v.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacentAndArriving(Node<T> v);
+
+    /**
+     * Returns true if the node is adjacent to v and v is a departing node of the edge that joins u and v.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacentAndDeparting(Node<T> v);
+
+    /**
+     * Removes the attribute of this node labeled 'key'.
+     *
+     * @param key
+     *
+     * @return the previous value of the attribute
+     */
+    public Object removeAttribute(Object key);
 
     /**
      * Removes an edge from this node's adjacent edges.
@@ -149,5 +197,15 @@ public interface Node<T> extends Cloneable
      * @param data
      */
     public void set(T data);
+
+    /**
+     * Adds an attribute to this node.
+     *
+     * @param key
+     * @param value
+     *
+     * @return
+     */
+    public Object setAttribute(Object key, Object value);
 
 }

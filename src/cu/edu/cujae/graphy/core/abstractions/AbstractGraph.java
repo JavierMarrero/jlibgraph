@@ -440,6 +440,33 @@ public abstract class AbstractGraph<T> implements Graph<T>
     }
 
     /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean disconnect(Node<T> u, Node<T> v)
+    {
+        return u.removeEdge(u.getAdjacentEdge(v));
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean disconnect(int u, int v)
+    {
+        return disconnect(findNodeByLabel(u), findNodeByLabel(v));
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsEdgeWithDirection(int u, int v)
+    {
+        return findNodeByLabel(u).isAdjacentAndArriving(findNodeByLabel(v));
+    }
+
+    /**
      * Returns a collection holding all the nodes within this graph.
      *
      * @return a {@link Collection} of {@link Node}
@@ -489,6 +516,19 @@ public abstract class AbstractGraph<T> implements Graph<T>
     public void makeDirected()
     {
         setDirected(true);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public GraphIterator<T> randomIterator()
+    {
+        if (size() == 0)
+        {
+            throw new IllegalStateException("The graph is empty, no iterator can be built!");
+        }
+        return iterator(getLabels().iterator().next());
     }
 
     /**

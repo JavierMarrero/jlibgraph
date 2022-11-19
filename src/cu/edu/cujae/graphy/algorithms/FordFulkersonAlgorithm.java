@@ -18,7 +18,6 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
-import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
@@ -44,20 +43,19 @@ import java.util.*;
  * @author Amanda Mendez
  * @param <T>
  */
-public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, List<Integer>>>
+public class FordFulkersonAlgorithm extends AbstractAlgorithm<Pair<Float, List<Integer>>>
 {
 
-    // Campos de la clase 
-    private final WeightedGraph<T> g; // Graph
+    // Fields of class 
+    private final WeightedGraph<?> G; // Graph
     private final int s;
     private final int t;
     private float maxFlow;
     private final Map<Integer, Integer> parent; // To store path
-    private final WeightedGraph<T> rg; // Residual graph
+    private final WeightedGraph<?> rG; // Residual graph
 
-    // Constructor de la clase 
-    public FordFulkersonAlgorithm(WeightedGraph<T> graph, GraphIterator<T> source, GraphIterator<T> dest) throws
-            CloneNotSupportedException
+    // Constructor
+    public FordFulkersonAlgorithm(WeightedGraph<?> graph, GraphIterator<?> source, GraphIterator<?> dest)
     {
         super(new Pair<Float, List<Integer>>());
 
@@ -76,121 +74,144 @@ public class FordFulkersonAlgorithm<T> extends AbstractAlgorithm<Pair<Float, Lis
         }
 
         // Inicializar campos de la clase
-        this.g = graph;
+        this.G = graph;
         this.s = source.getLabel();
         this.t = dest.getLabel();
         this.maxFlow = 0;
         this.parent = new HashMap<>();
 
         // Create residual graph
-        this.rg = (WeightedGraph<T>) g.duplicate();
+        try
+        {
+            this.rG = (WeightedGraph<?>) G.duplicate();
+
+            // For each arc in the graph, make a duplicate of the arc, of reversed direction, with zero weight
+            GraphIterator<?> it = this.rG.randomIterator();
+
+            for (int u : rG.getLabels())
+            {
+                it.next(u);
+                for (int v : rG.getLabels())
+                {
+                    // If there's no edge going from u to v add a new connection with weight equals to zero
+                    if (it.isAdjacentAndArriving(v) == false)
+                    {
+                        rG.connect(u, v, Weights.makeWeight(0.0f));
+                    }
+                }
+            }
+
+            // System.out.println(rG);
+        }
+        catch (CloneNotSupportedException ex)
+        {
+            throw new IllegalArgumentException("The provided graph is not cloneable nor duplicable.");
+        }
     }
-    
+
     @Override
     public Algorithm<Pair<Float, List<Integer>>> apply()
     {
+        int u, v;
 
         // While exist a path from source to dest
-        while (bfs(rg, s, t, parent))
+        while (bfs(parent))
         {
-            // To store path flow
+            // Store the max flow
             float pathFlow = Float.MAX_VALUE;
 
-            // Find maximum flow of path
-            for (int v = t; v != s; v = parent.get(v))
+            // Find minimum residual capacity of the edges
+            // along the path filled by BFS. Or we can say
+            // find the maximum flow through the path found.
+            for (v = t; v != s; v = parent.get(v))
             {
-                int u = parent.get(v);
-                
-                GraphIterator<T> it = rg.iterator(u);
-                Edge edge = it.getAdjacentEdge(v);
-                
-                float weight = (float) edge.getWeight().getValue();
-                pathFlow = Math.min(pathFlow, weight);
+                u = parent.get(v);
+                GraphIterator<?> it = rG.iterator(u);
+
+                pathFlow = Math.min(pathFlow, (float) it.getAdjacentEdge(v).getWeight().getValue());
             }
 
-            // Update residual graph capacities
-             // Reverse the edges
-            for (int v = t; v != s; v = parent.get(v))
+            // update residual capacities of the edges and
+            // reverse edges along the path
+            for (v = t; v != s; v = parent.get(v))
             {
-                int u = parent.get(v);
-                
-                GraphIterator<T> it = rg.iterator(u);
-                Edge adjacentEdge = it.getAdjacentEdge(v);
-                
+                u = parent.get(v);
+
+                GraphIterator<?> uIterator = rG.iterator(u);
+                GraphIterator<?> vIterator = rG.iterator(v);
+
                 @SuppressWarnings ("unchecked")
-                Weight<Float> ew = (Weight<Float>) adjacentEdge.getWeight();
-                
-                rg.connect(u,v,ew);
-               
-                Edge ae = it.getAdjacentEdge(v);
+                Weight<Float> directWeight = (Weight<Float>) uIterator.getAdjacentEdge(v).getWeight();
+                @SuppressWarnings ("unchecked")
+                Weight<Float> inverseWeight = (Weight<Float>) vIterator.getAdjacentEdge(u).getWeight();
 
-                Weight<Float> w = (Weight<Float>) ae.getWeight();
-                
-                ew.setValue(ew.getValue() - pathFlow);
-                w.setValue(w.getValue() + pathFlow);
-                
+                directWeight.setValue(directWeight.getValue() - pathFlow);
+                inverseWeight.setValue(inverseWeight.getValue() + pathFlow);
             }
 
-            // Add path flow to max flow
+            // Add path to the overall flow
             maxFlow += pathFlow;
         }
 
         // Create the final result
-        List<Integer> list = new ArrayList<>(g.size());
+        List<Integer> list = new ArrayList<>(G.size());
         Stack<Integer> stack = new Stack<>();
-        
-        int v = t;
-        while (v != s)
+
+        Integer i = t;
+        while (i != null)
         {
-            stack.push(v);
-            v = parent.get(v);
+            stack.push(i);
+            i = parent.get(i);
         }
-        
+
         while (!stack.isEmpty())
         {
             list.add(stack.pop());
         }
-        
+
         Pair<Float, List<Integer>> result = getResult();
-        
+
         result.setFirst(maxFlow);
         result.setLast(list);
-        
+
         return this;
     }
-    
-    public boolean bfs(WeightedGraph<T> rg, int source, int dest, Map<Integer, Integer> parents)
+
+    public boolean bfs(Map<Integer, Integer> parents)
     {
-        
+
         // Array to store visited vertices
         Set<Integer> seen = new TreeSet<>();
-        
-        Queue<Integer> l = new LinkedList<>();
+        Queue<Integer> queue = new LinkedList<>();
 
         // Visit source
-        l.add(source);
-        seen.add(source);
-        parents.put(source, null);
+        queue.add(s);
+        seen.add(s);
+        parents.put(s, null);
 
         // Loop trough all vertices
-        while (!l.isEmpty())
+        while (!queue.isEmpty())
         {
-            int i = l.poll();
- 
-            for (Integer j : rg.getLabels())
+            int u = queue.poll();
+            GraphIterator<?> aux = this.rG.iterator(u);
+
+            for (Integer v : rG.getLabels())
             {
-                if (j == t)
+                if (seen.contains(v) == false && ((float) aux.getAdjacentEdge(v).getWeight().getValue() > 0.0f))
                 {
-                    parents.put(j, i);
-                    return true;
+                    if (v == t)
+                    {
+                        parents.put(v, u);
+                        return true;
+                    }
+
+                    queue.add(v);
+                    seen.add(v);
+                    parents.put(v, u);
                 }
-                
-                 l.add(j);
-                 seen.add(j);
-                 parents.put(j, i);
-            } 
+            }
         }
-        
+
         return false;
     }
 }

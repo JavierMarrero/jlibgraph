@@ -22,6 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.defaults.DefaultNode;
+import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,6 +67,11 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     @Override
     public Node<T> findNodeByLabel(int label)
     {
+        if (nodes.containsKey(label) == false)
+        {
+            throw new InvalidOperationException("Attempted to access node " + label
+                                                        + " in a graph that does not contains it.");
+        }
         return nodes.get(label);
     }
 
@@ -111,6 +117,12 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
         for (Edge edge : node.getEdgesDepartingSelf())
         {
             node.removeEdge(edge);
+        }
+
+        // Remove all the edges that arrives to the node
+        for (Edge edge : node.getEdgesArrivingSelf())
+        {
+            edge.getStartNode().removeEdge(edge);
         }
 
         return node.get();

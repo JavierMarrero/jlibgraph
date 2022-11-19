@@ -45,7 +45,7 @@ public class IsolatedVertices<V> extends AbstractAlgorithm<LinkedList<Integer>>
     public Algorithm<LinkedList<Integer>> apply()
     {
        //Lista para ir guardando los vertices aislados
-       LinkedList<Integer> aislados = new LinkedList<Integer>();
+       LinkedList<Integer> aislados = new LinkedList<>();
        //Lista para guardar los nodos visitados y no analizarlos de nuevo 
        Set<Integer> visited = new TreeSet<>();
        

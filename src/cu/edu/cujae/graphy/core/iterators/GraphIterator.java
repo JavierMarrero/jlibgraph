@@ -20,8 +20,10 @@ package cu.edu.cujae.graphy.core.iterators;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,6 +54,31 @@ public interface GraphIterator<T> extends Iterator<T>
     public T back(Node<T> target);
 
     /**
+     * Returns the {@link Edge} connecting this iterator and the vertex with label <i>v</i>.
+     *
+     * @param v
+     *
+     * @return edge, or null if no edge connects this and v.
+     */
+    public Edge getAdjacentEdge(int v);
+
+    /**
+     * Returns the {@link Collection} of vertices that are departing nodes of the iterator's current position node's
+     * adjacent edges.
+     *
+     * @return
+     */
+    public Collection<Integer> getAdjacentVerticesArrivingSelf();
+
+    /**
+     * This method should return a {@link Collection} of all the vertices that are final nodes of the edges departing
+     * this iterator's current node.
+     *
+     * @return a {@link Collection} of integer labels.
+     */
+    public Collection<Integer> getAdjacentVerticesDepartingSelf();
+
+    /**
      * Returns all the {@link Edge}s departing or arriving to this node.
      *
      * @return
@@ -66,28 +93,22 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Integer> getAllAdjacentVertices();
 
     /**
-     * This method should return the edges that depart from the pointed node.
+     * Gets all the attributes of the current node.
      *
-     * @return a collection of edges
+     * @return an unmodifiable {@link Map} with the attributes of the pointed by.
      */
-    public Collection<Edge> getEdgesDepartingSelf();
+    public Map<Object, Object> getAllAttributes();
 
     /**
-     * This method should return a {@link Collection} of all the vertices that are final nodes of the edges departing
-     * this iterator's current node.
+     * Retrieves the value of an attribute belonging to a node.
      *
-     * @return a {@link Collection} of integer labels.
+     * @param key
+     *
+     * @return
+     *
+     * @throws InvalidKeyException
      */
-    public Collection<Integer> getAdjacentVerticesDepartingSelf();
-
-    /**
-     * Returns the {@link Edge} connecting this iterator and the vertex with label <i>v</i>.
-     *
-     * @param v
-     *
-     * @return edge, or null if no edge connects this and v.
-     */
-    public Edge getAdjacentEdge(int v);
+    public Object getAttribute(Object key) throws InvalidKeyException;
 
     /**
      * Returns the {@link Set} of edges that have the vertex pointed by this iterator as destination.
@@ -97,12 +118,11 @@ public interface GraphIterator<T> extends Iterator<T>
     public Collection<Edge> getEdgesArrivingSelf();
 
     /**
-     * Returns the {@link Collection} of vertices that are departing nodes of the iterator's current position node's
-     * adjacent edges.
+     * This method should return the edges that depart from the pointed node.
      *
-     * @return
+     * @return a collection of edges
      */
-    public Collection<Integer> getAdjacentVerticesArrivingSelf();
+    public Collection<Edge> getEdgesDepartingSelf();
 
     /**
      * Each node in a graph is somehow labeled. In this library, labels are integer indices that are unique to each
@@ -131,6 +151,35 @@ public interface GraphIterator<T> extends Iterator<T>
     public boolean isAdjacent(GraphIterator<T> it);
 
     /**
+     * Returns true if this iterator is adjacent to the node with the integer label <b>v</b>
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacent(int v);
+
+    /**
+     * Returns true if this iterator is adjacent to the node with the integer label <b>v</b> and the edge that connects
+     * this and v has v as departing node.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacentAndArriving(int v);
+
+    /**
+     * Returns true if this iterator is adjacent to the node with the integer label <b>v</b> and the edge that connects
+     * this and v is departing from this.
+     *
+     * @param v
+     *
+     * @return
+     */
+    public boolean isAdjacentAndDeparting(int v);
+
+    /**
      * Jumps to the specified {@link Node}.
      *
      * @param target
@@ -147,4 +196,23 @@ public interface GraphIterator<T> extends Iterator<T>
      * @return
      */
     public T next(int u);
+
+    /**
+     * Removes an attribute from a node.
+     *
+     * @param key
+     *
+     * @return
+     */
+    public Object removeAttribute(Object key);
+
+    /**
+     * Sets the value of an attribute belonging to a node.
+     *
+     * @param key
+     * @param value
+     *
+     * @return
+     */
+    public Object setAttribute(Object key, Object value);
 }

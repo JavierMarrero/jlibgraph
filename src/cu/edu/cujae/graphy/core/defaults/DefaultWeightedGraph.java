@@ -59,13 +59,19 @@ public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements We
     @Override
     public boolean connect(Node<T> u, Node<T> v, Weight<?> w)
     {
+        if (u == null || v == null || w == null)
+        {
+            throw new IllegalArgumentException("Passed null parameters to connection method: (u: " + u + ", v: " + v
+                                                       + ", w: " + w + ")");
+        }
         return u.addEdge(getEdgeFactory().build(w, u, v, w));
     }
 
     @Override
     public Graph<T> duplicate() throws CloneNotSupportedException
     {
-        DefaultWeightedGraph<T> graph = new DefaultWeightedGraph<>(isDirected());
+        DefaultWeightedGraph<T> graph = (DefaultWeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().
+                directed(isDirected()).get();
         for (Node<T> node : duplicateInternalNodes())
         {
             graph.addNode(node);
