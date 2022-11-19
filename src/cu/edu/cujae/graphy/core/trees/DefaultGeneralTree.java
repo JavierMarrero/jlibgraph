@@ -51,7 +51,7 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
     }
 
     @Override
-    public boolean add(TreeNode<E> parent, E data)
+    public TreeNode<E> add(TreeNode<E> parent, E data)
     {
         int l = generateLabel();
         if (add(l, data))
@@ -59,17 +59,28 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
             TreeNode<E> newNode = (TreeNode<E>) findNodeByLabel(l);
             if (parent == null)
             {
-                root = newNode;
+                if (root == null)
+                {
+                    root = newNode;
+                }
+                else
+                {
+                    // Substitute the root and attach
+                    TreeNode<E> oldRoot = root;
+                    root = newNode;
+
+                    connect(root, oldRoot);
+                }
             }
             else
             {
                 connect(parent, newNode);
             }
-            return true;
+            return newNode;
         }
         else
         {
-            return false;
+            throw new IllegalStateException("The tree was unable to add a new node with data " + data);
         }
     }
 
