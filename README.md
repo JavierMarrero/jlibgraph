@@ -1,5 +1,8 @@
 # JLibGraph: Una biblioteca integral de grafos y algoritmos
 
+![build-status](https://img.shields.io/badge/build-passing-success)
+[!version](https://img.shields.io/badge/version-v0.7-orange)
+
 ## ¿Qué es JLibGraph?
 
 :small_blue_diamond: JLibGraph es una biblioteca realizada en el lenguaje de programación Java para manejar grafos y realizar operaciones sobre estos. La biblioteca está enfocada a tratar varios problemas comunes en la *teoría de grafos*: la rama de las matemáticas que trata sobre los grafos y sus problemas asociados.
