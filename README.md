@@ -1,7 +1,7 @@
 # JLibGraph: Una biblioteca integral de grafos y algoritmos
 
 ![build-status](https://img.shields.io/badge/build-passing-success)
-[!version](https://img.shields.io/badge/version-v0.7-orange)
+![version](https://img.shields.io/badge/version-v0.7-orange)
 
 ## ¿Qué es JLibGraph?
 
