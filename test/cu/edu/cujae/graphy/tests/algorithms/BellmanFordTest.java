@@ -19,7 +19,6 @@
 package cu.edu.cujae.graphy.tests.algorithms;
 
 import cu.edu.cujae.graphy.algorithms.BellmanFordShortestPath;
-import cu.edu.cujae.graphy.algorithms.DijkstraShortestPath;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
@@ -28,9 +27,9 @@ import cu.edu.cujae.graphy.core.utility.Weights;
  *
  * @author Amanda Mendez
  */
-public class BellmanFordTest 
+public class BellmanFordTest
 {
-    
+
     public static void main(String[] args)
     {
         WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
@@ -48,11 +47,10 @@ public class BellmanFordTest
         graph.connect(3, 2, Weights.makeWeight(5));
         graph.connect(3, 1, Weights.makeWeight(1));
         graph.connect(4, 3, Weights.makeWeight(-3));
-        
+
         System.out.println(graph);
 
         System.out.println("Bellman-Ford: ");
         System.out.println(new BellmanFordShortestPath<>(graph, graph.iterator(0)).apply().get());
     }
 }
-

@@ -22,12 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation of the {@link TreeNode} interface.
@@ -38,6 +33,7 @@ import java.util.Set;
 public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements TreeNode<E>
 {
 
+    private Edge parent;
     private final Set<Edge> children;
 
     public DefaultGeneralTreeNode(Object label, E data)
@@ -87,19 +83,54 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public Collection<Integer> getAllVerticesArrivingSelf()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Integer> result = new ArrayList<>();
+        result.add(parent.getStartNode().getLabel());
+
+        return Collections.unmodifiableCollection(result);
     }
 
     @Override
     public Collection<Integer> getAllVerticesDepartingSelf()
     {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Collection<Integer> result = new ArrayList<>(children.size());
+        for (Edge e : children)
+        {
+            result.add(e.getFinalNode().getLabel());
+        }
+
+        return Collections.unmodifiableCollection(result);
     }
 
     @Override
     public Object getAttribute(Object key) throws InvalidKeyException
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    @SuppressWarnings ("unchecked")
+    public TreeNode<E> getChildByIndex(int i)
+    {
+        if (i > children.size() || i < 0)
+        {
+            throw new IndexOutOfBoundsException("Attempted to access ith children with index " + i
+                                                        + " and size of children list is " + children.size());
+        }
+
+        int j = 0;
+        Iterator<Edge> it = children.iterator();
+        Edge edge = null;
+
+        while (j++ <= i && it.hasNext())
+        {
+            edge = it.next();
+        }
+
+        if (edge == null)
+        {
+            throw new IllegalStateException("Could not find child number " + i);
+        }
+        return (TreeNode<E>) edge.getFinalNode();
     }
 
     @Override
@@ -136,13 +167,23 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public Set<Edge> getEdgesArrivingSelf()
     {
-        return Collections.emptySet();
+        Set<Edge> result = new HashSet<>(1);
+        result.add(parent);
+
+        return result;
     }
 
     @Override
     public Map<Object, Object> getNodeAttributes()
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    @SuppressWarnings ("unchecked")
+    public TreeNode<E> getParent()
+    {
+        return (TreeNode<E>) parent.getStartNode();
     }
 
     @Override
@@ -154,6 +195,11 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public boolean isAdjacent(Node<E> v)
     {
+        if (v.equals(parent.getStartNode()))
+        {
+            return true;
+        }
+
         for (Edge e : children)
         {
             if (e.getFinalNode().equals(v))

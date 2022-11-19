@@ -30,14 +30,14 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractWeight<T> implements Weight<T>
 {
-    
+
     private T value;
-    
+
     public AbstractWeight(T value)
     {
         this.value = value;
     }
-    
+
     @Override
     public Object clone() throws CloneNotSupportedException
     {
@@ -49,10 +49,10 @@ public abstract class AbstractWeight<T> implements Weight<T>
             {
                 Method cloneMethod = Object.class.getDeclaredMethod("clone", Void.class);
                 cloneMethod.setAccessible(true);
-                
+
                 @SuppressWarnings ("unchecked")
                 T weightClonedData = (T) cloneMethod.invoke(value);
-                
+
                 weight.setValue(weightClonedData);
             }
             catch (NoSuchMethodException | SecurityException ex)
@@ -93,5 +93,5 @@ public abstract class AbstractWeight<T> implements Weight<T>
     {
         return value.toString();
     }
-    
+
 }

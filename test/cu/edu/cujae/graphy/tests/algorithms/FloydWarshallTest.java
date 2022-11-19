@@ -36,7 +36,7 @@ public class FloydWarshallTest
     {
         @SuppressWarnings ("unchecked")
         Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>> aux
-                                                                                           = (Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>>) new FloydWarshall<>(
+                                                                                                   = (Pair<MapBiArray<Integer, Integer, Integer>, MapBiArray<Integer, Integer, Integer>>) new FloydWarshall<>(
                         graph).apply().get();
         System.out.println("Floyd-Warshall");
         System.out.println("Matriz de distancia");

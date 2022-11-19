@@ -25,43 +25,44 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * Descubre todos los vértices aislados de un grafo.
  *
  * @author Jose
+ * @param <V>
  */
-
-/*IsolatedVertices<V> se realiza para poder obtener todos los vértices aislados en un grafo*/
-
 public class IsolatedVertices<V> extends AbstractAlgorithm<LinkedList<Integer>>
 {
+
     private final Graph<V> graph;
-    public IsolatedVertices (Graph<V> graph)
+
+    public IsolatedVertices(Graph<V> graph)
     {
         //En el caso de que no existan vértices aislados se retorna una lista vacía
-        super( new LinkedList<Integer>());
-        this.graph = graph;   
+        super(new LinkedList<Integer>());
+        this.graph = graph;
     }
-    
+
     @Override
     public Algorithm<LinkedList<Integer>> apply()
     {
-       //Lista para ir guardando los vertices aislados
-       LinkedList<Integer> aislados = new LinkedList<>();
-       //Lista para guardar los nodos visitados y no analizarlos de nuevo 
-       Set<Integer> visited = new TreeSet<>();
-       
-       GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
-       while(dfs.hasNext())
-       {
-           dfs.next();
-           //Si no ha sido visitado y no tiene aristas adyacentes
-           if(!visited.contains(dfs.getLabel()) && dfs.getAllAdjacentEdges().isEmpty())
-           {
-               aislados.add(dfs.getLabel());
-               visited.add(dfs.getLabel());
-           }
-       }
-       setResult(aislados);
-       return this;
+        //Lista para ir guardando los vertices aislados
+        LinkedList<Integer> aislados = new LinkedList<>();
+        //Lista para guardar los nodos visitados y no analizarlos de nuevo 
+        Set<Integer> visited = new TreeSet<>();
+
+        GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
+        while (dfs.hasNext())
+        {
+            dfs.next();
+            //Si no ha sido visitado y no tiene aristas adyacentes
+            if (!visited.contains(dfs.getLabel()) && dfs.getAllAdjacentEdges().isEmpty())
+            {
+                aislados.add(dfs.getLabel());
+                visited.add(dfs.getLabel());
+            }
+        }
+        setResult(aislados);
+        return this;
     }
-    
+
 }
