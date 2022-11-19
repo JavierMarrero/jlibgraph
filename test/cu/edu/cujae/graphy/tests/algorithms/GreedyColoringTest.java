@@ -18,31 +18,29 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.FordFulkersonAlgorithm;
 import cu.edu.cujae.graphy.algorithms.GreedyColoringAlgorithm;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  *
- * @author Amanda Mendez 
+ * @author Amanda Mendez
  * @param<T>
  */
-public class GreedyColoringTest 
+public class GreedyColoringTest
 {
-     public static void main(String[] args)
+
+    public static void main(String[] args)
     {
         Graph<Integer> g = new DefaultGraphBuilder<Integer>().buildGraph().directed(false).get();
-        
+
         for (int i = 0; i < 6; ++i)
         {
             g.add(i);
         }
-        
+
         g.connect(0, 1);
         g.connect(0, 4);
         g.connect(0, 5);
@@ -51,17 +49,16 @@ public class GreedyColoringTest
         g.connect(1, 3);
         g.connect(2, 3);
         g.connect(2, 4);
-        
+
         System.out.println(g);
 
         System.out.println("Greedy Coloring: ");
         new GreedyColoringAlgorithm<>(g).apply();
-        
-        for(int i : g.getLabels())
+
+        for (int i : g.getLabels())
         {
             GraphIterator<?> ite = g.iterator(i);
             System.out.println("Nodo:" + ite.getLabel() + "->" + ite.getAttribute(Node.COLOR));
         }
     }
 }
-     
