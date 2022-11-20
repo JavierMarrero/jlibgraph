@@ -91,6 +91,26 @@ public class IsolatedVerticesTest
         graph2.connect(7, 8);
 
         getIsolatedVertices(graph2);
+        
+        //Juego de datos para cuando existen vertices aislados en un grafo dirigido
+        //en este caso están aislados 7,8 y el nodo 0 que no tiene aristas apuntando hacia él
+        
+        Graph<Integer> graph3 = new DefaultGraphBuilder<Integer>().buildGraph().directed(true).get();
+
+        for (int i = 0; i < 10; i++)
+        {
+            graph3.add(i, i);
+        }
+
+        graph3.connect(0, 1);
+        graph3.connect(0, 2);
+        graph3.connect(2, 3);
+        graph3.connect(2, 4);
+        graph3.connect(4, 5);
+        graph3.connect(5, 6);
+        graph3.connect(1, 9);
+
+        getIsolatedVertices(graph3);
     }
 
 }
