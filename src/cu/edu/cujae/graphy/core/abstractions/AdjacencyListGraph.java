@@ -18,10 +18,11 @@
  */
 package cu.edu.cujae.graphy.core.abstractions;
 
+import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
-import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
 import cu.edu.cujae.graphy.core.defaults.DefaultNode;
+import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +34,7 @@ import java.util.Map;
  * @author Javier Marrero
  * @param <T>
  */
-public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements Graph<T>
+public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements Graph<T>, Cloneable
 {
 
     private final Map<Integer, Node<T>> nodes;
@@ -54,13 +55,33 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
         return nodes.putIfAbsent(label, new DefaultNode<>(label, data)) == null;
     }
 
+    @Override
+    protected boolean addNode(Node<T> node)
+    {
+        return nodes.putIfAbsent(node.getLabel(), node) == null;
+    }
+
     /**
      * {@inheritDoc }
      */
     @Override
     public Node<T> findNodeByLabel(int label)
     {
+        if (nodes.containsKey(label) == false)
+        {
+            throw new InvalidOperationException("Attempted to access node " + label
+                                                        + " in a graph that does not contains it.");
+        }
         return nodes.get(label);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Collection<Integer> getLabels()
+    {
+        return nodes.keySet();
     }
 
     /**
@@ -79,6 +100,44 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
     public boolean isVertexAdjacent(int u, int v)
     {
         return findNodeByLabel(u).isAdjacent(findNodeByLabel(v));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T remove(Node<T> node)
+    {
+        if (!nodes.containsKey(node.getLabel()))
+        {
+            throw new IllegalArgumentException("The node to remove is not present in this graph.");
+        }
+
+        // Remove all the edges from the graph that ends in or departs from this node
+        for (Edge edge : node.getEdgesDepartingSelf())
+        {
+            node.removeEdge(edge);
+        }
+
+        // Remove all the edges that arrives to the node
+        for (Edge edge : node.getEdgesArrivingSelf())
+        {
+            edge.getStartNode().removeEdge(edge);
+        }
+
+        // Remove the node
+        nodes.remove(node.getLabel());
+
+        return node.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T remove(int u)
+    {
+        return remove(findNodeByLabel(u));
     }
 
     /**

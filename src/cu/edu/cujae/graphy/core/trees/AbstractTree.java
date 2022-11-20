@@ -18,9 +18,13 @@
  */
 package cu.edu.cujae.graphy.core.trees;
 
+import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Tree;
 import cu.edu.cujae.graphy.core.TreeNode;
 import cu.edu.cujae.graphy.core.abstractions.AbstractGraph;
+import cu.edu.cujae.graphy.core.defaults.DefaultDirectedEdgeFactory;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A utility implementation of the {@link Tree} interface.
@@ -55,10 +59,27 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
         }
         return result;
     }
+    private final Set<Integer> usedLabels;
 
     public AbstractTree()
     {
         super(true);
+        setEdgeFactory(new DefaultDirectedEdgeFactory());
+
+        this.usedLabels = new TreeSet<>();
+    }
+
+    @Override
+    public TreeNode<E> findFirstNode(E data)
+    {
+        for (Node<E> node : getNodes())
+        {
+            if (node.get().equals(data))
+            {
+                return (TreeNode<E>) node;
+            }
+        }
+        return null;
     }
 
     /**
@@ -68,6 +89,48 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
     public int getHeight()
     {
         return recursiveHeight(getRoot());
+    }
+
+    @Override
+    public TreeNode<E> getNodeByLabel(int label)
+    {
+        return (TreeNode<E>) findNodeByLabel(label);
+    }
+
+    @Override
+    public String toString()
+    {
+        if (getRoot() == null)
+        {
+            return "<empty-tree>";
+        }
+        else
+        {
+            return getRoot().toString(0);
+        }
+    }
+
+    protected boolean freeLabel(int i)
+    {
+        return usedLabels.remove(i);
+    }
+
+    protected int generateLabel()
+    {
+        for (int i = 0; i < Integer.MAX_VALUE; ++i)
+        {
+            if (usedLabels.contains(i) == false)
+            {
+                useLabel(i);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    protected boolean useLabel(int i)
+    {
+        return usedLabels.add(i);
     }
 
     private int recursiveHeight(TreeNode<E> node)
@@ -85,7 +148,8 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
                 array[k++] = recursiveHeight(n);
             }
 
-            return max(array);
+            return max(array) + 1;
         }
     }
+
 }

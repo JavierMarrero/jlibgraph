@@ -19,6 +19,8 @@
 package cu.edu.cujae.graphy.core.abstractions;
 
 import cu.edu.cujae.graphy.core.Weight;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Default abstract {@link Weight} implementation.
@@ -34,6 +36,35 @@ public abstract class AbstractWeight<T> implements Weight<T>
     public AbstractWeight(T value)
     {
         this.value = value;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        @SuppressWarnings ("unchecked")
+        Weight<T> weight = (Weight<T>) super.clone();
+        if (weight.getValue() instanceof Cloneable)
+        {
+            try
+            {
+                Method cloneMethod = Object.class.getDeclaredMethod("clone", Void.class);
+                cloneMethod.setAccessible(true);
+
+                @SuppressWarnings ("unchecked")
+                T weightClonedData = (T) cloneMethod.invoke(value);
+
+                weight.setValue(weightClonedData);
+            }
+            catch (NoSuchMethodException | SecurityException ex)
+            {
+                throw new CloneNotSupportedException("could not find the clone method via reflection.");
+            }
+            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+            {
+                throw new CloneNotSupportedException("unable to invoke clone method for target");
+            }
+        }
+        return weight;
     }
 
     /**

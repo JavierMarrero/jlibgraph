@@ -151,6 +151,23 @@ public abstract class AbstractEdge implements Edge
      * {@inheritDoc}
      */
     @Override
+    public void reverseApparentDirection()
+    {
+        // Remove the edge
+        start.removeEdge(this);
+
+        Node<?> temp = start;
+        this.start = finish;
+        this.finish = temp;
+
+        // Reverse and reconnect
+        start.addEdge(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setLabel(Object label)
     {
         this.label = label;
@@ -164,6 +181,15 @@ public abstract class AbstractEdge implements Edge
             Weight<?> weight)
     {
         this.weight = weight;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "(" + start.getLabel() + " -> " + finish.getLabel() + ")";
     }
 
 }

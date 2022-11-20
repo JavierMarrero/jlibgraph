@@ -22,6 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.EdgeFactory;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
+import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import cu.edu.cujae.graphy.core.iterators.AbstractGraphIterator;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
@@ -167,7 +168,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
             dfsList.add(v);
 
             // Recur for all the vertices adjacent to this vertex
-            Iterator<Edge> edges = v.getConnectedEdges().iterator();
+            Iterator<Edge> edges = v.getEdgesDepartingSelf().iterator();
             while (edges.hasNext())
             {
                 @SuppressWarnings ("unchecked")
@@ -212,7 +213,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
                 // Get all adjacent vertices of the dequeued vertex s
                 // if an adjacent has not been visited, then mark it visited
                 // and enqueue it
-                Iterator<Edge> i = s.getConnectedEdges().iterator();
+                Iterator<Edge> i = s.getEdgesDepartingSelf().iterator();
                 while (i.hasNext())
                 {
                     @SuppressWarnings ("unchecked")
@@ -286,6 +287,8 @@ public abstract class AbstractGraph<T> implements Graph<T>
         this.lastAllocated = 0;
     }
 
+    protected abstract boolean addNode(Node<T> node);
+
     /**
      * {@inheritDoc}
      */
@@ -344,7 +347,17 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public boolean connect(int u, int v)
     {
-        return connect(findNodeByLabel(u), findNodeByLabel(v));
+        Node<T> uNode = findNodeByLabel(u);
+        Node<T> vNode = findNodeByLabel(v);
+
+        if (uNode == null || vNode == null)
+        {
+            throw new InvalidOperationException("Attempted to connect nodes " + u + " and " + v
+                                                        + " which are not part of this graph. (u: " + uNode + " | v: "
+                                                        + vNode + ")");
+        }
+
+        return connect(uNode, vNode);
     }
 
     /**
@@ -364,6 +377,39 @@ public abstract class AbstractGraph<T> implements Graph<T>
     protected void deallocateLabel(int label)
     {
         allocatedLabels.remove(label);
+    }
+
+    @SuppressWarnings ("unchecked")
+    protected Collection<Node<T>> duplicateInternalNodes() throws CloneNotSupportedException
+    {
+        // For each node, clone it
+        Map<Integer, Node<T>> clonedNodes = new HashMap<>(size());
+        for (Node<T> node : getNodes())
+        {
+            clonedNodes.put(node.getLabel(), (Node<T>) node.clone());
+        }
+
+        // Now every node is cloned
+        // Clone the edges and connect the nodes
+        for (Node<T> node : getNodes())
+        {
+            for (Edge edge : node.getEdgesDepartingSelf())
+            {
+                Weight<?> w = edge.getWeight();
+                if (w != null)
+                {
+                    w = (Weight<?>) edge.getWeight().clone();
+                }
+
+                Edge clonedEdge = getEdgeFactory().build(edge.getLabel(),
+                                                         clonedNodes.get(edge.getStartNode().getLabel()),
+                                                         clonedNodes.get(edge.getFinalNode().getLabel()),
+                                                         w);
+                clonedNodes.get(node.getLabel()).addEdge(clonedEdge);
+            }
+        }
+
+        return clonedNodes.values();
     }
 
     /**
@@ -391,6 +437,33 @@ public abstract class AbstractGraph<T> implements Graph<T>
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected)
     {
         return new DepthFirstSearchIterator(this, getNodes().iterator().next(), includeDisconnected);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean disconnect(Node<T> u, Node<T> v)
+    {
+        return u.removeEdge(u.getAdjacentEdge(v));
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean disconnect(int u, int v)
+    {
+        return disconnect(findNodeByLabel(u), findNodeByLabel(v));
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsEdgeWithDirection(int u, int v)
+    {
+        return findNodeByLabel(u).isAdjacentAndArriving(findNodeByLabel(v));
     }
 
     /**
@@ -449,9 +522,49 @@ public abstract class AbstractGraph<T> implements Graph<T>
      * {@inheritDoc }
      */
     @Override
+    public GraphIterator<T> randomIterator()
+    {
+        if (size() == 0)
+        {
+            throw new IllegalStateException("The graph is empty, no iterator can be built!");
+        }
+        return iterator(getLabels().iterator().next());
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
     public void registerEdgeFactory(EdgeFactory factory)
     {
         this.setEdgeFactory(factory);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void reverse()
+    {
+        Set<Edge> visited = new HashSet<>();
+        getNodes().stream().
+                map(node -> 
+                {
+                    Set<Edge> edges = node.getEdgesArrivingSelf();
+                    edges.addAll(node.getEdgesDepartingSelf());
+                    return edges;
+                }).
+                forEachOrdered(edges -> 
+                {
+                    for (Edge edge : edges)
+                    {
+                        if (!visited.contains(edge))
+                        {
+                            edge.reverseApparentDirection();
+                            visited.add(edge);
+                        }
+                    }
+                });
     }
 
     /**

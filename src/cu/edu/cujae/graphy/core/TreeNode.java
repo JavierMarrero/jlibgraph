@@ -30,6 +30,29 @@ public interface TreeNode<E> extends Node<E>
 {
 
     /**
+     * Returns the parent of this node. If this node is not in a tree or is the root, returns null.
+     *
+     * @return
+     */
+    public TreeNode<E> getParent();
+
+    /**
+     * Returns the i<sup>th</sup> child.
+     *
+     * @param i
+     *
+     * @return
+     */
+    public TreeNode<E> getChildByIndex(int i);
+
+    /**
+     * Returns the first child of this node.
+     *
+     * @return
+     */
+    public TreeNode<E> getFirstChild();
+
+    /**
      * Returns a {@link Collection} containing all the children nodes of this.
      *
      * @return
@@ -42,4 +65,13 @@ public interface TreeNode<E> extends Node<E>
      * @return
      */
     public boolean hasChildren();
+
+    /**
+     * Prints a node with correct indentation.
+     *
+     * @param level
+     *
+     * @return
+     */
+    public String toString(int level);
 }

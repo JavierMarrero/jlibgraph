@@ -59,6 +59,6 @@ public class DijkstraTest
         System.out.println(graph);
 
         System.out.println("Dijkstra: ");
-        System.out.println(new DijkstraShortestPath<>(graph, graph.iterator(0)).apply().get());
+        System.out.println(new DijkstraShortestPath(graph, graph.iterator(0)).apply().get());
     }
 }

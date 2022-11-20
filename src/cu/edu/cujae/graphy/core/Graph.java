@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.core;
 
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -62,8 +63,8 @@ public interface Graph<T> extends Iterable<T>
     public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected);
 
     /**
-     * The same as {@link Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but with the integer label
-     * of the node.
+     * The same as {@link cu.edu.cujae.graphy.core.Graph#breadthFirstSearchIterator(cu.edu.cujae.graphy.core.Node) } but
+     * with the integer label of the node.
      *
      * @param includeDisconnected
      *
@@ -139,10 +140,65 @@ public interface Graph<T> extends Iterable<T>
      *
      * @param includeDisconnected
      *
-     * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node)
+     * @see Graph#depthFirstSearchIterator(cu.edu.cujae.graphy.core.Node, boolean)
      * @return a new {@link Iterator}
      */
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected);
+
+    /**
+     * Disconnects the {@link Edge} passed as argument.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean disconnect(Node<T> u, Node<T> v);
+
+    /**
+     * Disconnects the edge running between u and v.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean disconnect(int u, int v);
+
+    /**
+     * This method should be, at some extent, similar to the Java cloning mechanism in that returns a deep copy of this
+     * object.The returned graph is not a view of this graph but two independent objects. Changes are not guaranteed
+     * to persists across clone instances as they don't share data.
+     * <p>
+     * While the two graphs does not share any internal representation, they both point to the same data, so any <b>
+     * data manipulation</b> will be seen in the original graph. If deep cloning of the internal data is desired,
+     * perform a manual copy or rather use the utility methods provided by the class <code>Graphs</code>.
+     * <p>
+     * If by any means the duplication cannot be made, a {@link CloneNotSupportedException} will be thrown.
+     *
+     * @return
+     *
+     * @throws java.lang.CloneNotSupportedException
+     */
+    public Graph<T> duplicate() throws CloneNotSupportedException;
+
+    /**
+     * Tests if exists and {@link Edge} <code>e</code> such that there's a connection between nodes <code>u</code> and
+     * <code>v</code> where <b>u</b> is the departing node and <b>v</b> is the arrival node.
+     *
+     * @param u
+     * @param v
+     *
+     * @return
+     */
+    public boolean existsEdgeWithDirection(int u, int v);
+
+    /**
+     * Returns all the node labels of this graph.
+     *
+     * @return a {@link Collection} of integers representing node labels.
+     */
+    public Collection<Integer> getLabels();
 
     /**
      * Returns if the graph is a directed graph or not.
@@ -150,13 +206,6 @@ public interface Graph<T> extends Iterable<T>
      * @return true if the graph is a directed graph, false if otherwise.
      */
     public boolean isDirected();
-
-    /**
-     * Returns if the graph is weighted or not.
-     *
-     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
-     */
-    public boolean isWeighted();
 
     /**
      * Returns true wether u and v are adjacent vertex in the graph.
@@ -169,8 +218,16 @@ public interface Graph<T> extends Iterable<T>
     public boolean isVertexAdjacent(int u, int v);
 
     /**
+     * Returns if the graph is weighted or not.
+     *
+     * @return <code>true</code> if the graph is weighted, <code>false</code> if otherwise.
+     */
+    public boolean isWeighted();
+
+    /**
      * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or
-     * BSF or DSF.
+     * BSF or DSF. Most implementations will just return a {@link GraphIterator} to some random node. However, it is
+     * not guaranteed.
      *
      * @return a new {@link Iterator}
      */
@@ -189,12 +246,45 @@ public interface Graph<T> extends Iterable<T>
     public GraphIterator<T> iterator(int v);
 
     /**
+     * Similar to the <code>iterator()</code> method but it guarantees a random access iterator to some randomly
+     * selected node.
+     *
+     * @return a new {@link GraphIterator}
+     */
+    public GraphIterator<T> randomIterator();
+
+    /**
      * Registers an {@link EdgeFactory} instance to this class. This allows to vary the behavior of the graph as long as
      * {@link Edge} creation refers.
      *
      * @param factory
      */
     public void registerEdgeFactory(EdgeFactory factory);
+
+    /**
+     * Removes a node from the graph. May throw a {@link IllegalArgumentException} if the node is not present in the
+     * graph.
+     *
+     * @param node the node to be removed.
+     *
+     * @return the value of the removed node.
+     */
+    public T remove(Node<T> node);
+
+    /**
+     * Removes a node from the graph.
+     *
+     * @see Graph#remove(cu.edu.cujae.graphy.core.Node)
+     * @param u the node to be removed
+     *
+     * @return the value of the removed node
+     */
+    public T remove(int u);
+
+    /**
+     * Reverses this graph's edges.If an edge was (u, v) then after this will be (v, u). Weights are preserved.
+     */
+    public void reverse();
 
     /**
      * Returns the count of nodes in the graph.

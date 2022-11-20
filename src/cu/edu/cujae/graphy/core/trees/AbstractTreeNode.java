@@ -39,9 +39,21 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
     public E get()
     {
         return data;
+    }
+
+    @Override
+    public TreeNode<E> getFirstChild()
+    {
+        return getChildByIndex(0);
     }
 
     @Override
@@ -54,6 +66,30 @@ public abstract class AbstractTreeNode<E> implements TreeNode<E>
     public void set(E data)
     {
         this.data = data;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "+ (" + data + ")[" + getLabel() + "]";
+    }
+
+    @Override
+    public String toString(int level)
+    {
+        int originalLevel = level;
+        StringBuilder builder = new StringBuilder();
+        while (level-- > 0)
+        {
+            builder.append("  ");
+        }
+        builder.append(toString()).append(System.lineSeparator());
+
+        for (TreeNode<E> child : getChildren())
+        {
+            builder.append(child.toString(originalLevel + 1));
+        }
+        return builder.toString();
     }
 
 }
