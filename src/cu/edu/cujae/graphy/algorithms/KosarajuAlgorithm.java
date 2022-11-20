@@ -31,14 +31,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * El <b>algoritmo de Kosaraju</b> está basado en DFS utilizado para encontrar
- * componentes fuertemente conexos (SCC) en un grafo.Si uno es capaz de alcanzar
+ * El <b>algoritmo de Kosaraju</b> está basado en <i>DFS</i> utilizado para encontrar
+ * <b>componentes fuertemente conexos (SCC)</b> en un <b>grafo dirigido</b>.Si uno es capaz de alcanzar
  * un vértice v a partir del vértice u, entonces uno debería ser capaz de
  * alcanzar el vértice u a partir de v y si se cumple, puede decirse que v y u
  * están en un subgrafo fuertemente conectados.
  * <p>
- * Este algoritmo garantiza su ejecución en <i>O(V+E)</i>, siendo V el número de
+ * Este algoritmo garantiza su ejecución en <code>O(V+E)</code>, siendo V el número de
  * vértices y E el número de aristas.
+ * <p> Es conocido también como <b>algoritmo de Kosaraju-Sharir</b>.Sus creadores fueron
+ * <i>S. Rao Kosaraju</i> y <i>Micha Sharir</i>, en 1978 y 1981 respectivamente. 
+ * Además, demuestra que el grafo de transposición (el mismo grafo con la dirección
+ * de cada arista invertida) posee exactamente los mismos componentes fuertemente conectados que el grafo original.
  *
  * @author Ananda
  * @param <T>

@@ -11,9 +11,19 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
- * Given a weighted & undirected graph, this algorithm will return a Minimal Expansion Tree
+ * El <b>algoritmo de Prim</b> pertenece a la <i>teoría de grafos</i> y se encarga de encontrar un 
+ * árbol recubridor mínimo en un <b>grafo conexo, no dirigido y ponderado</b>. Es decir, 
+ * encuentra un subconjunto de aristas que forman un árbol con todos los vértices,
+ * donde el peso total de todas las aristas en el árbol es el mínimo posible. Si
+ * el grafo no es conexo, entonces encontrará el árbol de expansión mínima para uno
+ * de los componentes conexos que forman el grafo original.
  * <p>
- * Time complexity for this algorithm is at most <code>O(n<sup>2</sup>)</code>
+ * El algoritmo fue diseñado originalmente por el matemático <i>Vojtech Jarnik</i> en 1930,
+ * y luego de manera independiente por el científico computacional <i>Robert C. Prim</i>
+ * en 1957. Por último, fue redescubierto por <i>Dijkstra</i> en 1959.
+ * <p>
+ * Es conocido también como <b>algoritmo de DJP</b> o <b>algoritmo de Jarnik</b>. 
+ * Posee una complejidad de <code>O(n<sup>2</sup>)</code>.
  *
  * @author Carlos Daniel Robaina Rivero
  * @param <T>

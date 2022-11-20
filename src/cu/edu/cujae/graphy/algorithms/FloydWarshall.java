@@ -26,12 +26,14 @@ import cu.edu.cujae.graphy.utils.Pair;
 import java.util.ArrayList;
 
 /**
- * El algoritmo de Floyd-Warshall es uno de los que se han creado para encontrar el camino más corto entre nodos, se
- * trabaja
- * con programación dinámica, lo que garantiza que la solución entregada sea óptima.
- * Entrada: Grafo dirigido con pesos asociados a las aristas
- * Salida: Matriz distancia que entrega el menor camino para ir de un nodo a otro del grafo
- * Matriz ruta que entrega el nodo intermedio para llegar desde un nodo a otro del grafo
+ * El <b>algoritmo de Floyd-Warshall</b>, descrito en 1959 por <i>Bernard Roy</i>,
+ * es empleado en análisis sobre grafos para encontrar el <b>camino mínimo en grafos dirigidos ponderados</b>.
+ * El algoritmo encuentra el camino entre todos los pares de vértices en una única ejecución.
+ * Se trabaja con programación dinámica, garantizando que la solución entregada sea óptima.
+ * <ul><li>Entrada: Grafo dirigido con pesos asociados a las aristas.</li>
+ * <li>Salida: Matriz distancia que entrega el menor camino para ir de un nodo a otro del grafo.
+ * Matriz ruta que entrega el nodo intermedio para llegar desde un nodo a otro del grafo.</li></ul>
+ * <p>Garantiza una complejidad temporal de <code>O(V<sup>3</sup>)</code>.
  *
  * @author Jose
  * @param <V>
