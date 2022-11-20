@@ -44,3 +44,4 @@ nbdist/
 
 ### Releases
 releases
+/bin/
