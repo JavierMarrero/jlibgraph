@@ -50,15 +50,33 @@ public class IsolatedVertices<V> extends AbstractAlgorithm<LinkedList<Integer>>
         //Lista para guardar los nodos visitados y no analizarlos de nuevo 
         Set<Integer> visited = new TreeSet<>();
 
-        GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
-        while (dfs.hasNext())
+        if (graph.isDirected())
         {
-            dfs.next();
-            //Si no ha sido visitado y no tiene aristas adyacentes
-            if (!visited.contains(dfs.getLabel()) && dfs.getAllAdjacentEdges().isEmpty())
+            GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
+            while (dfs.hasNext())
             {
-                aislados.add(dfs.getLabel());
-                visited.add(dfs.getLabel());
+                dfs.next();
+                //Si no ha sido visitado y no tiene aristas dirigidas hacia él
+                if (!visited.contains(dfs.getLabel()) && dfs.getAdjacentVerticesArrivingSelf().isEmpty())
+                {
+                    aislados.add(dfs.getLabel());
+                    visited.add(dfs.getLabel());
+                }
+            }
+
+        }
+        else
+        {
+            GraphIterator<V> dfs = (GraphIterator<V>) graph.depthFirstSearchIterator(true);
+            while (dfs.hasNext())
+            {
+                dfs.next();
+                //Si no ha sido visitado y no tiene aristas adyacentes
+                if (!visited.contains(dfs.getLabel()) && dfs.getAllAdjacentEdges().isEmpty())
+                {
+                    aislados.add(dfs.getLabel());
+                    visited.add(dfs.getLabel());
+                }
             }
         }
         setResult(aislados);
