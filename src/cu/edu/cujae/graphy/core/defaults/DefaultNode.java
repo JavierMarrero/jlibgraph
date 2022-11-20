@@ -22,6 +22,7 @@ import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.exceptions.InvalidKeyException;
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
+import java.util.Map.Entry;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -34,7 +35,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class DefaultNode<T> implements Node<T>
 {
 
-    private final Map<Object, Object> attributes;
+    private Map<Object, Object> attributes;
     private Map<Node<T>, Edge> connectionsFromVertex;
     private Map<Node<T>, Edge> connectionsToVertex;
     private T data;
@@ -77,11 +78,15 @@ public class DefaultNode<T> implements Node<T>
         @SuppressWarnings ("unchecked")
         DefaultNode<T> clone = (DefaultNode<T>) super.clone();
 
-        clone.connectionsFromVertex = new LinkedHashMap<>(connectionsFromVertex);
-        clone.connectionsToVertex = new LinkedHashMap<>(connectionsToVertex);
+        clone.connectionsFromVertex = new LinkedHashMap<>(connectionsFromVertex.size());
+        clone.connectionsToVertex = new LinkedHashMap<>(connectionsToVertex.size());
+        clone.attributes = new HashMap<>(attributes.size());
 
-        // The resulting node is returned disconnected
-        clone.disconnect();
+        // Clone the attributes
+        for (Entry<Object, Object> entry : attributes.entrySet())
+        {
+            //TODO: Find the way to clone attributes
+        }
 
         return clone;
     }

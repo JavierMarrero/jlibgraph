@@ -42,7 +42,7 @@ public interface Tree<E> extends Graph<E>
      *
      * @return
      */
-    public boolean add(TreeNode<E> parent, E data);
+    public TreeNode<E> add(TreeNode<E> parent, E data);
 
     /**
      * Finds the first node containing data.
