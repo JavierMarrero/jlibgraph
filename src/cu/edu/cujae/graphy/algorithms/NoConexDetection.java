@@ -2,7 +2,9 @@ package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-/**@author CesarFernandez*/
+/**@author CesarFernandez
+ * Metodo para determinar si un grafo es no conexo
+ * */
 public class NoConexDetection<V> extends AbstractAlgorithm<Boolean> {
 	private final Graph<V> graph;
 	private final int NumVertex;
