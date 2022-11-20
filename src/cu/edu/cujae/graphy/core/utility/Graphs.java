@@ -61,6 +61,12 @@ public class Graphs
         }
 
         @Override
+        public boolean addAll(Collection<T> c)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
         public Iterator<T> breadthFirstSearchIterator(Node<T> node, boolean includeDisconnected)
         {
             return graph.breadthFirstSearchIterator(node, includeDisconnected);

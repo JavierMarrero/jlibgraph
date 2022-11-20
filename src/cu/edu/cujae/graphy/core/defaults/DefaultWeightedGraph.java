@@ -32,12 +32,12 @@ import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
  */
 public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements WeightedGraph<T>
 {
-
+    
     public DefaultWeightedGraph()
     {
         super(false);
     }
-
+    
     public DefaultWeightedGraph(boolean directed)
     {
         super(directed);
@@ -66,16 +66,14 @@ public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements We
         }
         return u.addEdge(getEdgeFactory().build(w, u, v, w));
     }
-
+    
     @Override
     public Graph<T> duplicate() throws CloneNotSupportedException
     {
         DefaultWeightedGraph<T> graph = (DefaultWeightedGraph<T>) new DefaultWeightedGraphBuilder<T>().buildGraph().
                 directed(isDirected()).get();
-        for (Node<T> node : duplicateInternalNodes())
-        {
-            graph.addNode(node);
-        }
+        cloneNodesAndReconnect(graph);
+        
         return graph;
     }
 
@@ -87,5 +85,5 @@ public class DefaultWeightedGraph<T> extends AdjacencyListGraph<T> implements We
     {
         return true;
     }
-
+    
 }

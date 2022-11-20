@@ -23,6 +23,7 @@ import cu.edu.cujae.graphy.core.EdgeFactory;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.Weight;
+import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
 import cu.edu.cujae.graphy.core.iterators.AbstractGraphIterator;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
@@ -299,6 +300,20 @@ public abstract class AbstractGraph<T> implements Graph<T>
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean addAll(Collection<T> c)
+    {
+        boolean result = true;
+        for (T element : c)
+        {
+            result &= add(element);
+        }
+        return result;
+    }
+
+    /**
      * Internally allocates a label for a node, and handles conflicts.
      *
      * @return an integer representing the next allocatable label.
@@ -389,6 +404,17 @@ public abstract class AbstractGraph<T> implements Graph<T>
             clonedNodes.put(node.getLabel(), (Node<T>) node.clone());
         }
 
+        return clonedNodes.values();
+    }
+
+    protected void reconnectDuplicatedNodes(Collection<Node<T>> clonedNodes, AbstractGraph<T> clone) throws
+            CloneNotSupportedException
+    {
+        if (clonedNodes == null || clone == null)
+        {
+            throw new IllegalArgumentException("Attempted to clone on a null graph or null nodes.");
+        }
+
         // Now every node is cloned
         // Clone the edges and connect the nodes
         for (Node<T> node : getNodes())
@@ -401,15 +427,33 @@ public abstract class AbstractGraph<T> implements Graph<T>
                     w = (Weight<?>) edge.getWeight().clone();
                 }
 
-                Edge clonedEdge = getEdgeFactory().build(edge.getLabel(),
-                                                         clonedNodes.get(edge.getStartNode().getLabel()),
-                                                         clonedNodes.get(edge.getFinalNode().getLabel()),
-                                                         w);
-                clonedNodes.get(node.getLabel()).addEdge(clonedEdge);
+                int u = edge.getStartNode().getLabel();
+                int v = edge.getFinalNode().getLabel();
+
+                if (clone instanceof WeightedGraph)
+                {
+                    ((WeightedGraph<T>) clone).connect(u, v, w);
+                }
+                else
+                {
+                    clone.connect(u, v);
+                }
             }
         }
+    }
 
-        return clonedNodes.values();
+    protected void cloneNodesAndReconnect(AbstractGraph<T> clone) throws CloneNotSupportedException
+    {
+        Collection<Node<T>> clonedNodes = duplicateInternalNodes();
+
+        // Add all the nodes
+        for (Node<T> clonedNode : clonedNodes)
+        {
+            clone.addNode(clonedNode);
+        }
+
+        // Now reconnect
+        reconnectDuplicatedNodes(clonedNodes, clone);
     }
 
     /**
