@@ -32,7 +32,7 @@ public class RemovalTest
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws CloneNotSupportedException
     {
         Graph<Integer> graph = GraphBuilders.makeSimpleGraph(false);
         for (int i = 0; i < 5; ++i)
@@ -61,6 +61,30 @@ public class RemovalTest
         System.out.println(graph + "\n");
         {
             printAll(graph);
+        }
+
+        // Clone the graph
+        Graph<Integer> clone = graph.duplicate();
+        clone.add(1, 1);
+        clone.add(3, 3);
+
+        clone.connect(1, 2);
+        clone.connect(1, 3);
+        clone.connect(2, 3);
+        clone.connect(3, 4);
+
+        System.out.println(clone + "\n");
+        {
+            printAll(clone);
+        }
+
+        // Remove
+        clone.remove(1);
+        clone.remove(3);
+
+        System.out.println(clone + "\n");
+        {
+            printAll(clone);
         }
     }
 

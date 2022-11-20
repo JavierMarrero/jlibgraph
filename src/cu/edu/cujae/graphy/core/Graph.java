@@ -53,6 +53,15 @@ public interface Graph<T> extends Iterable<T>
     public boolean add(T data);
 
     /**
+     * Adds all the elements of the collection c to the graph.
+     *
+     * @param c
+     *
+     * @return
+     */
+    public boolean addAll(Collection<T> c);
+
+    /**
      * Returns a BFS iterator to the selected node.
      *
      * @param node

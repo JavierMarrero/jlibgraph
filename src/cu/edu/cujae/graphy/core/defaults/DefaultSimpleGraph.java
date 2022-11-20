@@ -19,7 +19,6 @@
 package cu.edu.cujae.graphy.core.defaults;
 
 import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.Node;
 import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
 
 /**
@@ -36,12 +35,12 @@ import cu.edu.cujae.graphy.core.abstractions.AdjacencyListGraph;
  */
 public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Graph<T>, Cloneable
 {
-
+    
     public DefaultSimpleGraph()
     {
         super(false);
     }
-
+    
     public DefaultSimpleGraph(boolean directed)
     {
         super(directed);
@@ -53,12 +52,10 @@ public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Grap
     @Override
     public Graph<T> duplicate() throws CloneNotSupportedException
     {
-        DefaultSimpleGraph<T> graph = new DefaultSimpleGraph<>(true);
-        // Clone all the nodes
-        for (Node<T> node : duplicateInternalNodes())
-        {
-            graph.addNode(node);
-        }
+        DefaultSimpleGraph<T> graph = (DefaultSimpleGraph<T>) new DefaultGraphBuilder<T>().buildGraph().directed(
+                isDirected()).get();
+        cloneNodesAndReconnect(graph);
+        
         return graph;
     }
 
@@ -70,5 +67,5 @@ public class DefaultSimpleGraph<T> extends AdjacencyListGraph<T> implements Grap
     {
         return false;
     }
-
+    
 }
