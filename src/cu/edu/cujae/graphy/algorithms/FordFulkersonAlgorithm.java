@@ -26,11 +26,13 @@ import cu.edu.cujae.graphy.utils.Pair;
 import java.util.*;
 
 /**
- * El algoritmo de Ford-Fulkerson resuelve el problema de flujo máximo. Dado un
- * grafo que representa una red de flujo donde toda arista tiene una capacidad,
- * y dados dos vértices: fuente (s) y vertedero (t) en el grafo, se encuentra
- * el flujo máximo posible desde s hasta t, teniendo en cuenta las siguientes
- * restriciones:
+ * El <b>algoritmo de Ford-Fulkerson</b> propone buscar caminos en los que se pueda
+ * aumentar el flujo, hasta que se alcance el flujo máximo.Su nombre viene dado por sus creadores,
+ * <i>L.R. Ford, Jr. y D.R. Fulkerson</i>. Su complejidad temporal es <code>O(maxFlow * E)</code>.
+ * <p> Dado un grafo que representa una red de flujo donde toda arista tiene 
+ * una capacidad, y dados dos vértices: <i>fuente (s)</i> y <i>vertedero (t)</i> en el grafo, 
+ * se encuentra el flujo máximo posible desde s hasta t, teniendo en cuenta las 
+ * siguientes restriciones:
  * <ul>
  * <li>El flujo en un vértice no puede superar la capacidad máxima de dicho
  * vértice.</li>
@@ -38,7 +40,7 @@ import java.util.*;
  * excepto s y t.</li>
  * </ul>
  * <p>
- * Su nombre viene dado por sus creadores , L.R. Ford, Jr. y D.R. Fulkerson.
+ * 
  *
  * @author Amanda Mendez
  */

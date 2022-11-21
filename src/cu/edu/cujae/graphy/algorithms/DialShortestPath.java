@@ -30,9 +30,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * El algoritmo de Dial, es decir, Dijkstra optimizado para pesos de rango
- * pequeño, emplea una nueva estructura denominada cubo y posee una complejidad
- * de tiempo O(E+WV), donde W es el peso máximo en cualquier borde del
+ * El <b>algoritmo de Dial</b>, es decir, <i>Dijkstra optimizado para pesos de rango
+ * pequeño</i>, emplea una nueva estructura denominada cubo y posee una complejidad
+ * de tiempo <code>O(E+WV)</code>, donde W es el peso máximo en cualquier borde del
  * gráfico.La distancia máxima entre dos nodos puede tener un máximo de w(V-1).
  *
  *
