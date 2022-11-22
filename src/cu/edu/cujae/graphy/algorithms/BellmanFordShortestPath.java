@@ -26,15 +26,15 @@ import cu.edu.cujae.graphy.utils.Pair;
 import java.util.*;
 
 /**
- * El algoritmo Bellman-Ford genera el camino mínimo desde un vértice al resto
- * de vértices en un digrafo (con posibles pesos negativos en algunas de las
- * aristas). El algoritmo DijkstraShortestPath (cu.edu.cujae.graphy.algorithms)
- * resulve este mismo problema en un menor tiempo pero requiere que los pesos de
+ * El <b>algoritmo Bellman-Ford</b> genera el <b>camino mínimo</b> desde un vértice al resto
+ * de vértices en un digrafo (con posibles <b>pesos negativos</b> en algunas de las
+ * aristas). El <i>algoritmo DijkstraShortestPath (cu.edu.cujae.graphy.algorithms)</i>
+ * resuelve este mismo problema en un menor tiempo pero requiere que los pesos de
  * las aristas no sean negativos, salvo que el grafo sea dirigido y sin ciclos.
- * Tiene una compejidad algorítmica de O(VE).
+ * Tiene una complejidad algorítmica de <code>O(VE)</code>.
  * <p>
- * Este algoritmo fue desarrollado por Richard Bellman, Samuel End y Lester
- * Ford.
+ * Este algoritmo fue desarrollado por <i>Richard Bellman, Samuel End</i> y <i>Lester
+ * Ford.</i>
  *
  * @author Amanda Mendez
  * @param <T>

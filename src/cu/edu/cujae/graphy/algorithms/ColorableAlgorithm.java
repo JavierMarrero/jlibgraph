@@ -20,14 +20,26 @@ package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
- * El objetivo de este algoritmo es determinar si un grafo no dirigido puede ser
- * coloreado con m colores, de forma tal que dos vértices adyacentes no posean
+ * La coloración de grafos es un caso especial de etiquetas de grafos; es una
+ * asignación de etiquetas llamadas colores a los elementos del grafo. De manera
+ * simple, una coloración de los vértices de un grafo tal que ningún vértice
+ * adyacente comparta el mismo color es llamado vértice coloración, y es el
+ * punto de inicio de la coloración.
+ * <p>
+ * No existe ningún algoritmo eficiente disponible para colorear un grafo con
+ * un número mínimo de colores, ya que es un problema <i>NP-Completo</i> conocido. Sin
+ * embargo, existen algoritmos aproximados para resolver el problema.
+ * <p>
+ * El objetivo de este algoritmo es determinar si un <b>grafo no dirigido</b> puede ser
+ * coloreado con <b>m colores</b>, de forma tal que dos vértices adyacentes no posean
  * igual coloratura.
  *
  * @author Ananda
@@ -40,10 +52,9 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean>
     private final int mColors;
     private final GraphIterator<T> iter;
     private final int vertices;
-    private final Map<Integer, Integer> colors;
-    public final int higherDegree;
+    
 
-    public ColorableAlgorithm(Graph<T> graph, GraphIterator<T> iter, int m)
+    public ColorableAlgorithm(Graph<T> graph, int m)
     {
         super(Boolean.TRUE);
         if (graph.isDirected())
@@ -55,14 +66,6 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean>
         this.mColors = m;
         this.iter = graph.randomIterator();
         this.vertices = graph.size();
-        this.colors = new TreeMap<>();
-        this.higherDegree = vertices - 1;
-
-        for (int v : graph.getLabels())
-        {
-            colors.put(v, mColors);
-        }
-        colors.put(iter.getLabel(), 0);
     }
 
     @Override
@@ -70,23 +73,38 @@ public class ColorableAlgorithm<T> extends AbstractAlgorithm<Boolean>
     {
         boolean result = true;
         //Paso 1: Almacenar vértices en la lista.
-        ArrayList<Integer> listOfVertices = new ArrayList<>();
+        LinkedList<Integer> listOfVertices = new LinkedList<>();
         for (int v : graph.getLabels())
         {
-            iter.next(v);
             listOfVertices.add(iter.getLabel());
         }
-        //Paso 2: Ordenar la lista descendentemente.
+        //Paso 2: Ordenar la lista descendentemente a partir de los grados.
         Collections.sort(listOfVertices, (Integer a, Integer b) -> b.compareTo(a));
         //Paso 3: Colorear vértice de mayor grado y verificar que su adyacente no posea igual color.
-        for (int i = 0; i < listOfVertices.size(); i++)
-        {
-            for (int j = 0; j < mColors; j++)
-            {
-                colors.put(i, j);
+        Map<Integer, Integer> colors = new TreeMap<>();;
+        Set<Integer> unavailableColors = new TreeSet<>();
+        while(!listOfVertices.isEmpty()){
+            int v = listOfVertices.poll();
+            iter.next(v);
+            for(int u : iter.getAllAdjacentVertices()){
+                if(colors.containsKey(u)){
+                    unavailableColors.add(u);
+                }
+            }
+            int c = 1;
+            while(unavailableColors.contains(c)){
+                c++;
+            }
+            if(c > mColors){
+                result = false;
+                break;
+            }
+            else{
+                colors.put(v, c);
+                unavailableColors.clear();
             }
         }
-        //falta verificar la adyacencia aún :(
+        setResult(result);
         return this;
     }
 

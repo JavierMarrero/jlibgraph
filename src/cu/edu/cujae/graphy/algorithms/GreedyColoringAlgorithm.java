@@ -36,13 +36,14 @@ import java.util.TreeSet;
  * punto de inicio de la coloración.
  * <p>
  * No existe ningún algoritmo eficiente disponible para colorear un grafo con
- * un número mínimo de colores, ya que e un problema NP-Completo conocido. Sin
+ * un número mínimo de colores, ya que es un problema <i>NP-Completo</i> conocido. Sin
  * embargo, existen algoritmos aproximados para resolver el problema.
  * <p>
- * A continuación se muestra el algoritmo Greedy básico para asignar colores.
+ * A continuación se muestra el <b>algoritmo Greedy</b> básico para asignar colores.
  * No garantiza el uso de colores mínimos, pero garantiza un límite superior en
  * la cantidad de colores. Este algoritmo básico nunca usa más de d+1 colores
- * donde d es el grado máximo de un vértice en el gráfico dado.
+ * donde d es el grado máximo de un vértice en el gráfico dado. Garantiza una 
+ * complejidad temporal, en el peor de los casos de <code>O(V<sup>2</sup> + E)</code>.
  *
  * @author Amanda Méndez
  * @param<T>
