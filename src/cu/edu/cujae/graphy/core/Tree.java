@@ -88,4 +88,5 @@ public interface Tree<E> extends Graph<E>
      * @return
      */
     public boolean isRoot(TreeNode<E> node);
+
 }
