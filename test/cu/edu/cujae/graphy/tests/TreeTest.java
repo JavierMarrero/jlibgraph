@@ -45,10 +45,12 @@ public class TreeTest
         tree.add(tree.findFirstNode('d'), 'i');
         tree.add(null, 'z');
         tree.add(tree.add(tree.add(tree.getRoot(), 'j'), 'k'), 'l');
+        tree.add(tree.findFirstNode('d').getParent(), 'w');
 
         System.out.println(tree);
         System.out.println("Is a tree?: " + new TreeDetection<>(tree, tree.iterator(tree.getRoot().getLabel())).apply().
                 get());
+        System.out.println("Levels of this tree: " + tree.countLevels());
         // System.out.println("Height of this tree: " + tree.getHeight());
     }
 

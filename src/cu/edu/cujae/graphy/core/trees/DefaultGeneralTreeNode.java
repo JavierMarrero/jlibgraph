@@ -46,6 +46,10 @@ public class DefaultGeneralTreeNode<E> extends AbstractTreeNode<E> implements Tr
     @Override
     public boolean addEdge(Edge edge)
     {
+        if (edge.getFinalNode() instanceof DefaultGeneralTreeNode)
+        {
+            ((DefaultGeneralTreeNode<?>) edge.getFinalNode()).parent = edge;
+        }
         return children.add(edge);
     }
 
