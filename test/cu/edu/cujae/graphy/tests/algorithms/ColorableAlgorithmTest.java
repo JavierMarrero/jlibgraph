@@ -47,7 +47,7 @@ public class ColorableAlgorithmTest {
 
         System.out.println(graph1);
         System.out.println("Colorable´s Algorithm applicable to the first graph:");
-        System.out.println(new ColorableAlgorithm<>(graph1, graph1.iterator(0), mColors1).apply().get());
+        System.out.println(new ColorableAlgorithm<>(graph1, mColors1).apply().get());
         
         //Segundo grafo, con 3 colores, 5 vértices y 5 aristas. Se cumple (true)!
         Graph<Integer> graph2 = GraphBuilders.makeSimpleWeightedGraph(false);
@@ -64,7 +64,7 @@ public class ColorableAlgorithmTest {
 
         System.out.println(graph2);
         System.out.println("Colorable´s Algorithm applicable to the second graph:");
-        System.out.println(new ColorableAlgorithm<>(graph2, graph2.iterator(0), mColors2).apply().get());
+        System.out.println(new ColorableAlgorithm<>(graph2, mColors2).apply().get());
     }
     
 }

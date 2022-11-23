@@ -68,7 +68,7 @@ public abstract class AbstractTree<E> extends AbstractGraph<E> implements Tree<E
 
         this.usedLabels = new TreeSet<>();
     }
-
+    
     @Override
     public TreeNode<E> findFirstNode(E data)
     {
