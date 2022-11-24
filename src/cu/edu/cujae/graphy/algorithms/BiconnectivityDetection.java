@@ -18,93 +18,104 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
-import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * This algorithm checks if a given undirected graph is biconnected
+ * This algorithm checks if a given undirected graph is biconnected.
  * 
- * @author Amaya D. Fuentes
+ * @author Amaya D. Fuentes;
  */
 public class BiconnectivityDetection<T> extends AbstractAlgorithm<Boolean> {
-
+    
     private int V;
     private GraphIterator<T> iterator;
-    private Graph<T> duplicateGraph;
-    
+
     public BiconnectivityDetection(Graph<T> graph) {
         super(Boolean.FALSE);
         
-         if(graph.isDirected()) {
+        if(graph.isDirected()) {
             throw new IllegalArgumentException("The graph is directed.");
         }
         
-        this.iterator = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
         this.V = graph.size();
-        try {
-            this.duplicateGraph = graph.duplicate();
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(BiconnectivityDetection.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.iterator = graph.randomIterator();
     }
     
     @Override
     public Algorithm<Boolean> apply() {
         
-        boolean articulationPoint = false;
-        int count = 0;
+        Set<Integer> visited = new TreeSet<>();
         
-        while(iterator.hasNext() && !articulationPoint) {
-            iterator.next();
-            count++;
-            
-            //get current vertex information and remove it
-            int label = iterator.getLabel();
-            /*Collection<Integer> outAdjacents = iterator.getAdjacentVerticesDepartingSelf();
-            Collection<Integer> inAdjacents = iterator.getAdjacentVerticesArrivingSelf();
-            T vertexInfo = duplicateGraph.remove(label);*/
-            
-            Collection<Edge> outEdges = iterator.getEdgesDepartingSelf();
-            Collection<Edge> inEdges = iterator.getEdgesArrivingSelf();
-            for(Edge outEdge: outEdges) {
-                duplicateGraph.disconnect(label, (int) outEdge.getLabel());
-            }
-            for(Edge inEdge: inEdges) {
-                duplicateGraph.disconnect(label, (int) inEdge.getLabel());
-            }
-            
-            //check if the current node is an articulation point
-            if(!(boolean)new ConnectivityDetection(duplicateGraph).apply().get()) {
-                articulationPoint = true;
-            }
-            
-            //add the previously removed vertex to the graph
-            /*duplicateGraph.add(label, vertexInfo);
-            for(Integer adj: outAdjacents) {
-                duplicateGraph.connect(label, adj);
-            }
-            for(Integer adj: inAdjacents) {
-                duplicateGraph.connect(adj, label);
-            }*/
-            
-            for(Edge outEdge: outEdges) {
-                duplicateGraph.connect(label, (int) outEdge.getLabel());
-            }
-            for(Edge inEdge: inEdges) {
-                duplicateGraph.connect((int) inEdge.getLabel(), label);
-            }
-        }
+        HashMap<Integer, Integer> parent = new HashMap<>();
         
-        if(!articulationPoint && count == V) {
+        int discTime = 0;
+        HashMap<Integer, Integer> disc = new HashMap<>();
+        HashMap<Integer, Integer> low = new HashMap<>();
+        
+        boolean articulationPoint = hasArticulationPoint(iterator, visited, parent, disc, low, discTime);
+        
+        if(!articulationPoint && visited.size() == V) {
             setResult(true);
         }
         
         return this;
     }
     
-   
+    
+    
+    /**
+     * This recursive function checks if a graph has an articulation point through DFS search
+     * 
+     * @param iterator - The graph's iterator
+     * @param visited - Contains every visited vertex
+     * @param parent - The key is the current node's label and the value is its parent's in the DFS tree
+     * @param low - The key is the node's label and the value is the discovery time of it earliest visited adjacent node
+     * @param disc - The key is the current node's label and the value is its discovery time 
+     * @param discTime - The discovery time for the current node
+     * @return true if there is an articulation point, otherwise false
+     */
+    private boolean hasArticulationPoint(GraphIterator<T> iterator, Set<Integer> visited, HashMap<Integer, Integer> parent, HashMap<Integer, Integer> low, HashMap<Integer, Integer> disc, int discTime) {
+        
+        int children = 0;
+        int currentLabel = iterator.getLabel();
+        visited.add(currentLabel);
+        discTime++;
+        disc.put(currentLabel, discTime);
+        low.put(currentLabel, discTime);
+        
+        for(Integer adjLabel: iterator.getAllAdjacentVertices()) {
+            iterator.next(adjLabel);
+            
+            if(!visited.contains(adjLabel)) {
+                children++;
+                parent.put(adjLabel, currentLabel);
+                
+                if(hasArticulationPoint(iterator, visited, parent, low, disc, discTime)){
+                    return true;
+                }
+                
+                low.put(currentLabel, Math.min(low.get(currentLabel), low.get(adjLabel)));
+                
+                if(!parent.containsKey(currentLabel) && children > 1) {
+                    return true;
+                }
+                
+                if(parent.containsKey(currentLabel) && low.get(adjLabel) >= disc.get(currentLabel)) {
+                    return true;
+                }
+            }
+
+            else if(parent.get(currentLabel) != adjLabel) {
+                low.put(currentLabel, Math.min(low.get(currentLabel), disc.get(adjLabel)));
+            }
+        } 
+        
+        return false;
+    }
+    
+    
 }

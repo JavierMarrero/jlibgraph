@@ -72,8 +72,11 @@ public class BiconnectivityDetectionTest {
         
         System.out.println("G4 - Vertex: 0, 1, 2, 3 - Edges: (0<->1) (1<->2) (2<->0) (0<->3) - Biconnected: "+new BiconnectivityDetection(g4).apply().get()+"\n");
         
+        Graph<Integer> g5 = GraphBuilders.makeSimpleGraph(false);
         
+        g5.add(0);
         
+        System.out.println("G5 - Vertex: 0 - Edges: NONE - Biconnected: "+new BiconnectivityDetection(g5).apply().get());
        
     }
 }
