@@ -18,7 +18,7 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.DinicAlgorithm;
+import cu.edu.cujae.graphy.algorithms.PushRelabelAlgorithm;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 import cu.edu.cujae.graphy.core.utility.Weights;
@@ -27,7 +27,7 @@ import cu.edu.cujae.graphy.core.utility.Weights;
  *
  * @author Ananda
  */
-public class DinicAlgorithmTest {
+public class PushRelabelTest {
 
     /**
      * @param args the command line arguments
@@ -53,9 +53,9 @@ public class DinicAlgorithmTest {
 
         System.out.println(graph);
 
-        System.out.println("Dinic Algorithm for Maximum Flow: ");
+        System.out.println("Push-Relabel Algorithm for Maximum Flow: ");
         //tiene que devolver como máximo flujo = 23!!!!!
-        System.out.println(new DinicAlgorithm(graph, graph.iterator(0), graph.iterator(5)).apply().get());
+        System.out.println(new PushRelabelAlgorithm(graph, graph.iterator(0), graph.iterator(5)).apply().get());
     }
     
 }
