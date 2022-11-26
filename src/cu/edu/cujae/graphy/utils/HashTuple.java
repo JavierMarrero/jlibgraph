@@ -19,7 +19,9 @@
 package cu.edu.cujae.graphy.utils;
 
 import cu.edu.cujae.graphy.core.exceptions.InvalidOperationException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -29,23 +31,47 @@ import java.util.Iterator;
  * @author Javier Marrero
  * @param <E>
  */
-public final class HashTuple<E> implements Tuple<E>
+public final class HashTuple<E> extends AbstractTuple<E> implements Tuple<E>
 {
 
+    private boolean empty;
     private E[] fastArray;
     private boolean frozen;
-    private final HashSet<E> set;
+    private int frozenSize;
+    private HashSet<E> set;
+    private final Comparator<E> comparator;
 
     public HashTuple()
     {
-        this(5);
+        this(250);
     }
 
     public HashTuple(int initialCapacity)
     {
-        fastArray = null;
-        frozen = false;
-        set = new HashSet<>(initialCapacity);
+        this(initialCapacity, new Comparator<E>()
+     {
+         @Override
+         @SuppressWarnings ("unchecked")
+         public int compare(E o1, E o2)
+         {
+             if ((o1 instanceof Comparable) == false)
+             {
+                 throw new ClassCastException(
+                         "The elements in the tuple are not comparable therefore they can't be sorted. Please, provide a comparator.");
+             }
+             return ((Comparable<E>) o1).compareTo(o2);
+         }
+     });
+    }
+
+    public HashTuple(int initialCapacity, Comparator<E> comparator)
+    {
+        this.empty = false;
+        this.fastArray = null;
+        this.frozen = false;
+        this.frozenSize = -1;
+        this.set = new HashSet<>(initialCapacity);
+        this.comparator = comparator;
     }
 
     @Override
@@ -91,22 +117,45 @@ public final class HashTuple<E> implements Tuple<E>
     @Override
     public boolean contains(Object o)
     {
-        return set.contains(o);
+        if (!frozen)
+        {
+            return set.contains(o);
+        }
+
+        return Arrays.binarySearch(fastArray, o) >= 0;
     }
 
     @Override
     public boolean containsAll(
             Collection<?> c)
     {
-        return set.containsAll(c);
+        if (!frozen)
+        {
+            return set.containsAll(c);
+        }
+
+        boolean result = true;
+        for (E element : fastArray)
+        {
+            result &= (Arrays.binarySearch(fastArray, element, comparator) >= 0);
+        }
+        return result;
     }
 
     @Override
     @SuppressWarnings ("unchecked")
     public void freeze()
     {
+        this.empty = set.isEmpty();
         this.frozen = true;
+        this.frozenSize = set.size();
         this.fastArray = (E[]) set.toArray();
+
+        // Finalizes the set
+        this.set = null;
+
+        // Orders the array
+        Arrays.sort(fastArray, comparator);
     }
 
     @Override
@@ -126,13 +175,39 @@ public final class HashTuple<E> implements Tuple<E>
     @Override
     public boolean isEmpty()
     {
-        return set.isEmpty();
+        if (!frozen)
+        {
+            return set.isEmpty();
+        }
+        else
+        {
+            return empty;
+        }
     }
 
     @Override
     public Iterator<E> iterator()
     {
-        return set.iterator();
+        if (!frozen)
+        {
+            return set.iterator();
+        }
+        return new Iterator<E>()
+        {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext()
+            {
+                return currentIndex != frozenSize;
+            }
+
+            @Override
+            public E next()
+            {
+                return fastArray[currentIndex++];
+            }
+        };
     }
 
     @Override
@@ -179,13 +254,24 @@ public final class HashTuple<E> implements Tuple<E>
     @Override
     public int size()
     {
-        return set.size();
+        if (!frozen)
+        {
+            return set.size();
+        }
+        return frozenSize;
     }
 
     @Override
     public Object[] toArray()
     {
-        return set.toArray();
+        if (!frozen)
+        {
+            return set.toArray();
+        }
+        else
+        {
+            return Arrays.copyOf(fastArray, frozenSize);
+        }
     }
 
     @Override

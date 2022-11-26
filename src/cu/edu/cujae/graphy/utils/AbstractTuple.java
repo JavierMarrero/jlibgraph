@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.utility;
+package cu.edu.cujae.graphy.utils;
 
-import cu.edu.cujae.graphy.core.Weight;
-import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
+import java.util.AbstractCollection;
 
 /**
- * Utility implementation of a factory method for {@link Weight} interfaces.
  *
  * @author Javier Marrero
+ * @param <E>
  */
-public class Weights
+public abstract class AbstractTuple<E> extends AbstractCollection<E> implements Tuple<E>
 {
 
-    public static <E extends Number & Comparable<E>> Weight<E> makeWeight(E data)
+    /**
+     * Returns the elements of this collection in a sequential manner as a human readable string.
+     *
+     * @return
+     */
+    @Override
+    public String toString()
     {
-        return new AbstractWeight<E>(data)
-        {
-            @Override
-            @SuppressWarnings ("unchecked")
-            public int compareTo(E o)
-            {
-                return data.compareTo(o);
-            }
-        };
+        return super.toString().replace('[', '<').replace(']', '>');
     }
+
 }

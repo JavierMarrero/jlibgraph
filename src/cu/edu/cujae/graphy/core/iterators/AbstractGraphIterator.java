@@ -67,6 +67,15 @@ public abstract class AbstractGraphIterator<T> implements GraphIterator<T>
      * {@inheritDoc}
      */
     @Override
+    public T get()
+    {
+        return current.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Edge getAdjacentEdge(int v)
     {
         if (graph instanceof AbstractGraph)
