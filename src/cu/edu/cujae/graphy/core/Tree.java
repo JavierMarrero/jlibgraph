@@ -19,7 +19,7 @@
 package cu.edu.cujae.graphy.core;
 
 /**
- * A tree is a data structure represented by a directed acyclic graph, imitating the shape of a tree.It is a set of
+ * A tree is a data structure represented by a directed acyclic graph, imitating the shape of a tree. It is a set of
  * connected nodes. A node is the basic unit over which the tree is constructed and may have zero or several children.
  * A node A is parent of a node B if there is a direct connection from A to B. There can be only a single node without
  * a parent and that is called root.
@@ -43,6 +43,13 @@ public interface Tree<E> extends Graph<E>
      * @return
      */
     public TreeNode<E> add(TreeNode<E> parent, E data);
+
+    /**
+     * Count how many levels this tree have. The number of levels is the depth of the tree.
+     *
+     * @return
+     */
+    public int countLevels();
 
     /**
      * Finds the first node containing data.

@@ -28,8 +28,18 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * El objetivo de este algoritmo es determinar si un grafo no dirigido puede ser
- * coloreado con m colores, de forma tal que dos vértices adyacentes no posean
+ * La coloración de grafos es un caso especial de etiquetas de grafos; es una
+ * asignación de etiquetas llamadas colores a los elementos del grafo. De manera
+ * simple, una coloración de los vértices de un grafo tal que ningún vértice
+ * adyacente comparta el mismo color es llamado vértice coloración, y es el
+ * punto de inicio de la coloración.
+ * <p>
+ * No existe ningún algoritmo eficiente disponible para colorear un grafo con
+ * un número mínimo de colores, ya que es un problema <i>NP-Completo</i> conocido. Sin
+ * embargo, existen algoritmos aproximados para resolver el problema.
+ * <p>
+ * El objetivo de este algoritmo es determinar si un <b>grafo no dirigido</b> puede ser
+ * coloreado con <b>m colores</b>, de forma tal que dos vértices adyacentes no posean
  * igual coloratura.
  *
  * @author Ananda

@@ -27,7 +27,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- *
+ * En <i>teoría de grafos</i>, la <b>centralidad de Katz de un nodo</b> es una medida
+ * de centralidad de una red. Fue introducido por <i>Leo Katz</i> en 1953 y se utiliza 
+ * para medir el grado relativo de influencia de un nodo dentro de la red social.
+ * <p>
+ * A diferencia de las típicas medidas de centralidad que consideran solo el camino
+ * más corto (la geodésica) entre un par de nodos, las medidas de centralidad de
+ * Katz influyen teniendo en cuenta el número total de caminatas entre un par de nodos.
+ * <p> La complejidad temporal es <code>O()</code>.
+ * 
  * @author Jose
  * @param <V>
  */
