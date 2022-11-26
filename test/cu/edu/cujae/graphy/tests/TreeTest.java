@@ -50,6 +50,7 @@ public class TreeTest
         System.out.println(tree);
         System.out.println("Is a tree?: " + new TreeDetection<>(tree, tree.iterator(tree.getRoot().getLabel())).apply().
                 get());
+        System.out.println("Levels of this tree: " + tree.countLevels());
         // System.out.println("Height of this tree: " + tree.getHeight());
     }
 
