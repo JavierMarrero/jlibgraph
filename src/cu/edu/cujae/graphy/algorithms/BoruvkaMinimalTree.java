@@ -20,12 +20,13 @@ package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
 /**
  * Un árbol de expansión significa que todos los vértices deben estar conectados.
@@ -63,21 +64,60 @@ public class BoruvkaMinimalTree<T> extends AbstractAlgorithm<WeightedGraph<T>> {
     public Algorithm<WeightedGraph<T>> apply(){
         //asumiendo que el grafo es conexo.
         GraphIterator<T> iter = graph.randomIterator();
-        WeightedGraph<T> mst;
-        //set para tener los vértices como componentes individuales.
-        Set<T> vertices = new HashSet<>();
+        WeightedGraph<T> mst = null;
+        //Paso 1: Inicializar vértices como componentes individuales.
+        LinkedList<Component> listOfComponents = new LinkedList<>();
+        while(iter.hasNext()){
+            iter.next();
+            listOfComponents.add(new Component(iter.getLabel(), graph));
+        }
+        //Paso 2: mientras existan componentes, encontrar la arista de menor peso y agregarla al MST.
+        while(!listOfComponents.isEmpty()){
+            Component current = listOfComponents.poll();
+            int lesserWeight = current.getLesserWeightVertex();
+            
+        }
         
-        //una cola de prioridad para poder obtener la arista de menor peso.
-        PriorityQueue<Edge> queue = new PriorityQueue<>((Edge a, Edge b) -> Integer.compare((Integer) a.getWeight().
-                getValue(), (Integer) b.getWeight().getValue()));
-        /*while(){
-            //encontrar pesos de arista cercana conectada con el componente.
-            if(){//si no está la arista añadida.
-                mst.add();
-            }
-        }*/
-        
+        //Paso 3: devolver MST.
         return this;
     }
     
+    //clase creada con el objetivo de manejar más fácilmente los componentes.
+    //sería muy parecido a un set de vértices.
+    private final class Component extends TreeSet<Integer>{
+        public Component(int u, WeightedGraph<T> graph){
+            super();
+            add(u);
+        }
+        //método para obtener el menor peso.
+        private int getLesserWeightVertex(){
+            int result = -1;
+            int lesser = Integer.MAX_VALUE;
+            Iterator<Integer> setIterator = this.iterator();
+            GraphIterator<T> iter = graph.randomIterator();
+            while(setIterator.hasNext()){
+                int current = setIterator.next();
+                iter.next(current);
+                Weight<Integer> weight = null;
+                
+                for(Edge departing : iter.getEdgesDepartingSelf()){
+                    weight = (Weight<Integer>) departing.getWeight();
+                    if(weight.getValue() < lesser){
+                        lesser = weight.getValue();
+                        result = departing.getFinalNode().getLabel();
+                    }
+                }
+                
+                for(Edge arriving : iter.getEdgesArrivingSelf()){
+                    weight = (Weight<Integer>) arriving.getWeight();
+                    if(weight.getValue() < lesser){
+                        lesser = weight.getValue();
+                        result = arriving.getFinalNode().getLabel();
+                    }
+                }
+            }
+            
+            return result;
+        }
+    }
 }
