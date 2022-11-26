@@ -61,7 +61,7 @@ public class Graphs
         }
 
         @Override
-        public boolean addAll(Collection<T> c)
+        public boolean addAll(Collection<? extends T> c)
         {
             throw new UnsupportedOperationException("This graph instance is immutable.");
         }
@@ -85,6 +85,12 @@ public class Graphs
         }
 
         @Override
+        public void clear()
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
         public boolean connect(int u, int v)
         {
             throw new UnsupportedOperationException("This graph instance is immutable.");
@@ -94,6 +100,19 @@ public class Graphs
         public boolean connect(Node<T> u, Node<T> v)
         {
             throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
+        public boolean contains(Object o)
+        {
+            return graph.contains(o);
+        }
+
+        @Override
+        public boolean containsAll(
+                Collection<?> c)
+        {
+            return graph.containsAll(c);
         }
 
         @Override
@@ -151,6 +170,12 @@ public class Graphs
         }
 
         @Override
+        public boolean isEmpty()
+        {
+            return graph.isEmpty();
+        }
+
+        @Override
         public boolean isVertexAdjacent(int u, int v)
         {
             return graph.isVertexAdjacent(u, v);
@@ -199,6 +224,26 @@ public class Graphs
         }
 
         @Override
+        public boolean remove(Object o)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
+        public boolean removeAll(
+                Collection<?> c)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
+        public boolean retainAll(
+                Collection<?> c)
+        {
+            throw new UnsupportedOperationException("This graph instance is immutable.");
+        }
+
+        @Override
         public void reverse()
         {
             throw new UnsupportedOperationException("This graph instance is immutable.");
@@ -208,6 +253,18 @@ public class Graphs
         public int size()
         {
             return graph.size();
+        }
+
+        @Override
+        public Object[] toArray()
+        {
+            return graph.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a)
+        {
+            return graph.toArray(a);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +16,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.utility;
+package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.Weight;
-import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
+import cu.edu.cujae.graphy.utils.HashTuple;
+import cu.edu.cujae.graphy.utils.Tuple;
 
 /**
- * Utility implementation of a factory method for {@link Weight} interfaces.
  *
  * @author Javier Marrero
  */
-public class Weights
+public class TupleTest
 {
 
-    public static <E extends Number & Comparable<E>> Weight<E> makeWeight(E data)
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args)
     {
-        return new AbstractWeight<E>(data)
+        Tuple<Integer> tuple = new HashTuple<>();
+        for (int i = 0; i < 5; ++i)
         {
-            @Override
-            @SuppressWarnings ("unchecked")
-            public int compareTo(E o)
-            {
-                return data.compareTo(o);
-            }
-        };
+            tuple.add(i);
+        }
+        tuple.add(10);
+        tuple.add(7);
+        tuple.add(5);
+        tuple.add(57);
+        tuple.add(43);
+
+        tuple.freeze();
+        System.out.println(tuple);
+
+        System.out.println("Tuple size: " + tuple.size());
+        System.out.println("Tuple is empty?: " + tuple.isEmpty());
     }
+
 }

@@ -133,6 +133,13 @@ public interface GraphIterator<T> extends Iterator<T>
     public int getLabel();
 
     /**
+     * Returns the value of the currently targeted node.
+     *
+     * @return
+     */
+    public T get();
+
+    /**
      * Returns true if this iterator is adjacent to some specified {@link Node}
      *
      * @param node
