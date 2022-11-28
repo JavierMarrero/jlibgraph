@@ -85,6 +85,41 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
     }
 
     @Override
+    public int countLevels()
+    {
+        TreeNode<E> rootNode = this.root;
+        if (rootNode != null)
+        {
+            int firstLevelChildren = rootNode.getChildren().size();
+            int[] levels = new int[firstLevelChildren];
+
+            for (int i = 0; i < firstLevelChildren; ++i)
+            {
+                levels[i] = walkLevels(rootNode.getChildByIndex(i));
+            }
+
+            return max(levels) + 1;
+        }
+        return 0;
+    }
+
+    private int walkLevels(TreeNode<E> node)
+    {
+        if (node.hasChildren())
+        {
+            int childCount = node.getChildren().size();
+            int[] levels = new int[childCount];
+
+            for (int i = 0; i < childCount; ++i)
+            {
+                levels[i] = walkLevels(node.getChildByIndex(i));
+            }
+            return max(levels) + 1;
+        }
+        return 1;
+    }
+
+    @Override
     public Graph<E> duplicate() throws CloneNotSupportedException
     {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

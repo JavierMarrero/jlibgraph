@@ -59,4 +59,10 @@ public abstract class AbstractAlgorithm<T> implements Algorithm<T>
         this.result = result;
     }
 
+    @Override
+    public String toString()
+    {
+        return "jlibgraph's algorithm: " + getClass().toGenericString();
+    }
+
 }

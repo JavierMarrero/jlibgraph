@@ -23,16 +23,16 @@ import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *Este algoritmo permite obtener todas las comunidades de nivel 1, es decir 
+ * Este algoritmo permite obtener todas las comunidades de nivel 1, es decir 
  * los componentes fuertemente conexos del grafos. Recibe como parámetro el grafo
  * y retorna una lista de colecciones donde cada lista contiene los label de cada vértice 
  * que conforma ese componente, no se cuentan los vértices aislados del grafo como 
- * componente fuertemente conexo
+ * componente fuertemente conexo.
+ * 
  * @author Jose
  * @param <V>
  */
