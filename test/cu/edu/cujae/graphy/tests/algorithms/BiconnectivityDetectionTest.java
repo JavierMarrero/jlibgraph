@@ -36,7 +36,7 @@ public class BiconnectivityDetectionTest {
         g1.add(1);
         g1.connect(0, 1);
         
-        System.out.println("G1 - Vertex: 0, 1 - Edges: (0<->1) - Biconnected: "+new BiconnectivityDetection(g1).apply().get()+"\n");
+        System.out.println("G1 - Vertices: 0, 1 - Edges: (0<->1) - Biconnected: "+new BiconnectivityDetection(g1).apply().get()+"\n");
         
         Graph<Integer> g2 = GraphBuilders.makeSimpleGraph(false);
         
@@ -46,7 +46,7 @@ public class BiconnectivityDetectionTest {
         g2.connect(0, 1);
         g2.connect(1, 2);
         
-        System.out.println("G2 - Vertex: 0, 1, 2 - Edges: (0<->1) (1<->2) - Biconnected: "+new BiconnectivityDetection(g2).apply().get()+"\n");
+        System.out.println("G2 - Vertices: 0, 1, 2 - Edges: (0<->1) (1<->2) - Biconnected: "+new BiconnectivityDetection(g2).apply().get()+"\n");
         
         Graph<Integer> g3 = GraphBuilders.makeSimpleGraph(false);
         
@@ -57,7 +57,7 @@ public class BiconnectivityDetectionTest {
         g3.connect(1, 2);
         g3.connect(2, 0);
         
-        System.out.println("G3 - Vertex: 0, 1, 2 - Edges: (0<->1) (1<->2) (2<->0) - Biconnected: "+new BiconnectivityDetection(g3).apply().get()+"\n");
+        System.out.println("G3 - Vertices: 0, 1, 2 - Edges: (0<->1) (1<->2) (2<->0) - Biconnected: "+new BiconnectivityDetection(g3).apply().get()+"\n");
         
         Graph<Integer> g4 = GraphBuilders.makeSimpleGraph(false);
         
@@ -70,13 +70,13 @@ public class BiconnectivityDetectionTest {
         g4.connect(2, 0);
         g4.connect(0, 3);
         
-        System.out.println("G4 - Vertex: 0, 1, 2, 3 - Edges: (0<->1) (1<->2) (2<->0) (0<->3) - Biconnected: "+new BiconnectivityDetection(g4).apply().get()+"\n");
+        System.out.println("G4 - Vertices: 0, 1, 2, 3 - Edges: (0<->1) (1<->2) (2<->0) (0<->3) - Biconnected: "+new BiconnectivityDetection(g4).apply().get()+"\n");
         
         Graph<Integer> g5 = GraphBuilders.makeSimpleGraph(false);
         
         g5.add(0);
         
-        System.out.println("G5 - Vertex: 0 - Edges: NONE - Biconnected: "+new BiconnectivityDetection(g5).apply().get());
+        System.out.println("G5 - Vertices: 0 - Edges: NONE - Biconnected: "+new BiconnectivityDetection(g5).apply().get());
        
     }
 }
