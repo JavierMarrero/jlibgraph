@@ -95,6 +95,7 @@ public class BronKerboschAlgorithm<T> extends AbstractAlgorithm<Collection<Colle
     private void maximalCliques(Set<Integer> R, Set<Integer> P, Set<Integer> X) {
         
         if(P.isEmpty() && X.isEmpty()) {
+            Collection<Collection<Integer>> result = getResult();
             result.add(R);
         }
         else {
