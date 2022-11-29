@@ -38,22 +38,16 @@ public class ConnectivityDetectionTest {
         g1.connect(0, 1);
         g1.connect(1, 2);
         g1.connect(0, 3);
-        
-        System.out.println("G1 - Vertex: 0, 1, 2, 3, 4 - Edges: (0->1) (1->2) (0->3) - Connected: "+new ConnectivityDetection(g1).apply().get()+"\n");
-        
+                
         Graph<Integer> g2 = GraphBuilders.makeSimpleGraph(false);
         g2.add(0);
         g2.add(1);
         g2.add(2);
         g2.connect(1, 2);
-        
-        System.out.println("G2 - Vertex: 0, 1, 2 - Edges: (1<->2) - Connected: "+new ConnectivityDetection(g2).apply().get()+"\n");
-        
+                
         Graph<Integer> g3 = GraphBuilders.makeSimpleGraph(true);
         g3.add(0);
-        
-        System.out.println("G3 - Vertex: 0 - Edges: NONE - Connected: "+new ConnectivityDetection(g3).apply().get()+"\n");
-        
+                
         Graph<Integer> g4 = GraphBuilders.makeSimpleGraph(false);
         g4.add(0);
         g4.add(1);
@@ -64,9 +58,6 @@ public class ConnectivityDetectionTest {
         g4.connect(0, 2);
         g4.connect(1, 2);
         g4.connect(3, 4);
-        
-        System.out.println("G4 - Vertex: 0, 1, 2, 3, 4 - Edges: (0<->1) (0<->2) (1<->2) (3<->4) - Connected: "+new ConnectivityDetection(g4).apply().get()+"\n");
-        
-        
+               
     }
 }
