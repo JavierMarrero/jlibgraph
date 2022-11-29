@@ -18,8 +18,11 @@
  */
 package cu.edu.cujae.graphy.utils;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -89,4 +92,21 @@ public class MapBiArray<K, I, V>
         }
         return secondLevel.put(i, newValue);
     }
+    
+    public int size()
+    {
+        return dictionary.size();
+    }
+    
+    public int subSize()
+    {
+        return get(dictionary.keySet().iterator().next()).size();
+    }
+    
+    public Set<K> keySet()
+    {
+        return dictionary.keySet();
+    }
+    
+    
 }
