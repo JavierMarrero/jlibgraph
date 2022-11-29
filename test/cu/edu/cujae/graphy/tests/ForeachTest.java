@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 CUJAE.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +16,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.utility;
+package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.Weight;
-import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
 /**
- * Utility implementation of a factory method for {@link Weight} interfaces.
  *
  * @author Javier Marrero
  */
-public class Weights
+public class ForeachTest
 {
 
-    public static <E extends Number & Comparable<E>> Weight<E> makeWeight(E data)
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args)
     {
-        return new AbstractWeight<E>(data)
+        
+        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
+        for (int i = 0; i < 5; ++i)
         {
-            @Override
-            @SuppressWarnings ("unchecked")
-            public int compareTo(E o)
-            {
-                return data.compareTo(o);
-            }
-        };
+            graph.add(i);
+        }
+        System.out.println(graph);
+        
+        for (int v : graph)
+        {
+            System.out.print(v + " ");
+        }
+        System.out.println();
     }
+    
 }
