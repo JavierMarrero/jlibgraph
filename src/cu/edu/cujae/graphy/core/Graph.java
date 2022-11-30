@@ -30,7 +30,7 @@ import java.util.Iterator;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Graph<T> extends Iterable<T>
+public interface Graph<T> extends Iterable<T>, Collection<T>
 {
 
     /**
@@ -50,6 +50,7 @@ public interface Graph<T> extends Iterable<T>
      *
      * @return a truth value representing wether insertion was successful.
      */
+    @Override
     public boolean add(T data);
 
     /**
@@ -59,7 +60,8 @@ public interface Graph<T> extends Iterable<T>
      *
      * @return
      */
-    public boolean addAll(Collection<T> c);
+    @Override
+    public boolean addAll(Collection<? extends T> c);
 
     /**
      * Returns a BFS iterator to the selected node.
@@ -92,6 +94,12 @@ public interface Graph<T> extends Iterable<T>
      * @return a {@link Iterator}
      */
     public Iterator<T> breadthFirstSearchIterator(boolean includeDisconnected);
+
+    /**
+     * Clears the contents of this collection, effectively removing all the nodes in the graph.
+     */
+    @Override
+    public void clear();
 
     /**
      * Connects two nodes in this graph. This method should return true if the connection was successful and false
@@ -217,6 +225,13 @@ public interface Graph<T> extends Iterable<T>
     public boolean isDirected();
 
     /**
+     * Returns true if the graph is an empty graph.
+     *
+     * @return
+     */
+    public boolean isEmpty();
+
+    /**
      * Returns true wether u and v are adjacent vertex in the graph.
      *
      * @param u
@@ -237,6 +252,9 @@ public interface Graph<T> extends Iterable<T>
      * Returns a new {@link Iterator} for this graph. Order of iteration is not guaranteed, it may be insertion order or
      * BSF or DSF. Most implementations will just return a {@link GraphIterator} to some random node. However, it is
      * not guaranteed.
+     * <p>
+     * Most probable result is a sequential iterator that iterates over all the nodes of the graph in a random unsorted
+     * order. In this sense, it is similar to the random access iterator, just that it jumps off accordingly.
      *
      * @return a new {@link Iterator}
      */

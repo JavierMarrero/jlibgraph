@@ -39,7 +39,7 @@ import java.util.*;
  * @author Javier Marrero
  * @param <T>
  */
-public abstract class AbstractGraph<T> implements Graph<T>
+public abstract class AbstractGraph<T> extends AbstractCollection<T> implements Graph<T>
 {
 
     private boolean directed;
@@ -272,6 +272,47 @@ public abstract class AbstractGraph<T> implements Graph<T>
 
     }
 
+    private class SequentialIterator extends AbstractGraphIterator<T> implements GraphIterator<T>
+    {
+
+        private final List<Node<T>> nodes;
+        private int currentIndex;
+
+        public SequentialIterator(Graph<T> graph)
+        {
+            super(graph, null);
+
+            nodes = new ArrayList<>(getNodes());
+            currentIndex = 0;
+        }
+
+        @Override
+        public T back(Node<T> target)
+        {
+            if (currentIndex == 0)
+            {
+                throw new IllegalStateException("'<back> operation called on a sequential iterator with zero index.");
+            }
+
+            setCurrent(nodes.get(currentIndex--));
+            return getCurrent().get();
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return currentIndex != nodes.size();
+        }
+
+        @Override
+        public T next()
+        {
+            setCurrent(nodes.get(currentIndex++));
+            return getCurrent().get();
+        }
+
+    }
+
     private final Set<Integer> allocatedLabels;
     private EdgeFactory edgeFactory;
     private int lastAllocated;
@@ -303,7 +344,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
      * {@inheritDoc}
      */
     @Override
-    public boolean addAll(Collection<T> c)
+    public boolean addAll(Collection<? extends T> c)
     {
         boolean result = true;
         for (T element : c)
@@ -335,6 +376,10 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> breadthFirstSearchIterator(boolean includeDisconnected)
     {
+        if (isEmpty())
+        {
+            throw new IllegalStateException("Attempted to grab an iterator to an empty graph.");
+        }
         return breadthFirstSearchIterator(getNodes().iterator().next(), includeDisconnected);
     }
 
@@ -354,6 +399,16 @@ public abstract class AbstractGraph<T> implements Graph<T>
     public Iterator<T> breadthFirstSearchIterator(int v, boolean includeDisconnected)
     {
         return breadthFirstSearchIterator(findNodeByLabel(v), includeDisconnected);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void clear()
+    {
+        getLabels().
+                forEach(this::remove);
     }
 
     /**
@@ -480,6 +535,10 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public Iterator<T> depthFirstSearchIterator(boolean includeDisconnected)
     {
+        if (isEmpty())
+        {
+            throw new IllegalStateException("Attempted to grab an iterator to an empty graph.");
+        }
         return new DepthFirstSearchIterator(this, getNodes().iterator().next(), includeDisconnected);
     }
 
@@ -540,9 +599,18 @@ public abstract class AbstractGraph<T> implements Graph<T>
      * {@inheritDoc}
      */
     @Override
+    public boolean isEmpty()
+    {
+        return size() == 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Iterator<T> iterator()
     {
-        return new RandomAccessIterator(this, getNodes().iterator().next());
+        return new SequentialIterator(this);
     }
 
     /**
@@ -568,7 +636,7 @@ public abstract class AbstractGraph<T> implements Graph<T>
     @Override
     public GraphIterator<T> randomIterator()
     {
-        if (size() == 0)
+        if (isEmpty())
         {
             throw new IllegalStateException("The graph is empty, no iterator can be built!");
         }
@@ -582,6 +650,28 @@ public abstract class AbstractGraph<T> implements Graph<T>
     public void registerEdgeFactory(EdgeFactory factory)
     {
         this.setEdgeFactory(factory);
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean remove(Object o)
+    {
+        boolean result = false;
+
+        GraphIterator<? extends T> iterator = (GraphIterator<? extends T>) iterator();
+        while (iterator.hasNext() && (result == false))
+        {
+            int label = iterator.getLabel();
+            if (iterator.next().equals(o))
+            {
+                remove(label);
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     /**
