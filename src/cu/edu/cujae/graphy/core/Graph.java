@@ -318,6 +318,7 @@ public interface Graph<T> extends Iterable<T>, Collection<T>
      *
      * @return
      */
+    @Override
     public int size();
 
 }
