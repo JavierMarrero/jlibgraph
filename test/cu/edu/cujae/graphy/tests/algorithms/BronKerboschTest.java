@@ -30,6 +30,23 @@ import java.util.Set;
  */
 public class BronKerboschTest {
     
+    public static void callBronKerbosch(Graph<Integer> graph){
+        
+        Tuple<Set<Integer>> result = (Tuple<Set<Integer>>)new BronKerboschAlgorithm(graph).apply().get();
+        result.freeze();
+        
+        System.out.print("          Maximal cliques: ");
+        if(result.isEmpty()) {
+            System.out.println("NONE");
+        }
+        else {
+            for(Set<Integer> clique: result) {        
+                System.out.print(clique.toString());
+            }
+            System.out.println("\n");
+        }
+    }
+    
     public static void main(String[] args) {
         
         Graph<Integer> g1 = GraphBuilders.makeSimpleGraph(false);
@@ -44,14 +61,8 @@ public class BronKerboschTest {
         g1.connect(4, 5);
         g1.connect(4, 6);
         
-        Tuple<Set<Integer>> result1 = (Tuple<Set<Integer>>)new BronKerboschAlgorithm(g1).apply().get();
-        result1.freeze();
-        
-        System.out.print("Graph 1 - Edges: (1<->2) (1<->5) (2<->3) (2<->5) (3<->4) (4<->5) (4<->6)\n          Maximal cliques: ");
-        for(Set<Integer> clique: result1) {        
-            System.out.print(clique.toString());
-        }
-        
+        System.out.println("Graph 1 - Edges: (1<->2) (1<->5) (2<->3) (2<->5) (3<->4) (4<->5) (4<->6) ");
+        callBronKerbosch(g1);
     
         Graph<Integer> g2 = GraphBuilders.makeSimpleGraph(false);
         for(int i = 1; i < 4; i++) {
@@ -60,14 +71,9 @@ public class BronKerboschTest {
         g2.connect(1, 2);
         g2.connect(1, 3);
         g2.connect(2, 3);
-        
-        Tuple<Set<Integer>> result2 = (Tuple<Set<Integer>>)new BronKerboschAlgorithm(g2).apply().get();
-        result2.freeze();
-        
-        System.out.print("\n\nGraph 2 - Edges: (1<->2) (2<->3) (3<->1)\n          Maximal cliques: ");
-        for(Set<Integer> clique: result2) {        
-            System.out.print(clique.toString());
-        }
+  
+        System.out.println("Graph 2 - Edges: (1<->2) (2<->3) (3<->1) ");
+        callBronKerbosch(g2);
     
         
         Graph<Integer> g3 = GraphBuilders.makeSimpleGraph(false);
@@ -85,13 +91,8 @@ public class BronKerboschTest {
         g3.connect(4, 6);
         g3.connect(5, 7);
         
-        Tuple<Set<Integer>> result3 = (Tuple<Set<Integer>>)new BronKerboschAlgorithm(g3).apply().get();
-        result3.freeze();
-        
-        System.out.print("\n\nGraph 3 - Edges: (1<->2) (1<->3) (1<->4) (2<->3) (2<->4) (2<->5) (3<->4) (4<->5) (4<->6) (5<->7)\n          Maximal cliques: ");
-        for(Set<Integer> clique: result3) {        
-            System.out.print(clique.toString());
-        }
+        System.out.println("Graph 3 - Edges: (1<->2) (1<->3) (1<->4) (2<->3) (2<->4) (2<->5) (3<->4) (4<->5) (4<->6) (5<->7) ");
+        callBronKerbosch(g3);
        
         Graph<Integer> g4 = GraphBuilders.makeSimpleGraph(false);
         for(int i = 1; i < 8; i++) {
@@ -101,15 +102,9 @@ public class BronKerboschTest {
         g4.connect(1, 3);
         g4.connect(2, 3);
         g4.connect(4, 5);
-        
-        Tuple<Set<Integer>> result4 = (Tuple<Set<Integer>>)new BronKerboschAlgorithm(g4).apply().get();
-        result4.freeze();
-        
-        System.out.print("\n\nGraph 4 - Edges: (1<->2) (2<->3) (3<->1) (4<->5)\n          Maximal cliques: ");
-        for(Set<Integer> clique: result4) {        
-            System.out.print(clique.toString());
-        }
-        
+       
+        System.out.println("Graph 4 - Edges: (1<->2) (2<->3) (3<->1) (4<->5) ");
+        callBronKerbosch(g4);
     }
     
 }
