@@ -53,7 +53,7 @@ public class BronKerboschAlgorithm<T> extends AbstractAlgorithm<Collection<Colle
             throw new IllegalArgumentException("The graph is directed");
         }
         
-        if(graph.size() == 0) {
+        if(graph.isEmpty()) {
             throw new IllegalArgumentException("The graph is empty.");
         }
             
