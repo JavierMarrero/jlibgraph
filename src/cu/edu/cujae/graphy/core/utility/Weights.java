@@ -29,7 +29,7 @@ import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
 public class Weights
 {
 
-    public static <E extends Number & Comparable<E>> Weight<E> makeWeight(E data)
+    public static <E extends Number> Weight<E> makeWeight(E data)
     {
         return new AbstractWeight<E>(data)
         {
@@ -37,7 +37,11 @@ public class Weights
             @SuppressWarnings ("unchecked")
             public int compareTo(E o)
             {
-                return data.compareTo(o);
+                if (data instanceof Comparable == false)
+                {
+                    throw new ClassCastException("This method should be used for comparable data only.");
+                }
+                return ((Comparable<E>) data).compareTo(o);
             }
         };
     }

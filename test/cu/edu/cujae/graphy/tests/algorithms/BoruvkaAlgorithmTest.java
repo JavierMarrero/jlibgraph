@@ -33,7 +33,7 @@ public class BoruvkaAlgorithmTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(true);
+        WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(false);
 
         for (int i = 0; i < 9; ++i)
         {
