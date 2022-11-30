@@ -22,43 +22,47 @@ import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 
 /**
- * This algorithm checks if a given graph, whether directed or undirected, is 
- * connected. A connected graph is a graph where there is a path from a  vertex 
- * to any other point in the vertex. That is, a connected graph can't have any
- * disconnected components or isolated vertices.
+ * This algorithm checks if a given graph is a complete graph. A complete graph 
+ * is a simple undirected graph where all pairs of vertices are connected by an 
+ * edge. A complete graph <i>n</i> vertices has <i>n(n-1)/2</i> edges, since each 
+ * of its vertices has as degree of <i>n-1</i>. A lone vertex is also a complete 
+ * graph.
  * 
  * @author Amaya D. Fuentes
  * @param <T>
  */
-public class ConnectivityDetection<T> extends AbstractAlgorithm<Boolean> {
+public class CompleteGraphDetection<T> extends AbstractAlgorithm<Boolean> {
 
-    private GraphIterator<T> iterator;
+    private GraphIterator<T> iter;
     private int V;
     
-    public ConnectivityDetection(Graph<T> graph) {
+    public CompleteGraphDetection(Graph<T> graph) {   
         
-        super(Boolean.FALSE);
+        super(Boolean.TRUE);
         
         if(graph.size() == 0) {
             throw new IllegalArgumentException("The graph has no vertices.");
         }
+        if(graph.isDirected()) {
+            throw new IllegalArgumentException("The graph is directed. For directed graphs, use CompleteDigraphDetection.");
+        }
         
-        this.iterator = (GraphIterator<T>) graph.depthFirstSearchIterator(false);
+        //initialize class variables
+        this.iter = (GraphIterator<T>) graph.depthFirstSearchIterator(true);
         this.V = graph.size();
-        
     }
     
     @Override
     public Algorithm<Boolean> apply() {
        
-        int count = 0;
-        while(iterator.hasNext()) {
-            iterator.next();
-            count++;
-        }
+        boolean stop = false;
         
-        if(count == V) {
-            setResult(Boolean.TRUE);
+        while(iter.hasNext() && !stop) {
+            iter.next(); 
+            if(iter.getAllAdjacentEdges().size() != V - 1 || iter.isAdjacent(iter.getLabel())) {
+                setResult(Boolean.FALSE);
+                stop = true;
+            }
         }
         
         return this;
