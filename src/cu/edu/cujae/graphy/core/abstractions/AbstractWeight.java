@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * @author Javier Marrero
  * @param <T>
  */
-public abstract class AbstractWeight<T> implements Weight<T>
+public abstract class AbstractWeight<T extends Number> implements Weight<T>
 {
 
     private T value;

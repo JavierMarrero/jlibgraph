@@ -25,7 +25,7 @@ package cu.edu.cujae.graphy.core;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Weight<T> extends Comparable<T>, Cloneable
+public interface Weight<T extends Number> extends Comparable<T>, Cloneable
 {
 
     /**
