@@ -19,64 +19,171 @@
 package cu.edu.cujae.graphy.algorithms;
 
 import cu.edu.cujae.graphy.core.Edge;
-import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.Weight;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.TreeSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Un árbol de expansión significa que todos los vértices deben estar conectados.
- * Por lo tanto, los dos subconjuntos disjuntos de vértices deben estar conectados
- * con el borde de peso mínimo para convertirlo en un árbol de expansión mínimo (MST).<p>
+ * Un árbol de expansión significa que todos los vértices deben estar conectados.Por lo tanto, los dos subconjuntos
+ * disjuntos de vértices deben estar conectados
+ * con el borde de peso mínimo para convertirlo en un árbol de expansión mínimo (MST)
+ * .<p>
  * El <b>algoritmo de Boruvka</b> es considerado voraz y utilizado para encontrar
- * el <b>árbol recubridor mínimo</b> en un grafo ponderado, en el que todos sus 
- * arcos poseen distinto peso. Fue publicado por primera vez en 1926, por 
- * <i>Otakar Boruvka</i> como método eficiente para construir la red eléctrica 
+ * el <b>árbol recubridor mínimo</b> en un grafo ponderado, en el que todos sus
+ * arcos poseen distinto peso. Fue publicado por primera vez en 1926, por
+ * <i>Otakar Boruvka</i> como método eficiente para construir la red eléctrica
  * de Moravia. También es conocido como <i>algoritmo de Sollin</i>.
- * <p>Su complejidad temporal es <code>O(E log(V))</code>, donde E es el número de 
+ * <p>
+ * Su complejidad temporal es <code>O(E log(V))</code>, donde E es el número de
  * arcos y V el número de vértices del grafo.
- * <p>Existen algoritmos similares para la obtención de árboles de expansión mínimo, 
+ * <p>
+ * Existen algoritmos similares para la obtención de árboles de expansión mínimo,
  * como es el caso del <i>algoritmo de Kruskal</i> y el <i>algoritmo de Prim</i>.
- * 
+ *
+ * @see PrimMinimalTree
+ * @see KruskalMinimumSpanningTree
+ *
  * @author Ananda
- * @param <T>
  */
-public class BoruvkaMinimalTree<T> extends AbstractAlgorithm<WeightedGraph<T>> {
-    private final WeightedGraph<T> graph;
+public class BoruvkaMinimalTree extends AbstractAlgorithm<WeightedGraph<?>>
+{
     
-    public BoruvkaMinimalTree(Graph<T> graph){
-        super(GraphBuilders.makeSimpleWeightedGraph(false));
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoruvkaMinimalTree.class);
 
-        if (!graph.isWeighted()){
+    /**
+     * Represents a disjoint set of vertices.
+     */
+    @SuppressWarnings ("serial")
+    private final static class Component extends TreeSet<Integer>
+    {
+        
+        public static Component makeSingleton(WeightedGraph<?> graph, int u)
+        {
+            Component singleton = new Component(graph);
+            singleton.add(u);
+            return singleton;
+        }
+        
+        private final WeightedGraph<?> graph;
+        
+        public Component(WeightedGraph<?> graph)
+        {
+            this.graph = graph;
+        }
+        
+        public boolean union(Component component)
+        {
+            return addAll(component);
+        }
+        
+        public Edge getLesserWeightEdge()
+        {
+            Edge result = null;
+            float lesser = Float.MAX_VALUE;
+            
+            GraphIterator<?> i = graph.randomIterator();
+            for (int v : this)
+            {
+                i.next(v);
+                
+                for (Edge e : i.getEdgesDepartingSelf())
+                {
+                    if (isInternal(e) == false)
+                    {
+                        @SuppressWarnings ("unchecked")
+                        Weight<Number> weight = (Weight<Number>) e.getWeight();
+                        
+                        if (weight.getValue().floatValue() < lesser)
+                        {
+                            result = e;
+                            lesser = weight.getValue().floatValue();
+                        }
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        private boolean isInternal(Edge edge)
+        {
+            return contains(edge.getStartNode().getLabel()) && contains(edge.getFinalNode().getLabel());
+        }
+    }
+    
+    private final WeightedGraph<?> graph;
+    
+    public BoruvkaMinimalTree(WeightedGraph<?> graph)
+    {
+        super(GraphBuilders.makeSimpleWeightedGraph(false));
+        if (!graph.isWeighted())
+        {
             throw new IllegalArgumentException("Attempted to apply Boruvka algorithm to an unweighted graph.");
         }
-        if (graph.isDirected()){
+        if (graph.isDirected())
+        {
             throw new IllegalArgumentException("Attempted to apply Boruvka algorithm to a directed graph.");
         }
-        this.graph = (WeightedGraph<T>) graph;
+        
+        this.graph = graph;
     }
     
     @Override
-    public Algorithm<WeightedGraph<T>> apply(){
+    public Algorithm<WeightedGraph<?>> apply()
+    {
         //asumiendo que el grafo es conexo.
-        GraphIterator<T> iter = graph.randomIterator();
-        WeightedGraph<T> mst;
-        //set para tener los vértices como componentes individuales.
-        Set<T> vertices = new HashSet<>();
+        WeightedGraph<?> mst = getResult();
+
+        // List of components
+        ArrayList<Component> components = new ArrayList<>(graph.size() * (2 / 3));
+
+        // Initialize all the components to a singleton
+        for (int v : graph.getLabels())
+        {
+            components.add(Component.makeSingleton(graph, v));
+        }
         
-        //una cola de prioridad para poder obtener la arista de menor peso.
-        PriorityQueue<Edge> queue = new PriorityQueue<>((Edge a, Edge b) -> Integer.compare((Integer) a.getWeight().
-                getValue(), (Integer) b.getWeight().getValue()));
-        /*while(){
-            //encontrar pesos de arista cercana conectada con el componente.
-            if(){//si no está la arista añadida.
-                mst.add();
+        LOGGER.debug("{}", components);
+        
+        while (components.size() > 1)
+        {
+            LOGGER.info("{}", components);
+            
+            for (int i = 0; i < components.size(); ++i)
+            {
+                Component connectableComponent = null;
+                Component currentComponent = components.get(i);
+                Edge cheapest = currentComponent.getLesserWeightEdge();
+
+                // Find to what component does the edge belongs to
+                for (Component c : components)
+                {
+                    int connectionPoint = cheapest.getFinalNode().getLabel();
+                    if (c.equals(currentComponent) == false && c.contains(connectionPoint))
+                    {
+                        connectableComponent = c;
+                        break;
+                    }
+                }
+                
+                if (connectableComponent == null)
+                {
+                    throw new IllegalStateException("Unable to find connection for " + cheapest);
+                }
+
+                // Merge the components & remove the second from the list
+                currentComponent.union(connectableComponent);
+                components.remove(connectableComponent);
+                
             }
-        }*/
-        
+        }
+
+        //Paso 3: devolver MST.
         return this;
     }
     

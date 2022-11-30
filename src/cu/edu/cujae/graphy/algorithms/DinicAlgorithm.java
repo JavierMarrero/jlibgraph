@@ -18,14 +18,16 @@
  */
 package cu.edu.cujae.graphy.algorithms;
 
+import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import cu.edu.cujae.graphy.core.utility.Weights;
 import cu.edu.cujae.graphy.utils.Pair;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Dado un grafo que representa una red de flujo donde cada borde tiene una capacidad
@@ -35,8 +37,10 @@ import java.util.Map;
  * <li>Un flujo entrante es igual a un flujo saliente para cada vértice excepto s y t.</li>
  * </ul>
  * El <b>algoritmo de Dinic</b> posee un tiempo polinómico para la computación de
- * un flujo maximal en una red de flujo, concebida en 1970 por <i>Yefim Dinitz</i>.Es ejecutado en un tiempo de <code>O(V<sup>2</sup>E)</code> y está basado en el
- <i>algoritmo de Edmonds-Karp</i>.<p>La introducción de los conceptos <i>nivel de grafo</i> y <i>bloqueo de flujo</i>,
+ * un flujo maximal en una red de flujo, concebida en 1970 por <i>Yefim Dinitz</i>.Es ejecutado
+ * en un tiempo de <code>O(V<sup>2</sup>E)</code> y está basado en el
+ <i>algoritmo de Edmonds-Karp</i>.<p>La introducción de los conceptos <i>nivel de grafo</i> y
+ * <i>bloqueo de flujo</i>,
  * es lo que define el rendimiento de este algoritmo.
  * <ul><li>Entrada: una red <code>G=((V,E),c,s,t)</code>.</li>
  * <li>Salida: un flujo <code>s-t</code> de valor <code>f</code> maximizado.</li></ul>
@@ -48,12 +52,12 @@ import java.util.Map;
 public class DinicAlgorithm<T> extends AbstractAlgorithm<Pair<Float, List<Integer>>> {
     private final WeightedGraph<T> graph; 
     private final WeightedGraph<T> residualGraph;
-    private final int s; //fuente
-    private final int t; //sumidero
+    private final int source; //fuente
+    private final int sink; //sumidero
     private float maximumFlow;
-    private final Map<Integer, Integer> parent; 
+    private final Map<Integer, Integer> path; 
     
-    public DinicAlgorithm(Graph<T> graph, GraphIterator<T> source, GraphIterator<T> destiny){
+    public DinicAlgorithm(Graph<T> graph, GraphIterator<T> source, GraphIterator<T> destiny) throws CloneNotSupportedException{
        super(new Pair<Float, List<Integer>>());
        if (!graph.isWeighted()){
             throw new IllegalArgumentException("Attempted to apply Dinic algorithm to an unweighted graph.");
@@ -64,35 +68,30 @@ public class DinicAlgorithm<T> extends AbstractAlgorithm<Pair<Float, List<Intege
         }
        
        this.graph = (WeightedGraph<T>) graph;
-       this.s = source.getLabel();
-       this.t = destiny.getLabel();
+       this.source = source.getLabel();
+       this.sink = destiny.getLabel();
        this.maximumFlow = 0;
-       this.parent = new HashMap<>();
-       
-       try{
-            this.residualGraph = (WeightedGraph<T>) graph.duplicate();
-            //Por cada arista en el grafo, se duplica con dirección inversa y peso nulo.
-            GraphIterator<T> iter = this.residualGraph.randomIterator();
-            for (int u : residualGraph.getLabels()){
-                iter.next(u);
-                for (int v : residualGraph.getLabels()){
-                    //Si no existen aristas que van de u a v, añadir nueva conexión con el peso 0.
-                    if (iter.isAdjacentAndArriving(v) == false){
-                        residualGraph.connect(u, v, Weights.makeWeight(0.0f));
-                    }
-                }
-            }
-
-            // System.out.println(residualGraph);
-        }
-        catch (CloneNotSupportedException ex){
-            throw new IllegalArgumentException("The provided graph is not cloneable or duplicable.");
-        }
+       this.path = new HashMap<>();
+       this.residualGraph = (WeightedGraph<T>) graph.duplicate();
+        
     }
     
     @Override
     public Algorithm<Pair<Float, List<Integer>>> apply(){
         GraphIterator<T> iter = (GraphIterator<T>) residualGraph.breadthFirstSearchIterator(false);
+        Set<Edge> unused = new TreeSet<>();
+        int level = 0;
+        Set<Integer> levels = new TreeSet<>();
+        for(Edge e : iter.getAllAdjacentEdges()){
+            iter.next();
+            level++;
+            levels.add(level);
+            if(!e.getLabel().equals(source)){
+               unused.add(e);
+            }
+        }
+        
+        
         /*verifique si es posible más flujo.
         Si no es posible tener más flujo, regrese
         Envíe múltiples flujos en residualGraph usando el grafo de nivel hasta que se alcance el flujo de bloqueo.
@@ -105,5 +104,4 @@ public class DinicAlgorithm<T> extends AbstractAlgorithm<Pair<Float, List<Intege
         return this;
         
     }
-    
 }

@@ -20,6 +20,7 @@ package cu.edu.cujae.graphy.utils;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -116,5 +117,10 @@ public class MapTriArray<K, I, J, V>
         }
 
         return thirdLevel.put(j, newValue);
+    }
+
+    public Set<K> keySet()
+    {
+        return dictionary.keySet();
     }
 }
