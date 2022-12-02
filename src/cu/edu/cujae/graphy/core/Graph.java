@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.core;
 
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -30,7 +31,7 @@ import java.util.Iterator;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Graph<T> extends Iterable<T>, Collection<T>
+public interface Graph<T> extends Iterable<T>, Collection<T>, Serializable
 {
 
     /**
