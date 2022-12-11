@@ -60,7 +60,7 @@ public class CycleDetection<V> extends AbstractAlgorithm<Boolean>
                 setResult(Boolean.TRUE);
             }
 
-            // Debug... may remove later
+            // Debug... may removeAt later
 //            System.out.println("Visiting node: " + iterator.getLabel() + " | visited: " + visited.toString());
             // Now for each adjacent node check if the node was visited
             for (Edge e : iterator.getEdgesDepartingSelf())

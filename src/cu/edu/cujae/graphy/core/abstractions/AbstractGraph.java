@@ -666,7 +666,7 @@ public abstract class AbstractGraph<T> extends AbstractCollection<T> implements 
             int label = iterator.getLabel();
             if (iterator.next().equals(o))
             {
-                remove(label);
+                removeAt(label);
                 result = true;
             }
         }
