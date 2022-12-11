@@ -25,9 +25,16 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * This algorithm checks if a given undirected graph is biconnected.
+ * This algorithm checks if a given undirected graph is biconnected. A biconnected
+ * graph is a connected graph that has no articulation points. A vertex is said
+ * to be an articulation point in a graph if the removal of said vertex and its
+ * associated edges disconnects the graph. That is, a biconnected graph must remain
+ * connected even after removing any single vertex.
+ *
+ * The algorithm uses DFS search to check if there are any articulation points. 
  * 
  * @author Amaya D. Fuentes;
+ * @param <T>
  */
 public class BiconnectivityDetection<T> extends AbstractAlgorithm<Boolean> {
     
@@ -39,6 +46,9 @@ public class BiconnectivityDetection<T> extends AbstractAlgorithm<Boolean> {
         
         if(graph.isDirected()) {
             throw new IllegalArgumentException("The graph is directed.");
+        }
+        if(graph.size() == 0) {
+            throw new IllegalArgumentException("The graph has no vertices.");
         }
         
         this.V = graph.size();
@@ -59,7 +69,7 @@ public class BiconnectivityDetection<T> extends AbstractAlgorithm<Boolean> {
         boolean articulationPoint = hasArticulationPoint(iterator, visited, parent, disc, low, discTime);
         
         if(!articulationPoint && visited.size() == V) {
-            setResult(true);
+            setResult(Boolean.TRUE);
         }
         
         return this;

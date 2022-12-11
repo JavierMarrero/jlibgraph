@@ -16,33 +16,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.core.utility;
+package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.core.Weight;
-import cu.edu.cujae.graphy.core.abstractions.AbstractWeight;
+import cu.edu.cujae.graphy.algorithms.MaximumBipartiteMatch;
+import cu.edu.cujae.graphy.utils.MapBiArray;
 
 /**
- * Utility implementation of a factory method for {@link Weight} interfaces.
  *
- * @author Javier Marrero
+ * @author Amanda Mendez
  */
-public class Weights
+public class MaximumBipartiteMatchTest 
 {
-
-    public static <E extends Number> Weight<E> makeWeight(E data)
+    public static void main(String[] args)
     {
-        return new AbstractWeight<E>(data)
-        {
-            @Override
-            @SuppressWarnings ("unchecked")
-            public int compareTo(E o)
-            {
-                if (data instanceof Comparable == false)
-                {
-                    throw new ClassCastException("This method should be used for comparable data only.");
-                }
-                return ((Comparable<E>) data).compareTo(o);
-            }
-        };
+        MapBiArray<Integer, Integer, Boolean> bg = new MapBiArray();
+        
+        bg.put(1, 1, true);
+        bg.put(2, 3, false);
+        bg.put(2, 2, true);
+        bg.put(2, 4, true);
+        bg.put(3, 1, false);
+        
+        System.out.println("Maximum bipartite match: " + new MaximumBipartiteMatch(bg).apply().get());
+        
     }
 }

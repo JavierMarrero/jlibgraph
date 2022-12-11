@@ -18,7 +18,7 @@
  */
 package cu.edu.cujae.graphy.tests.algorithms;
 
-import cu.edu.cujae.graphy.algorithms.BiconnectivityDetection;
+import cu.edu.cujae.graphy.algorithms.CompleteGraphDetection;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
 
@@ -26,56 +26,67 @@ import cu.edu.cujae.graphy.core.utility.GraphBuilders;
  *
  * @author Amaya D. Fuentes
  */
-public class BiconnectivityDetectionTest {
+public class CompleteGraphDetectionTest {
     
-    public static void isBiconnected(Graph<Integer> graph) {
-        System.out.println("     Biconnected?: "+new BiconnectivityDetection(graph).apply().get()+"\n");
+    public static void isCompleteGraph(Graph<Integer> graph) {
+        System.out.println("     Complete graph?: "+new CompleteGraphDetection(graph).apply().get()+"\n");
     }
     
-    public static void main (String[] args) {
-   
+    public static void main(String[] args) {
+        
+        Graph<Integer> g0 = GraphBuilders.makeSimpleGraph(false);
+        g0.add(0);
+        System.out.println("G0 - Vertices: 0 \n     Edges: NONE");
+        isCompleteGraph(g0);
+        
+        
         Graph<Integer> g1 = GraphBuilders.makeSimpleGraph(false);
         g1.add(0);
         g1.add(1);
+        g1.add(2);
         g1.connect(0, 1);
-        System.out.println("G1 - Vertices: 0, 1 \n     Edges: (0<->1");
-        isBiconnected(g1);
+        g1.connect(1, 2);
+        g1.connect(2, 0);
+        System.out.println("G1 - Vertices: 0, 1, 2 \n     Edges: (0<->1) (1<->2) (2<->0)");
+        isCompleteGraph(g1);
         
         Graph<Integer> g2 = GraphBuilders.makeSimpleGraph(false);
         g2.add(0);
         g2.add(1);
         g2.add(2);
+        g2.add(3);
         g2.connect(0, 1);
         g2.connect(1, 2);
-        System.out.println("G2 - Vertices: 0, 1, 2 \n     Edges: (0<->1) (1<->2)");
-        isBiconnected(g2);
+        g2.connect(2, 0);
+        g2.connect(0, 3);
+        System.out.println("G2 - Vertices: 0, 1, 2, 3 \n     Edges: (0<->1) (1<->2) (2<->0) (0<->3)");
+        isCompleteGraph(g2);
         
         Graph<Integer> g3 = GraphBuilders.makeSimpleGraph(false);
         g3.add(0);
         g3.add(1);
         g3.add(2);
+        g3.add(3);
         g3.connect(0, 1);
+        g3.connect(0, 2);
+        g3.connect(0, 3);
         g3.connect(1, 2);
-        g3.connect(2, 0);
-        System.out.println("G3 - Vertices: 0, 1, 2 \n     Edges: (0<->1) (1<->2) (2<->0)");
-        isBiconnected(g3);
+        g3.connect(1, 3);
+        g3.connect(2, 3);
+        System.out.println("G3 - Vertices: 0, 1, 2, 3 \n     Edges: (0<->1) (0<->2) (0<->3) (1<->2) (1<->3) (2<->3)");
+        isCompleteGraph(g3);
         
         Graph<Integer> g4 = GraphBuilders.makeSimpleGraph(false);
         g4.add(0);
         g4.add(1);
         g4.add(2);
-        g4.add(3);
+        g4.connect(0, 0);
         g4.connect(0, 1);
         g4.connect(1, 2);
         g4.connect(2, 0);
-        g4.connect(0, 3);
-        System.out.println("G4 - Vertices: 0, 1, 2, 3 \n     Edges: (0<->1) (1<->2) (2<->0) (0<->3)");
-        isBiconnected(g4);
-        
-        Graph<Integer> g5 = GraphBuilders.makeSimpleGraph(false);
-        g5.add(0);
-        System.out.println("G5 - Vertices: 0 \n     Edges: NONE");
-        isBiconnected(g5);
+        System.out.println("G4 - Vertices: 0, 1, 2    \n     Edges: (0<->0) (0<->1) (1<->2) (2<->0)");
+        isCompleteGraph(g4);
         
     }
+    
 }

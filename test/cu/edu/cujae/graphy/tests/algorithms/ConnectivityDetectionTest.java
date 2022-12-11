@@ -28,6 +28,10 @@ import cu.edu.cujae.graphy.core.utility.GraphBuilders;
  */
 public class ConnectivityDetectionTest {
     
+    public static void isConnected(Graph<Integer> graph) {
+        System.out.println("     Connected?: "+new ConnectivityDetection(graph).apply().get()+"\n");
+    }
+    
     public static void main(String[] args) {
         
         Graph<Integer> g1 = GraphBuilders.makeSimpleGraph(true);
@@ -38,16 +42,22 @@ public class ConnectivityDetectionTest {
         g1.connect(0, 1);
         g1.connect(1, 2);
         g1.connect(0, 3);
-                
+        System.out.println("G1 - Vertices: 0, 1, 2, 3, 4 \n     Edges: (0->1) (1->2) (0->3)");
+        isConnected(g1);
+        
         Graph<Integer> g2 = GraphBuilders.makeSimpleGraph(false);
         g2.add(0);
         g2.add(1);
         g2.add(2);
         g2.connect(1, 2);
-                
+        System.out.println("G2 - Vertices: 0, 1, 2 \n     Edges: (1<->2)");
+        isConnected(g2);
+        
         Graph<Integer> g3 = GraphBuilders.makeSimpleGraph(true);
         g3.add(0);
-                
+        System.out.println("G3 - Vertices: 0 \n     Edges: NONE");
+        isConnected(g3);
+        
         Graph<Integer> g4 = GraphBuilders.makeSimpleGraph(false);
         g4.add(0);
         g4.add(1);
@@ -58,6 +68,9 @@ public class ConnectivityDetectionTest {
         g4.connect(0, 2);
         g4.connect(1, 2);
         g4.connect(3, 4);
-               
+        System.out.println("G4 - Vertices: 0, 1, 2, 3, 4 \n     Edges: (0<->1) (0<->2) (1<->2) (3<->4)");
+        isConnected(g4);
+        
+        
     }
 }

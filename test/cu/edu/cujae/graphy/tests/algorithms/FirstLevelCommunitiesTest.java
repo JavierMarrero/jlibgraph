@@ -21,7 +21,6 @@ package cu.edu.cujae.graphy.tests.algorithms;
 import cu.edu.cujae.graphy.algorithms.FirstLevelCommunities;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.defaults.DefaultGraphBuilder;
-import static cu.edu.cujae.graphy.tests.algorithms.IsolatedVerticesTest.getIsolatedVertices;
 import java.util.ArrayList;
 import java.util.Collection;
 
