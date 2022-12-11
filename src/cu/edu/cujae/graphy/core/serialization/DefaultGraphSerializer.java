@@ -21,9 +21,9 @@ package cu.edu.cujae.graphy.core.serialization;
 import cu.edu.cujae.graphy.core.Edge;
 import cu.edu.cujae.graphy.core.Graph;
 import cu.edu.cujae.graphy.core.Weight;
+import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
-import cu.edu.cujae.graphy.utils.Pair;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,23 @@ public class DefaultGraphSerializer implements GraphSerializer
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GraphSerializer.class);
 
+    private static class EdgeDescriptor
+    {
+
+        public EdgeDescriptor(int u, int v,
+                              Weight<?> weight)
+        {
+            this.u = u;
+            this.v = v;
+            this.weight = weight;
+        }
+
+        public int u;
+        public int v;
+        public Weight<?> weight;
+
+    }
+
     public DefaultGraphSerializer()
     {
         LOGGER.debug("Created a new serialization class...");
@@ -47,7 +64,8 @@ public class DefaultGraphSerializer implements GraphSerializer
 
     @Override
     @SuppressWarnings ("unchecked")
-    public Graph<?> deserialize(InputStream origin, CustomSerializer<Object> customSerializer) throws IOException
+    public Graph<?> deserialize(InputStream origin, CustomSerializer<Object> customSerializer) throws IOException,
+                                                                                                      ClassNotFoundException
     {
         try ( DataInputStream stream = new DataInputStream(origin))
         {
@@ -70,7 +88,7 @@ public class DefaultGraphSerializer implements GraphSerializer
                 graph = GraphBuilders.makeSimpleGraph(directed);
             }
 
-            List<Pair<Integer, Integer>> edges = new ArrayList<>();
+            List<EdgeDescriptor> edges = new ArrayList<>();
 
             int number_of_nodes = stream.readInt();
             while (number_of_nodes-- > 0)
@@ -78,19 +96,26 @@ public class DefaultGraphSerializer implements GraphSerializer
                 edges.addAll(readNode((Graph<Object>) graph, stream, customSerializer));
             }
 
-            for (Pair<Integer, Integer> p : edges)
+            for (EdgeDescriptor edgeDescriptor : edges)
             {
-                graph.connect(p.getFirst(), p.getLast());
+                if (weighted)
+                {
+                    ((WeightedGraph<?>) graph).connect(edgeDescriptor.u, edgeDescriptor.v, edgeDescriptor.weight);
+                }
+                else
+                {
+                    graph.connect(edgeDescriptor.u, edgeDescriptor.v);
+                }
             }
             return graph;
         }
     }
 
-    private List<Pair<Integer, Integer>> readNode(Graph<Object> graph, DataInputStream stream,
-                                                  CustomSerializer<Object> customSerializer) throws
-            IOException
+    private List<EdgeDescriptor> readNode(Graph<Object> graph, DataInputStream stream,
+                                          CustomSerializer<Object> customSerializer) throws
+            IOException, ClassNotFoundException
     {
-        List<Pair<Integer, Integer>> result = new ArrayList<>();
+        List<EdgeDescriptor> result = new ArrayList<>();
 
         int label = stream.readInt();
         int sfl = stream.readInt();
@@ -112,15 +137,25 @@ public class DefaultGraphSerializer implements GraphSerializer
 
         // Go with every edge
         int edgeCount = stream.readInt();
+        LOGGER.info("{} edges departing node {}", edgeCount, label);
+
         for (int i = 0; i < edgeCount; ++i)
         {
             int u = stream.readInt();
             int v = stream.readInt();
+            boolean wp = stream.readBoolean();
 
             int size = stream.readInt();
 
-            LOGGER.info("Read edge descriptor ({} -> {}), weight size {}", u, v, size);
-            result.add(new Pair<>(u, v));
+            LOGGER.info("Read edge descriptor ({} -> {}), weight present? {}", u, v, wp);
+            Weight<?> w = null;
+
+            if (wp)
+            {
+                byte[] serializedWeight = stream.readNBytes(size);
+                w = (Weight<?>) deserializeObject(serializedWeight);
+            }
+            result.add(new EdgeDescriptor(u, v, w));
         }
 
         return result;
@@ -169,6 +204,7 @@ public class DefaultGraphSerializer implements GraphSerializer
                     stream.writeInt(u);
                     stream.writeInt(v);
 
+                    stream.writeBoolean(w != null);
                     if (w != null)
                     {
                         byte[] bw = serializeObject(w);
@@ -222,6 +258,20 @@ public class DefaultGraphSerializer implements GraphSerializer
         {
             oos.writeObject(object);
             result = arrayOutputStream.toByteArray();
+        }
+
+        return result;
+    }
+
+    private Object deserializeObject(byte[] memory) throws IOException, ClassNotFoundException
+    {
+        Object result;
+        try ( ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(memory);  ObjectInputStream ois
+                                                                                                                   = new ObjectInputStream(
+                     arrayInputStream))
+        {
+
+            result = ois.readObject();
         }
 
         return result;

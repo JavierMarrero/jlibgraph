@@ -18,6 +18,8 @@
  */
 package cu.edu.cujae.graphy.core;
 
+import java.io.Serializable;
+
 /**
  * This interface is used to represents weights in a graph.It is mostly a wrapper over the {@link Comparable}
  * interface.
@@ -25,7 +27,7 @@ package cu.edu.cujae.graphy.core;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Weight<T extends Number> extends Comparable<T>, Cloneable
+public interface Weight<T extends Number> extends Comparable<T>, Cloneable, Serializable
 {
 
     /**
