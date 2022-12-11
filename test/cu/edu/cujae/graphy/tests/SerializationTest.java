@@ -18,12 +18,13 @@
  */
 package cu.edu.cujae.graphy.tests;
 
-import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.WeightedGraph;
 import cu.edu.cujae.graphy.core.serialization.CustomSerializer;
 import cu.edu.cujae.graphy.core.serialization.DefaultCustomSerializers;
 import cu.edu.cujae.graphy.core.serialization.DefaultGraphSerializer;
 import cu.edu.cujae.graphy.core.serialization.GraphSerializer;
 import cu.edu.cujae.graphy.core.utility.GraphBuilders;
+import cu.edu.cujae.graphy.core.utility.Weights;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,11 +47,11 @@ public class SerializationTest
         File file = new File("serialized.txt");
         try ( FileOutputStream stream = new FileOutputStream(file))
         {
-            Graph<Integer> graph = GraphBuilders.makeSimpleGraph(true);
+            WeightedGraph<Integer> graph = GraphBuilders.makeSimpleWeightedGraph(true);
             graph.add(1, 1);
             graph.add(2, 2);
 
-            graph.connect(1, 2);
+            graph.connect(1, 2, Weights.makeWeight(5));
 
             GraphSerializer serializer = new DefaultGraphSerializer();
             serializer.serialize(stream, graph, (CustomSerializer<Object>) DefaultCustomSerializers.
@@ -61,9 +62,9 @@ public class SerializationTest
 
         try ( FileInputStream stream = new FileInputStream(file))
         {
-            Graph<Integer> graph = (Graph<Integer>) new DefaultGraphSerializer().deserialize(stream,
-                                                                                             (CustomSerializer<Object>) DefaultCustomSerializers.
-                                                                                                     getIntegerSerializer());
+            WeightedGraph<Integer> graph = (WeightedGraph<Integer>) new DefaultGraphSerializer().deserialize(stream,
+                                                                                                             (CustomSerializer<Object>) DefaultCustomSerializers.
+                                                                                                                     getIntegerSerializer());
             System.out.println(graph);
         }
     }
