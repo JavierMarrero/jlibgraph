@@ -23,6 +23,7 @@ import cu.edu.cujae.graphy.core.iterators.GraphIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,18 +47,19 @@ public class FirstLevelCommunities<V> extends AbstractAlgorithm<ArrayList<Collec
         //En caso de no tener comunidades retorna una lista vacía
         super(new ArrayList<Collection<Integer>>());
         this.graph = graph;
+
     }
 
     @Override
-    public Algorithm apply()
+    public Algorithm<ArrayList<Collection<Integer>>> apply()
     {
-        ArrayList<Collection<Integer>> comunities = new ArrayList<Collection<Integer>>();
+        ArrayList<Collection<Integer>> comunities = new ArrayList<>();
         try
         {
             //Clonar el grafo para ir eliminando las comunidades de dicha copia
             Graph<V> graphCopy = graph.duplicate();
-            boolean restart = false;
-            int isolated = new IsolatedVertices<V>(graphCopy).apply().get().size();
+            boolean restart;
+            int isolated = new IsolatedVertices<>(graphCopy).apply().get().size();
             //Mientras la cantidad de vértices del grafo sin tener en cuenta los vértices aislados 
             //sea mayor que 0 seguir buscando comunidades
             while ((graphCopy.size() - isolated) > 0)
@@ -68,10 +70,12 @@ public class FirstLevelCommunities<V> extends AbstractAlgorithm<ArrayList<Collec
                 while (iter.hasNext() && !restart)
                 {
                     iter.next();
-                    Collection<Integer> adyacentes = iter.getAllAdjacentVertices();
-                    for (Integer i : adyacentes)
+                    LinkedList<Integer> adyacentes = new LinkedList<>(iter.getAllAdjacentVertices());
+                    Iterator<Integer> iteradya = adyacentes.iterator();
+                    while (iteradya.hasNext())
                     {
-                        GraphIterator<V> iterator = (GraphIterator<V>) graphCopy.iterator(i) ;
+                        int i = iteradya.next();
+                        GraphIterator<V> iterator = graphCopy.iterator(i);
                         iterator.next(i);
                         Collection<Integer> adya = iterator.getAllAdjacentVertices();
                         //bandera booleana para controlar si uno de los adyacentes no forma parte de la 
@@ -96,12 +100,12 @@ public class FirstLevelCommunities<V> extends AbstractAlgorithm<ArrayList<Collec
                         }
                         if (stop)
                         {
-                            adyacentes.remove(iterator.getLabel());
+                            iteradya.remove();
                         }
                     }
                     if (!adyacentes.isEmpty())
                     {
-                        ArrayList<Integer> result = new ArrayList<Integer>();
+                        ArrayList<Integer> result = new ArrayList<>();
                         result.addAll(adyacentes);
                         result.add(iter.getLabel());
                         /*
@@ -113,13 +117,13 @@ public class FirstLevelCommunities<V> extends AbstractAlgorithm<ArrayList<Collec
                         {   
                             /*Se eliminan los vértices de la comunidad seleccionada del clon del grafo
                              y se activa la bandera booleana para reiniciar el iterador*/
-                            graphCopy.remove(i);
+                            graphCopy.removeAt(i);
                             restart = true;
                         }
                     }
                 }
                 //Se actualiza la lista de los vértices que pudieron quedar aislados al eliminar vértices del grafo
-                isolated = new IsolatedVertices<V>(graphCopy).apply().get().size();
+                isolated = new IsolatedVertices<>(graphCopy).apply().get().size();
             }
         }
         catch (CloneNotSupportedException ex)

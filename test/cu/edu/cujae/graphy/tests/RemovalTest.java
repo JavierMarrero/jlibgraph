@@ -55,8 +55,8 @@ public class RemovalTest
         }
 
         // Remove
-        graph.remove(1);
-        graph.remove(3);
+        graph.removeAt(1);
+        graph.removeAt(3);
 
         System.out.println(graph + "\n");
         {
@@ -79,8 +79,8 @@ public class RemovalTest
         }
 
         // Remove
-        clone.remove(1);
-        clone.remove(3);
+        clone.removeAt(1);
+        clone.removeAt(3);
 
         System.out.println(clone + "\n");
         {

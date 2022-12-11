@@ -19,7 +19,6 @@
 package cu.edu.cujae.graphy.core;
 
 import cu.edu.cujae.graphy.core.iterators.GraphIterator;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -31,7 +30,7 @@ import java.util.Iterator;
  * @author Javier Marrero
  * @param <T>
  */
-public interface Graph<T> extends Iterable<T>, Collection<T>, Serializable
+public interface Graph<T> extends Iterable<T>, Collection<T>
 {
 
     /**
@@ -307,7 +306,7 @@ public interface Graph<T> extends Iterable<T>, Collection<T>, Serializable
      *
      * @return the value of the removed node
      */
-    public T remove(int u);
+    public T removeAt(int u);
 
     /**
      * Reverses this graph's edges.If an edge was (u, v) then after this will be (v, u). Weights are preserved.
@@ -319,7 +318,6 @@ public interface Graph<T> extends Iterable<T>, Collection<T>, Serializable
      *
      * @return
      */
-    @Override
     public int size();
 
 }

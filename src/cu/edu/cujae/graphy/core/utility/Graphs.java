@@ -218,7 +218,7 @@ public class Graphs
         }
 
         @Override
-        public T remove(int u)
+        public T removeAt(int u)
         {
             throw new UnsupportedOperationException("This graph instance is immutable.");
         }

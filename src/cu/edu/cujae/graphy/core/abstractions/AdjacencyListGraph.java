@@ -135,7 +135,7 @@ public abstract class AdjacencyListGraph<T> extends AbstractGraph<T> implements 
      * {@inheritDoc}
      */
     @Override
-    public T remove(int u)
+    public T removeAt(int u)
     {
         return remove(findNodeByLabel(u));
     }
