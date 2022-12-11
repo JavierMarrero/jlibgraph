@@ -306,7 +306,7 @@ public interface Graph<T> extends Iterable<T>, Collection<T>
      *
      * @return the value of the removed node
      */
-    public T remove(int u);
+    public T removeAt(int u);
 
     /**
      * Reverses this graph's edges.If an edge was (u, v) then after this will be (v, u). Weights are preserved.
