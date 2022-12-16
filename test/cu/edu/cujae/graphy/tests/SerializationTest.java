@@ -42,7 +42,7 @@ public class SerializationTest
      * @param args the command line arguments
      */
     @SuppressWarnings ("unchecked")
-    public static void main(String[] args) throws FileNotFoundException, IOException
+    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException
     {
         File file = new File("serialized.txt");
         try ( FileOutputStream stream = new FileOutputStream(file))
