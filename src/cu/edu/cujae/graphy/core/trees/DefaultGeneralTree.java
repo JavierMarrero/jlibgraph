@@ -170,12 +170,12 @@ public class DefaultGeneralTree<E> extends AbstractTree<E>
             throw new IllegalArgumentException("Attempted to remove a node not belonging to this graph.");
         }
 
-        // Find the parent and remove the child node NODE
+        // Find the parent and removeAt the child node NODE
         return node.get();
     }
 
     @Override
-    public E remove(int u)
+    public E removeAt(int u)
     {
         return remove(findNodeByLabel(u));
     }

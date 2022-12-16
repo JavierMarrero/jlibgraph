@@ -67,5 +67,6 @@ public interface GraphSerializer
      *
      * @throws IOException
      */
-    public Graph<?> deserialize(InputStream origin, CustomSerializer<Object> customSerializer) throws IOException;
+    public Graph<?> deserialize(InputStream origin, CustomSerializer<Object> customSerializer) throws IOException,
+                                                                                                      ClassNotFoundException;
 }
