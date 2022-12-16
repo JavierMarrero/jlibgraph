@@ -18,19 +18,45 @@
  */
 package cu.edu.cujae.graphy.swing;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Collection;
+import java.util.Collections;
 import javax.swing.JComponent;
 
 /**
  *
  * @author Javier Marrero
  */
-public class AbstractDrawable extends JComponent
+@SuppressWarnings("serial")
+public class AbstractDrawable implements Drawable
 {
 
     private Collection<Connector> connectors;
     private Point location;
-    
-    
+
+    public AbstractDrawable(Point location)
+    {
+        this.location = location;
+    }
+
+    @Override
+    public Collection<Connector> getConnectors()
+    {
+        return Collections.unmodifiableCollection(connectors);
+    }
+
+    @Override
+    public Point getLocation()
+    {
+        return location;
+    }
+
+    @Override
+    public void paintComponent(Graphics g)
+    {
+
+    }
+
+
 }

@@ -18,7 +18,6 @@
  */
 package cu.edu.cujae.graphy.swing;
 
-import com.sun.jdi.connect.Connector;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Collection;
@@ -33,6 +32,6 @@ public interface Drawable
 
     public Point getLocation();
 
-    public void paint(Graphics g);
+    public void paintComponent(Graphics g);
 
 }

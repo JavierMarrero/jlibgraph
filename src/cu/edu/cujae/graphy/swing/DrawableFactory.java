@@ -25,5 +25,4 @@ package cu.edu.cujae.graphy.swing;
 public interface DrawableFactory
 {
     public Drawable createDrawable(Object... args);
-
 }
