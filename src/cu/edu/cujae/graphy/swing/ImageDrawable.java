@@ -19,6 +19,7 @@
 package cu.edu.cujae.graphy.swing;
 
 import java.awt.Image;
+import java.awt.Point;
 
 /**
  *
@@ -29,8 +30,9 @@ public class ImageDrawable extends AbstractDrawable
 {
     private Image image;
 
-    public ImageDrawable(Image image)
+    public ImageDrawable(Image image, Point location)
     {
+        super(location);
         this.image = image;
     }
 

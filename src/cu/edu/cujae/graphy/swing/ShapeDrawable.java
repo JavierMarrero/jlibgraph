@@ -18,6 +18,7 @@
  */
 package cu.edu.cujae.graphy.swing;
 
+import java.awt.Point;
 import java.awt.Shape;
 
 /**
@@ -28,4 +29,11 @@ import java.awt.Shape;
 public class ShapeDrawable extends AbstractDrawable
 {
     private Shape shape;
+
+    public ShapeDrawable(Shape shape, Point location)
+    {
+        super(location);
+        this.shape = shape;
+    }
+
 }
