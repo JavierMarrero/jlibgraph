@@ -18,17 +18,14 @@
  */
 package cu.edu.cujae.graphy.swing;
 
+import java.awt.Shape;
+
 /**
  *
  * @author Jose
  */
-public class DefaultImageFactory implements DrawableFactory
+@SuppressWarnings("serial")
+public class ShapeDrawable extends AbstractDrawable
 {
-
-    @Override
-    public Drawable createDrawable(Object... args)
-    {
-        return null;
-    }
-
+    private Shape shape;
 }

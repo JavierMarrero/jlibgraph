@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Jose.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,17 +18,19 @@
  */
 package cu.edu.cujae.graphy.swing;
 
+import java.awt.Point;
+import java.util.Collection;
+import javax.swing.JComponent;
+
 /**
  *
- * @author Jose
+ * @author Javier Marrero
  */
-public class DefaultImageFactory implements DrawableFactory
+public class AbstractDrawable extends JComponent
 {
 
-    @Override
-    public Drawable createDrawable(Object... args)
-    {
-        return null;
-    }
-
+    private Collection<Connector> connectors;
+    private Point location;
+    
+    
 }

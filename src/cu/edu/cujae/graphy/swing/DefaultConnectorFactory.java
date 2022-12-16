@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Jose.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,15 +20,15 @@ package cu.edu.cujae.graphy.swing;
 
 /**
  *
- * @author Jose
+ * @author Javier Marrero
  */
-public class DefaultImageFactory implements DrawableFactory
+public class DefaultConnectorFactory implements ConnectorFactory
 {
 
     @Override
-    public Drawable createDrawable(Object... args)
+    public Connector createConnector(Object... args)
     {
         return null;
     }
-
+    
 }

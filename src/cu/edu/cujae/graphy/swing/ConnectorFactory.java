@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Jose.
+ * Copyright (C) 2022 Javier Marrero.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,16 +19,12 @@
 package cu.edu.cujae.graphy.swing;
 
 /**
- *
- * @author Jose
+ * A <code>ConnectorFactory</code> object handles the creation of custom connector objects.
+ * 
+ * @see Connector
+ * @author Javier Marrero
  */
-public class DefaultImageFactory implements DrawableFactory
+public interface ConnectorFactory
 {
-
-    @Override
-    public Drawable createDrawable(Object... args)
-    {
-        return null;
-    }
-
+    public Connector createConnector(Object... args);
 }
