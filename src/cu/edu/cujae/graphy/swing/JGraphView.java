@@ -18,7 +18,10 @@
  */
 package cu.edu.cujae.graphy.swing;
 
+import cu.edu.cujae.graphy.core.Graph;
+import cu.edu.cujae.graphy.core.utility.Graphs;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -28,15 +31,24 @@ import javax.swing.JScrollPane;
  */
 public class JGraphView extends JPanel
 {
-
+    
     private static final long serialVersionUID = 3455674585621L;
+    
+    private ConnectorFactory connectorFactory;
+    private Graph<?> graph;
 
     /**
      * Creates new form JGraphView
      */
     public JGraphView()
     {
+        this(null);
+    }
+    
+    public JGraphView(Graph<?> graph)
+    {
         initComponents();
+        setGraph(graph);
     }
 
     /**
@@ -50,17 +62,40 @@ public class JGraphView extends JPanel
     private void initComponents()
     {
 
-        scrollPane = new JScrollPane();
+        scrollableView = new JScrollPane();
 
         setLayout(new BorderLayout());
 
-        scrollPane.setDoubleBuffered(true);
-        scrollPane.setName("scrollPane"); // NOI18N
-        add(scrollPane, BorderLayout.CENTER);
+        scrollableView.setDoubleBuffered(true);
+        scrollableView.setName("scrollableView"); // NOI18N
+        add(scrollableView, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JScrollPane scrollPane;
+    private JScrollPane scrollableView;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the graph
+     */
+    public Graph<?> getGraph()
+    {
+        return Graphs.makeImmutableGraph(graph);
+    }
+
+    /**
+     * @param graph the graph to set
+     */
+    public void setGraph(
+            Graph<?> graph)
+    {
+        this.graph = graph;
+    }
 }
