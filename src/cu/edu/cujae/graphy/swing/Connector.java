@@ -16,37 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package cu.edu.cujae.graphy.tests.algorithms;
-
-import cu.edu.cujae.graphy.algorithms.KargerMinimumCut;
-import cu.edu.cujae.graphy.core.Graph;
-import cu.edu.cujae.graphy.core.utility.GraphBuilders;
+package cu.edu.cujae.graphy.swing;
 
 /**
- *
+ * A connector is the graphic component that models the connection between two {@link Drawable} objects.
+ * 
  * @author Javier Marrero
  */
-public class KargerMinimumCutTest
+public interface Connector
 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args)
-    {
-        Graph<Integer> graph = GraphBuilders.makeSimpleGraph(false);
-        for (int i = 0; i < 5; ++i)
-        {
-            graph.add(i);
-        }
-
-        graph.connect(0, 1);
-        graph.connect(0, 2);
-        graph.connect(0, 3);
-        graph.connect(1, 3);
-        graph.connect(2, 3);
-
-        System.out.println("Karger minimum cut result: " + new KargerMinimumCut(graph).apply().get());
-    }
-
+    
 }
